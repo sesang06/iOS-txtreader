@@ -13,6 +13,7 @@
 		064344C7212DBB1600EDFA2E /* iOS_txtreader.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 064344C5212DBB1600EDFA2E /* iOS_txtreader.xcdatamodeld */; };
 		064344C9212DBB1600EDFA2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 064344C8212DBB1600EDFA2E /* Assets.xcassets */; };
 		064344CC212DBB1600EDFA2E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 064344CA212DBB1600EDFA2E /* LaunchScreen.storyboard */; };
+		F393B76EC08D26B018021575 /* Pods_iOS_txtreader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF82B24C591E05B2894F9B6 /* Pods_iOS_txtreader.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,9 @@
 		064344C8212DBB1600EDFA2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		064344CB212DBB1600EDFA2E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		064344CD212DBB1600EDFA2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0A9844F609A4E80BF97EB80C /* Pods-iOS-txtreader.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-txtreader.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-txtreader/Pods-iOS-txtreader.release.xcconfig"; sourceTree = "<group>"; };
+		7AF16602133F081E474790E0 /* Pods-iOS-txtreader.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-txtreader.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-txtreader/Pods-iOS-txtreader.debug.xcconfig"; sourceTree = "<group>"; };
+		BFF82B24C591E05B2894F9B6 /* Pods_iOS_txtreader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS_txtreader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F393B76EC08D26B018021575 /* Pods_iOS_txtreader.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +47,8 @@
 			children = (
 				064344BD212DBB1600EDFA2E /* iOS-txtreader */,
 				064344BC212DBB1600EDFA2E /* Products */,
+				89A0072DF7DAE41532D6C004 /* Pods */,
+				83FBEA634FEAC4417A27C2D9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,6 +74,23 @@
 			path = "iOS-txtreader";
 			sourceTree = "<group>";
 		};
+		83FBEA634FEAC4417A27C2D9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BFF82B24C591E05B2894F9B6 /* Pods_iOS_txtreader.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		89A0072DF7DAE41532D6C004 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7AF16602133F081E474790E0 /* Pods-iOS-txtreader.debug.xcconfig */,
+				0A9844F609A4E80BF97EB80C /* Pods-iOS-txtreader.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -74,9 +98,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 064344D0212DBB1600EDFA2E /* Build configuration list for PBXNativeTarget "iOS-txtreader" */;
 			buildPhases = (
+				C91D98E3554F97B7C3C320F3 /* [CP] Check Pods Manifest.lock */,
 				064344B7212DBB1600EDFA2E /* Sources */,
 				064344B8212DBB1600EDFA2E /* Frameworks */,
 				064344B9212DBB1600EDFA2E /* Resources */,
+				9C9956B3DD280181E69E11C5 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -132,6 +158,57 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9C9956B3DD280181E69E11C5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-iOS-txtreader/Pods-iOS-txtreader-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iOS-txtreader/Pods-iOS-txtreader-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C91D98E3554F97B7C3C320F3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-iOS-txtreader-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		064344B7212DBB1600EDFA2E /* Sources */ = {
@@ -282,6 +359,7 @@
 		};
 		064344D1212DBB1600EDFA2E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AF16602133F081E474790E0 /* Pods-iOS-txtreader.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -299,6 +377,7 @@
 		};
 		064344D2212DBB1600EDFA2E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0A9844F609A4E80BF97EB80C /* Pods-iOS-txtreader.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
