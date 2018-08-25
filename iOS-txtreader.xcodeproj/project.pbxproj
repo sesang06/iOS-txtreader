@@ -9,10 +9,22 @@
 /* Begin PBXBuildFile section */
 		064344BF212DBB1600EDFA2E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064344BE212DBB1600EDFA2E /* AppDelegate.swift */; };
 		064344C1212DBB1600EDFA2E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064344C0212DBB1600EDFA2E /* ViewController.swift */; };
-		064344C4212DBB1600EDFA2E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 064344C2212DBB1600EDFA2E /* Main.storyboard */; };
 		064344C7212DBB1600EDFA2E /* iOS_txtreader.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 064344C5212DBB1600EDFA2E /* iOS_txtreader.xcdatamodeld */; };
 		064344C9212DBB1600EDFA2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 064344C8212DBB1600EDFA2E /* Assets.xcassets */; };
 		064344CC212DBB1600EDFA2E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 064344CA212DBB1600EDFA2E /* LaunchScreen.storyboard */; };
+		069A8EE82130F9FB00CB6004 /* TextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069A8EE72130F9FB00CB6004 /* TextViewCell.swift */; };
+		069A8EEA2130FAE300CB6004 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069A8EE92130FAE300CB6004 /* Extensions.swift */; };
+		069A8EF92131031500CB6004 /* NanumGothicBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069A8EF12131031400CB6004 /* NanumGothicBold.ttf */; };
+		069A8EFA2131031500CB6004 /* NanumMyeongjoExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069A8EF22131031400CB6004 /* NanumMyeongjoExtraBold.ttf */; };
+		069A8EFB2131031500CB6004 /* NanumGothicExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069A8EF32131031400CB6004 /* NanumGothicExtraBold.ttf */; };
+		069A8EFC2131031500CB6004 /* NanumGothic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069A8EF42131031400CB6004 /* NanumGothic.ttf */; };
+		069A8EFD2131031500CB6004 /* NanumMyeongjoBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069A8EF52131031400CB6004 /* NanumMyeongjoBold.ttf */; };
+		069A8EFE2131031500CB6004 /* NanumBrush.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069A8EF62131031500CB6004 /* NanumBrush.ttf */; };
+		069A8EFF2131031500CB6004 /* NanumPen.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069A8EF72131031500CB6004 /* NanumPen.ttf */; };
+		069A8F002131031500CB6004 /* NanumMyeongjo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069A8EF82131031500CB6004 /* NanumMyeongjo.ttf */; };
+		069A8F042131608C00CB6004 /* StreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069A8F032131608C00CB6004 /* StreamReader.swift */; };
+		069A8F06213161DF00CB6004 /* text.txt in Resources */ = {isa = PBXBuildFile; fileRef = 069A8F05213161DF00CB6004 /* text.txt */; };
+		069A8F082131ACFD00CB6004 /* StringReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069A8F072131ACFD00CB6004 /* StringReader.swift */; };
 		F393B76EC08D26B018021575 /* Pods_iOS_txtreader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF82B24C591E05B2894F9B6 /* Pods_iOS_txtreader.framework */; };
 /* End PBXBuildFile section */
 
@@ -20,11 +32,23 @@
 		064344BB212DBB1600EDFA2E /* iOS-txtreader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-txtreader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		064344BE212DBB1600EDFA2E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		064344C0212DBB1600EDFA2E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		064344C3212DBB1600EDFA2E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		064344C6212DBB1600EDFA2E /* iOS_txtreader.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iOS_txtreader.xcdatamodel; sourceTree = "<group>"; };
 		064344C8212DBB1600EDFA2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		064344CB212DBB1600EDFA2E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		064344CD212DBB1600EDFA2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		069A8EE72130F9FB00CB6004 /* TextViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewCell.swift; sourceTree = "<group>"; };
+		069A8EE92130FAE300CB6004 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		069A8EF12131031400CB6004 /* NanumGothicBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumGothicBold.ttf; sourceTree = "<group>"; };
+		069A8EF22131031400CB6004 /* NanumMyeongjoExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjoExtraBold.ttf; sourceTree = "<group>"; };
+		069A8EF32131031400CB6004 /* NanumGothicExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumGothicExtraBold.ttf; sourceTree = "<group>"; };
+		069A8EF42131031400CB6004 /* NanumGothic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumGothic.ttf; sourceTree = "<group>"; };
+		069A8EF52131031400CB6004 /* NanumMyeongjoBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjoBold.ttf; sourceTree = "<group>"; };
+		069A8EF62131031500CB6004 /* NanumBrush.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumBrush.ttf; sourceTree = "<group>"; };
+		069A8EF72131031500CB6004 /* NanumPen.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumPen.ttf; sourceTree = "<group>"; };
+		069A8EF82131031500CB6004 /* NanumMyeongjo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjo.ttf; sourceTree = "<group>"; };
+		069A8F032131608C00CB6004 /* StreamReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamReader.swift; sourceTree = "<group>"; };
+		069A8F05213161DF00CB6004 /* text.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = text.txt; sourceTree = "<group>"; };
+		069A8F072131ACFD00CB6004 /* StringReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringReader.swift; sourceTree = "<group>"; };
 		0A9844F609A4E80BF97EB80C /* Pods-iOS-txtreader.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-txtreader.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-txtreader/Pods-iOS-txtreader.release.xcconfig"; sourceTree = "<group>"; };
 		7AF16602133F081E474790E0 /* Pods-iOS-txtreader.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-txtreader.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-txtreader/Pods-iOS-txtreader.debug.xcconfig"; sourceTree = "<group>"; };
 		BFF82B24C591E05B2894F9B6 /* Pods_iOS_txtreader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS_txtreader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,15 +87,35 @@
 		064344BD212DBB1600EDFA2E /* iOS-txtreader */ = {
 			isa = PBXGroup;
 			children = (
+				069A8F05213161DF00CB6004 /* text.txt */,
+				069A8F022131031D00CB6004 /* Fonts */,
 				064344BE212DBB1600EDFA2E /* AppDelegate.swift */,
 				064344C0212DBB1600EDFA2E /* ViewController.swift */,
-				064344C2212DBB1600EDFA2E /* Main.storyboard */,
 				064344C8212DBB1600EDFA2E /* Assets.xcassets */,
 				064344CA212DBB1600EDFA2E /* LaunchScreen.storyboard */,
 				064344CD212DBB1600EDFA2E /* Info.plist */,
 				064344C5212DBB1600EDFA2E /* iOS_txtreader.xcdatamodeld */,
+				069A8EE72130F9FB00CB6004 /* TextViewCell.swift */,
+				069A8EE92130FAE300CB6004 /* Extensions.swift */,
+				069A8F032131608C00CB6004 /* StreamReader.swift */,
+				069A8F072131ACFD00CB6004 /* StringReader.swift */,
 			);
 			path = "iOS-txtreader";
+			sourceTree = "<group>";
+		};
+		069A8F022131031D00CB6004 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				069A8EF62131031500CB6004 /* NanumBrush.ttf */,
+				069A8EF42131031400CB6004 /* NanumGothic.ttf */,
+				069A8EF12131031400CB6004 /* NanumGothicBold.ttf */,
+				069A8EF32131031400CB6004 /* NanumGothicExtraBold.ttf */,
+				069A8EF82131031500CB6004 /* NanumMyeongjo.ttf */,
+				069A8EF52131031400CB6004 /* NanumMyeongjoBold.ttf */,
+				069A8EF22131031400CB6004 /* NanumMyeongjoExtraBold.ttf */,
+				069A8EF72131031500CB6004 /* NanumPen.ttf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 		83FBEA634FEAC4417A27C2D9 /* Frameworks */ = {
@@ -151,9 +195,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				069A8EFC2131031500CB6004 /* NanumGothic.ttf in Resources */,
+				069A8EF92131031500CB6004 /* NanumGothicBold.ttf in Resources */,
+				069A8F06213161DF00CB6004 /* text.txt in Resources */,
+				069A8EFD2131031500CB6004 /* NanumMyeongjoBold.ttf in Resources */,
 				064344CC212DBB1600EDFA2E /* LaunchScreen.storyboard in Resources */,
+				069A8EFA2131031500CB6004 /* NanumMyeongjoExtraBold.ttf in Resources */,
+				069A8EFE2131031500CB6004 /* NanumBrush.ttf in Resources */,
+				069A8EFB2131031500CB6004 /* NanumGothicExtraBold.ttf in Resources */,
+				069A8EFF2131031500CB6004 /* NanumPen.ttf in Resources */,
+				069A8F002131031500CB6004 /* NanumMyeongjo.ttf in Resources */,
 				064344C9212DBB1600EDFA2E /* Assets.xcassets in Resources */,
-				064344C4212DBB1600EDFA2E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -165,8 +217,6 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-iOS-txtreader/Pods-iOS-txtreader-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
@@ -174,8 +224,6 @@
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
@@ -191,15 +239,11 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-iOS-txtreader-checkManifestLockResult.txt",
 			);
@@ -215,7 +259,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				069A8F082131ACFD00CB6004 /* StringReader.swift in Sources */,
+				069A8F042131608C00CB6004 /* StreamReader.swift in Sources */,
+				069A8EEA2130FAE300CB6004 /* Extensions.swift in Sources */,
 				064344C1212DBB1600EDFA2E /* ViewController.swift in Sources */,
+				069A8EE82130F9FB00CB6004 /* TextViewCell.swift in Sources */,
 				064344C7212DBB1600EDFA2E /* iOS_txtreader.xcdatamodeld in Sources */,
 				064344BF212DBB1600EDFA2E /* AppDelegate.swift in Sources */,
 			);
@@ -224,14 +272,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		064344C2212DBB1600EDFA2E /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				064344C3212DBB1600EDFA2E /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		064344CA212DBB1600EDFA2E /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -363,7 +403,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7GDRWN9V7N;
 				INFOPLIST_FILE = "iOS-txtreader/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -381,7 +423,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7GDRWN9V7N;
 				INFOPLIST_FILE = "iOS-txtreader/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
