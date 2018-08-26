@@ -35,6 +35,19 @@ class BaseCell : UICollectionViewCell {
     
 }
 
+class BaseTableCell : UITableViewCell {
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupViews()
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    func setupViews() {
+        
+    }
+    
+}
 
 extension UIView{
     func addTopBorder(color: UIColor = UIColor.white, constant : CGFloat = 2 ,margins: CGFloat = 0) {

@@ -28,6 +28,7 @@
 		06CD0771213252D6009757BC /* BookMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD0770213252D6009757BC /* BookMarkView.swift */; };
 		06CD079921327C24009757BC /* TextDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD079821327C24009757BC /* TextDocument.swift */; };
 		06CD079B21327C65009757BC /* DocumentBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD079A21327C65009757BC /* DocumentBrowserViewController.swift */; };
+		06D00F082132AE09000D1935 /* DocumentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D00F072132AE09000D1935 /* DocumentTableViewCell.swift */; };
 		F393B76EC08D26B018021575 /* Pods_iOS_txtreader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF82B24C591E05B2894F9B6 /* Pods_iOS_txtreader.framework */; };
 /* End PBXBuildFile section */
 
@@ -55,6 +56,7 @@
 		06CD0770213252D6009757BC /* BookMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkView.swift; sourceTree = "<group>"; };
 		06CD079821327C24009757BC /* TextDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDocument.swift; sourceTree = "<group>"; };
 		06CD079A21327C65009757BC /* DocumentBrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentBrowserViewController.swift; sourceTree = "<group>"; };
+		06D00F072132AE09000D1935 /* DocumentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentTableViewCell.swift; sourceTree = "<group>"; };
 		0A9844F609A4E80BF97EB80C /* Pods-iOS-txtreader.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-txtreader.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-txtreader/Pods-iOS-txtreader.release.xcconfig"; sourceTree = "<group>"; };
 		7AF16602133F081E474790E0 /* Pods-iOS-txtreader.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-txtreader.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-txtreader/Pods-iOS-txtreader.debug.xcconfig"; sourceTree = "<group>"; };
 		BFF82B24C591E05B2894F9B6 /* Pods_iOS_txtreader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS_txtreader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,7 +95,7 @@
 		064344BD212DBB1600EDFA2E /* iOS-txtreader */ = {
 			isa = PBXGroup;
 			children = (
-				06CD079A21327C65009757BC /* DocumentBrowserViewController.swift */,
+				06D00F062132AD8B000D1935 /* DocumentBrowserViewController */,
 				06CD077521327A75009757BC /* TextViewController */,
 				069A8F05213161DF00CB6004 /* text.txt */,
 				069A8F022131031D00CB6004 /* Fonts */,
@@ -103,7 +105,6 @@
 				064344CD212DBB1600EDFA2E /* Info.plist */,
 				064344C5212DBB1600EDFA2E /* iOS_txtreader.xcdatamodeld */,
 				069A8EE92130FAE300CB6004 /* Extensions.swift */,
-				06CD079821327C24009757BC /* TextDocument.swift */,
 			);
 			path = "iOS-txtreader";
 			sourceTree = "<group>";
@@ -133,6 +134,17 @@
 				064344C0212DBB1600EDFA2E /* TextViewController.swift */,
 			);
 			path = TextViewController;
+			sourceTree = "<group>";
+		};
+		06D00F062132AD8B000D1935 /* DocumentBrowserViewController */ = {
+			isa = PBXGroup;
+			children = (
+				06CD079821327C24009757BC /* TextDocument.swift */,
+				06CD079A21327C65009757BC /* DocumentBrowserViewController.swift */,
+				06D00F072132AE09000D1935 /* DocumentTableViewCell.swift */,
+			);
+			name = DocumentBrowserViewController;
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 		83FBEA634FEAC4417A27C2D9 /* Frameworks */ = {
@@ -283,6 +295,7 @@
 				064344C1212DBB1600EDFA2E /* TextViewController.swift in Sources */,
 				06CD079921327C24009757BC /* TextDocument.swift in Sources */,
 				069A8EE82130F9FB00CB6004 /* TextViewCell.swift in Sources */,
+				06D00F082132AE09000D1935 /* DocumentTableViewCell.swift in Sources */,
 				064344C7212DBB1600EDFA2E /* iOS_txtreader.xcdatamodeld in Sources */,
 				06CD0771213252D6009757BC /* BookMarkView.swift in Sources */,
 				064344BF212DBB1600EDFA2E /* AppDelegate.swift in Sources */,
