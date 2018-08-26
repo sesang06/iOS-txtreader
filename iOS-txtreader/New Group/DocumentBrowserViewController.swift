@@ -79,7 +79,11 @@ class DocumentBrowserViewController: UIViewController {
     
 }
 extension DocumentBrowserViewController : UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let textViewController = TextViewController()
+        textViewController.content = contents?[indexPath.item]
+        self.navigationController?.pushViewController(textViewController, animated: true)
+    }
 }
 extension DocumentBrowserViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

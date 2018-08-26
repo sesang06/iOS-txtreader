@@ -23,6 +23,7 @@ class TextDocument: UIDocument {
         // Load your document from contents
         if let userContent = contents as? Data{
             text = NSString(bytes: (contents as AnyObject).bytes, length: userContent.count, encoding: String.Encoding.utf8.rawValue) as? String
+            print(text)
         }
     }
     func createdDate() -> Date {

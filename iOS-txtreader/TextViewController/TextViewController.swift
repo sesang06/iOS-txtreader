@@ -13,26 +13,21 @@ import SnapKit
 class TextViewController: UIViewController {
     lazy var collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = UIColor.white
         cv.dataSource = self
         cv.delegate = self
-//
-//        cv.isPagingEnabled = true
         return cv
     }()
-    var largeString : String?
     let cellId = "cellId"
-    var streamReader : StreamReader?
     lazy var attributes :  [NSAttributedStringKey : Any] = {
         let style = NSMutableParagraphStyle()
         style.lineSpacing = 5
         let attributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.paragraphStyle : style, NSAttributedStringKey.font : UIFont(name: "NanumGothic", size: 20)!]
         return attributes
     }()
-    var stringReader : StringReader?
-    let amount = 300
+    weak var stringReader : StringReader?
+    weak var content : TextDocument?
     let bookMarkView = BookMarkView()
     var bookMarkTopConstraint : Constraint?
     override func viewDidLoad() {
@@ -59,23 +54,18 @@ class TextViewController: UIViewController {
             make.height.equalTo(40)
             make.width.equalTo(60)
             bookMarkTopConstraint = make.centerY.equalTo(topLayoutGuide.snp.bottom).offset(20).constraint
+            make.trailing.equalTo(view)
         }
         let panGestureRecognizer = UIPanGestureRecognizer(target:self, action: #selector(panGestureRecognizerAction))
         bookMarkView.addGestureRecognizer(panGestureRecognizer)
     }
     func loadText(){
-        guard let url = Bundle.main.url(forResource:"text", withExtension: "txt") else {
-            return
-        }
-      
-        let text = try? String(contentsOfFile: url.path, encoding: String.Encoding.utf8)
-        
-        largeString = text
+
         
         //streamReader = StreamReader(url: url)
         print(view.frame.size)
         let size = CGSize(width: view.frame.width, height: view.frame.height - 64 - 40)
-        stringReader = StringReader(url: url, attributes: attributes, frame: size)
+        stringReader = StringReader(url: (content?.fileURL)!, attributes: attributes, frame: size)
         DispatchQueue.global(qos: .background).async {
             
             let index = self.stringReader?.indice
@@ -107,19 +97,6 @@ class TextViewController: UIViewController {
         if gesture.state == .ended {
             self.bookMarkViewOriginY = nil
         }
-            
-        
-        //        if gesture.state == .ended {
-        //            let velocity = gesture.velocity(in: view)
-        //            if velocity.y >= 1500 {
-        //                self.dismiss(animated: true, completion: nil)
-        //            }else {
-        //
-        //                UIView.animate(withDuration: 0.4) {
-        //                    self.view.frame.origin.y = 0;
-        //                }
-        //            }
-        //        }
     }
 }
 extension TextViewController {
@@ -140,8 +117,6 @@ extension TextViewController {
 extension TextViewController : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return stringReader?.indice.count ?? 0
-//        return ((largeString?.count)! / amount) ?? 0
-        //return streamReader?.totalPage(amount: amount) ?? 0
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
@@ -154,20 +129,6 @@ extension TextViewController : UICollectionViewDelegate, UICollectionViewDelegat
 extension TextViewController : UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! TextViewCell
-//        cell.backgroundColor = UIColor.red
-//        if let string = streamReader?.nextContent(offset: indexPath.item, amount: amount) {
-//            cell.displayText(string: string)
-//        }
-//        if let str = largeString {
-//            let start = str.index(str.startIndex, offsetBy: indexPath.item * amount)
-//            let end = str.index(str.startIndex, offsetBy: (indexPath.item + 1) * amount)
-//
-//            let range = start..<end
-//
-//            let substring = str[range]
-//            let temp = String(substring)
-//            cell.displayText(string: temp)
-//        }
         cell.index = indexPath
         if let str = stringReader?.pageContent(index: indexPath.item) {
              cell.displayText(string: str)

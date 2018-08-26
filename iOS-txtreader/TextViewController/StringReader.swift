@@ -14,14 +14,28 @@ class StringReader {
     let frame : CGSize
     init?(url: URL, attributes :  [NSAttributedStringKey : Any], frame : CGSize )
     {
-        guard let text = try? String(contentsOfFile: url.path, encoding: String.Encoding.utf8) else {
+//        let encoding:UInt = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(
+//
+//            CFStringEncodings.EUC_KR.rawValue))
+        let encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(0x0422))
+        
+        guard let text = try? String(contentsOfFile: url.path, encoding : encoding) else {
             return nil
         }
+        
+//        guard let text = try? String(contentsOfFile: url.path) else {
+//            return nil
+//        }
+     
+        
+        
         self.largeString = text
         self.attributes = attributes
         self.frame = frame
+//        print(text)
         print(indice)
     }
+    
     lazy var indice : [Int] = {
         var array = [Int]()
         var index = 0;
@@ -30,12 +44,13 @@ class StringReader {
             index = nextIndex(startPoint: index)
            
             
-            print("\(index) \(largeString.count)")
+//            print("\(index) \(largeString.count)")
         }
         
         return array
         
     }()
+    
     func pageContent(index : Int) -> String{
         let start = largeString.index(largeString.startIndex, offsetBy: indice[index])
         let end : String.Index
@@ -50,7 +65,7 @@ class StringReader {
         
         return temp
     }
-    func isFitting(startIndex : Int, endIndex : Int) -> Bool {
+    func isFitting(startIndex : Int, endIndex : Int) -> (Bool, CGFloat) {
         let start = largeString.index(largeString.startIndex, offsetBy: startIndex)
         let end = largeString.index(largeString.startIndex, offsetBy: endIndex)
         
@@ -61,10 +76,11 @@ class StringReader {
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         
         let estimatedRect = NSString(string: temp).boundingRect(with: size, options: options, attributes: attributes, context: nil)
+        
         if estimatedRect.height > frame.height {
-            return false
+            return (false, estimatedRect.height)
         } else {
-            return true
+            return (true, estimatedRect.height)
         }
     }
     /**
@@ -76,20 +92,30 @@ class StringReader {
      **/
     
     func nextIndex(startPoint : Int) -> Int {
-        if isFitting(startIndex: startPoint, endIndex: largeString.count){
+        
+        var (fit, estimatedHeight ) = isFitting(startIndex: startPoint, endIndex: largeString.count)
+        let realHeight = frame.height
+        if fit {
             return largeString.count
         }
+        
         var pivot = startPoint
         var nextPivot = largeString.count
-        var mid = (pivot + nextPivot) / 2
+        var mid = Int(CGFloat(pivot) + CGFloat(nextPivot-pivot) * realHeight / estimatedHeight)
+//        print(mid)
+//        var mid = Int(( CGFloat(pivot) * (estimatedHeight - realHeight) +  CGFloat(nextPivot) * realHeight ) / (estimatedHeight ))
         
         while(true){
             if (pivot >= nextPivot){
                 break
             }
-            mid = (pivot + nextPivot) / 2
-            let a = isFitting(startIndex: startPoint, endIndex: mid)
-            let b = isFitting(startIndex: startPoint, endIndex: mid + 1)
+        //    mid = (pivot + nextPivot) / 2
+           mid = Int(CGFloat(pivot) + CGFloat(nextPivot-pivot) * realHeight / estimatedHeight)
+//            print(mid)
+            let a : Bool
+            
+            (a ,estimatedHeight) = isFitting(startIndex: startPoint, endIndex: mid)
+            let (b ,_ ) = isFitting(startIndex: startPoint, endIndex: mid + 1)
             
             if (!a && !b){ //범위 늘릴 필요 있음
                 nextPivot = mid 
