@@ -10,7 +10,7 @@ import Foundation
 import SnapKit
 
 
-class ViewController: UIViewController {
+class TextViewController: UIViewController {
     lazy var collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         
@@ -19,22 +19,8 @@ class ViewController: UIViewController {
         cv.dataSource = self
         cv.delegate = self
 //
-        
-        
-        
-        
-        
-        
 //        cv.isPagingEnabled = true
         return cv
-        
-        
-        
-        
-        
-        
-        
-        
     }()
     var largeString : String?
     let cellId = "cellId"
@@ -136,7 +122,7 @@ class ViewController: UIViewController {
         //        }
     }
 }
-extension ViewController {
+extension TextViewController {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if let count = stringReader?.indice.count{
             let offset = collectionView.frame.height - bookMarkView.frame.height
@@ -151,7 +137,7 @@ extension ViewController {
     
     
 }
-extension ViewController : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
+extension TextViewController : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return stringReader?.indice.count ?? 0
 //        return ((largeString?.count)! / amount) ?? 0
@@ -165,7 +151,7 @@ extension ViewController : UICollectionViewDelegate, UICollectionViewDelegateFlo
     }
 }
 
-extension ViewController : UICollectionViewDataSource{
+extension TextViewController : UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! TextViewCell
 //        cell.backgroundColor = UIColor.red
