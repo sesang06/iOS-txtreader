@@ -25,10 +25,10 @@ class StringReader {
     lazy var indice : [Int] = {
         var array = [Int]()
         var index = 0;
-        array.append(index)
         while (index != largeString.count){
-            index = nextIndex(startPoint: index)
             array.append(index)
+            index = nextIndex(startPoint: index)
+           
             
             print("\(index) \(largeString.count)")
         }
@@ -39,7 +39,7 @@ class StringReader {
     func pageContent(index : Int) -> String{
         let start = largeString.index(largeString.startIndex, offsetBy: indice[index])
         let end : String.Index
-        if (index == largeString.count){
+        if (index == indice.count - 1 ){
             end = largeString.endIndex
         }else {
             end = largeString.index(largeString.startIndex, offsetBy: indice[index+1])
@@ -62,9 +62,9 @@ class StringReader {
         
         let estimatedRect = NSString(string: temp).boundingRect(with: size, options: options, attributes: attributes, context: nil)
         if estimatedRect.height > frame.height {
-            return true
-        } else {
             return false
+        } else {
+            return true
         }
     }
     /**
@@ -76,27 +76,32 @@ class StringReader {
      **/
     
     func nextIndex(startPoint : Int) -> Int {
+        if isFitting(startIndex: startPoint, endIndex: largeString.count){
+            return largeString.count
+        }
         var pivot = startPoint
         var nextPivot = largeString.count
+        var mid = (pivot + nextPivot) / 2
+        
         while(true){
             if (pivot >= nextPivot){
                 break
             }
-            let mid = (pivot + nextPivot) / 2
+            mid = (pivot + nextPivot) / 2
             let a = isFitting(startIndex: startPoint, endIndex: mid)
             let b = isFitting(startIndex: startPoint, endIndex: mid + 1)
             
-            if (a && b){ //범위 늘릴 필요 있음
-                nextPivot = mid - 1
-            }else if (!a && !b){
+            if (!a && !b){ //범위 늘릴 필요 있음
+                nextPivot = mid 
+            }else if (a && b){
                 pivot = mid + 1
                 
             }else {
                 break
             }
         }
-        print(nextPivot)
-        return pivot
+        print((pivot, mid, nextPivot))
+        return mid
         for index in startPoint..<largeString.count {
             let start = largeString.index(largeString.startIndex, offsetBy: startPoint)
             let end = largeString.index(largeString.startIndex, offsetBy: index)
