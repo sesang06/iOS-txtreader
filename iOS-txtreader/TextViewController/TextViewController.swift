@@ -65,15 +65,17 @@ class TextViewController: UIViewController {
         //streamReader = StreamReader(url: url)
         print(view.frame.size)
         let size = CGSize(width: view.frame.width, height: view.frame.height - 64 - 40)
-        stringReader = StringReader(url: (content?.fileURL)!, attributes: attributes, frame: size)
-        DispatchQueue.global(qos: .background).async {
-            
-            let index = self.stringReader?.indice
-            DispatchQueue.main.async {
-         
-                self.collectionView.reloadData()
-                
-            }
+       
+        DispatchQueue.global(qos: .userInteractive).async {
+            let stringReader = StringReader(url: (self.content?.fileURL)!, attributes: self.attributes, frame: size)
+            stringReader.calculate(completion: { () -> (Void) in
+                DispatchQueue.main.async {
+                    self.stringReader = stringReader
+                    self.collectionView.reloadData()
+                    
+                }
+            })
+           
         }
     }
     var bookMarkViewOriginY : CGFloat?

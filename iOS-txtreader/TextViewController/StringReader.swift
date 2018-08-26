@@ -12,16 +12,16 @@ class StringReader {
     let largeString : String
     let attributes :  [NSAttributedStringKey : Any]
     let frame : CGSize
-    init?(url: URL, attributes :  [NSAttributedStringKey : Any], frame : CGSize )
+    init(url: URL, attributes :  [NSAttributedStringKey : Any], frame : CGSize )
     {
 //        let encoding:UInt = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(
 //
 //            CFStringEncodings.EUC_KR.rawValue))
         let encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(0x0422))
-        
-        guard let text = try? String(contentsOfFile: url.path, encoding : encoding) else {
-            return nil
-        }
+        let text = try? String(contentsOfFile: url.path, encoding : encoding)
+//        guard let text = try? String(contentsOfFile: url.path, encoding : encoding) else {
+////            return nil
+//        }
         
 //        guard let text = try? String(contentsOfFile: url.path) else {
 //            return nil
@@ -29,28 +29,28 @@ class StringReader {
      
         
         
-        self.largeString = text
+        self.largeString = text ?? ""
         self.attributes = attributes
         self.frame = frame
+
 //        print(text)
-        print(indice)
+     
     }
     
-    lazy var indice : [Int] = {
+    var indice : [Int] = [Int]()
+    func calculate(completion : @escaping ()-> (Void)) {
         var array = [Int]()
         var index = 0;
         while (index != largeString.count){
             array.append(index)
             index = nextIndex(startPoint: index)
-           
             
-//            print("\(index) \(largeString.count)")
+            
+            //            print("\(index) \(largeString.count)")
         }
-        
-        return array
-        
-    }()
-    
+        indice = array
+        completion()
+    }
     func pageContent(index : Int) -> String{
         let start = largeString.index(largeString.startIndex, offsetBy: indice[index])
         let end : String.Index
@@ -101,7 +101,8 @@ class StringReader {
         
         var pivot = startPoint
         var nextPivot = largeString.count
-        var mid = Int(CGFloat(pivot) + CGFloat(nextPivot-pivot) * realHeight / estimatedHeight)
+//        var mid = Int(CGFloat(pivot) + CGFloat(nextPivot-pivot) * realHeight / estimatedHeight)
+        var mid = (pivot + nextPivot) / 2
 //        print(mid)
 //        var mid = Int(( CGFloat(pivot) * (estimatedHeight - realHeight) +  CGFloat(nextPivot) * realHeight ) / (estimatedHeight ))
         
@@ -109,8 +110,8 @@ class StringReader {
             if (pivot >= nextPivot){
                 break
             }
-        //    mid = (pivot + nextPivot) / 2
-           mid = Int(CGFloat(pivot) + CGFloat(nextPivot-pivot) * realHeight / estimatedHeight)
+            mid = (pivot + nextPivot) / 2
+//           mid = Int(CGFloat(pivot) + CGFloat(nextPivot-pivot) * realHeight / estimatedHeight)
 //            print(mid)
             let a : Bool
             
