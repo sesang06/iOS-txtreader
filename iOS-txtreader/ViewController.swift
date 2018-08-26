@@ -18,8 +18,23 @@ class ViewController: UIViewController {
         cv.backgroundColor = UIColor.white
         cv.dataSource = self
         cv.delegate = self
-        cv.isPagingEnabled = true
+//
+        
+        
+        
+        
+        
+        
+//        cv.isPagingEnabled = true
         return cv
+        
+        
+        
+        
+        
+        
+        
+        
     }()
     var largeString : String?
     let cellId = "cellId"
@@ -32,6 +47,8 @@ class ViewController: UIViewController {
     }()
     var stringReader : StringReader?
     let amount = 300
+    let bookMarkView = BookMarkView()
+    var bookMarkTopConstraint : Constraint?
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpView()
@@ -51,6 +68,14 @@ class ViewController: UIViewController {
             make.bottom.equalTo(bottomLayoutGuide.snp.top)
             make.trailing.leading.equalTo(view)
         }
+        view.addSubview(bookMarkView)
+        bookMarkView.snp.makeConstraints { (make) in
+            make.height.equalTo(40)
+            make.width.equalTo(60)
+            bookMarkTopConstraint = make.centerY.equalTo(topLayoutGuide.snp.bottom).offset(20).constraint
+        }
+        let panGestureRecognizer = UIPanGestureRecognizer(target:self, action: #selector(panGestureRecognizerAction))
+        bookMarkView.addGestureRecognizer(panGestureRecognizer)
     }
     func loadText(){
         guard let url = Bundle.main.url(forResource:"text", withExtension: "txt") else {
@@ -63,7 +88,7 @@ class ViewController: UIViewController {
         
         //streamReader = StreamReader(url: url)
         print(view.frame.size)
-        let size = CGSize(width: view.frame.width, height: view.frame.height - 64)
+        let size = CGSize(width: view.frame.width, height: view.frame.height - 64 - 40)
         stringReader = StringReader(url: url, attributes: attributes, frame: size)
         DispatchQueue.global(qos: .background).async {
             
@@ -75,7 +100,56 @@ class ViewController: UIViewController {
             }
         }
     }
-
+    var bookMarkViewOriginY : CGFloat?
+    @objc func panGestureRecognizerAction(gesture : UIPanGestureRecognizer){
+        let translation = gesture.translation(in: view)
+     //   view.frame.origin.y = translation.y
+        print(translation)
+        if gesture.state == .began {
+            bookMarkViewOriginY = bookMarkView.frame.origin.y + bookMarkView.frame.height / 2
+        }
+        guard let bookMarkViewOriginY = bookMarkViewOriginY  else {
+            return
+        }
+        let offset = min( max(bookMarkView.frame.height / 2, translation.y + bookMarkViewOriginY ), collectionView.frame.height - bookMarkView.frame.height / 2)
+        let scrollOffset = (offset - bookMarkView.frame.height / 2) / (collectionView.frame.height - bookMarkView.frame.height)
+        print(scrollOffset)
+        print((collectionView.contentSize.height - collectionView.frame.height) * scrollOffset)
+        
+//        bookMarkTopConstraint?.update(offset: offset)
+        collectionView.contentOffset = CGPoint(x: collectionView.contentOffset.x, y: (collectionView.contentSize.height - collectionView.frame.height) * scrollOffset)
+        if gesture.state == .ended {
+            self.bookMarkViewOriginY = nil
+        }
+            
+        
+        //        if gesture.state == .ended {
+        //            let velocity = gesture.velocity(in: view)
+        //            if velocity.y >= 1500 {
+        //                self.dismiss(animated: true, completion: nil)
+        //            }else {
+        //
+        //                UIView.animate(withDuration: 0.4) {
+        //                    self.view.frame.origin.y = 0;
+        //                }
+        //            }
+        //        }
+    }
+}
+extension ViewController {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if let count = stringReader?.indice.count{
+            let offset = collectionView.frame.height - bookMarkView.frame.height
+            let currentIndex = (collectionView.contentOffset.y / collectionView.frame.height)
+            print(currentIndex)
+            let indexPath = IndexPath(item: Int(currentIndex), section: 0)
+            bookMarkView.index = indexPath
+            bookMarkTopConstraint?.update(offset:  offset * CGFloat(currentIndex) / CGFloat(count-1) + bookMarkView.frame.height / 2)
+        }
+        
+    }
+    
+    
 }
 extension ViewController : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -108,10 +182,10 @@ extension ViewController : UICollectionViewDataSource{
 //            let temp = String(substring)
 //            cell.displayText(string: temp)
 //        }
+        cell.index = indexPath
         if let str = stringReader?.pageContent(index: indexPath.item) {
              cell.displayText(string: str)
         }
-       cell.backgroundColor = .red
         return cell
     }
     
