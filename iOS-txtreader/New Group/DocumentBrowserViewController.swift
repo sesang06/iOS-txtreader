@@ -42,10 +42,12 @@ class DocumentBrowserViewController: UIViewController {
         
         let directoryContents = try! FileManager.default.contentsOfDirectory(at: dirPaths[0], includingPropertiesForKeys: nil, options: [])
         contents  = directoryContents.map { (url) -> TextDocument in
+            
             let document = TextDocument(fileURL: url)
             return document
         }
         tableView.reloadData()
+        
         if fileManager.fileExists(atPath: (documentURL?.path)!){
             document?.open(completionHandler: { (success) in
                 if success {
@@ -80,9 +82,12 @@ class DocumentBrowserViewController: UIViewController {
 }
 extension DocumentBrowserViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let textViewController = TextViewController()
+        let textViewController = AnotherTextViewController()
         textViewController.content = contents?[indexPath.item]
         self.navigationController?.pushViewController(textViewController, animated: true)
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
 }
 extension DocumentBrowserViewController : UITableViewDataSource {

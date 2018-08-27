@@ -38,6 +38,10 @@ class StringReader {
      
     }
     
+//    init?(document : TextDocument, attributes :  [NSAttributedStringKey : Any], frame : CGSize ){
+//        
+//    }
+    
     var indice : [Int] = [Int]()
     func calculate(completion : @escaping ()-> (Void)) {
         var array = [Int]()

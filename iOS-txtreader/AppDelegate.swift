@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         window = UIWindow(frame : UIScreen.main.bounds)
       
-        let nav = UINavigationController(rootViewController: MyViewController())
+        let nav = UINavigationController(rootViewController: DocumentBrowserViewController())
         nav.navigationBar.isTranslucent = false
         
         nav.navigationBar.tintColor = Constants.primaryColor

@@ -29,12 +29,14 @@ class DocumentTableViewCell: BaseTableCell {
     }()
     weak var content : TextDocument? {
         didSet{
-            fileNameLabel.text = content?.fileURL.path
+            fileNameLabel.text = content?.fileName
             var dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
-            print(content?.createdDate())
+            
             print(content?.fileModificationDate)
-            fileInfoLabel.text = dateFormatter.string(from: (content?.createdDate())!)
+            
+            fileInfoLabel.text = "\(dateFormatter.string(from: (content?.createdDate)!))\(content?.fileType)\(content?.fileSize)"
+            
         }
     }
     override func setupViews() {

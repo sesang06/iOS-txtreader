@@ -25,6 +25,7 @@
 		069A8F042131608C00CB6004 /* StreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069A8F032131608C00CB6004 /* StreamReader.swift */; };
 		069A8F06213161DF00CB6004 /* text.txt in Resources */ = {isa = PBXBuildFile; fileRef = 069A8F05213161DF00CB6004 /* text.txt */; };
 		069A8F082131ACFD00CB6004 /* StringReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069A8F072131ACFD00CB6004 /* StringReader.swift */; };
+		06C9B30B21344A290080360C /* AnotherTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C9B30A21344A290080360C /* AnotherTextViewController.swift */; };
 		06CD0771213252D6009757BC /* BookMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD0770213252D6009757BC /* BookMarkView.swift */; };
 		06CD079921327C24009757BC /* TextDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD079821327C24009757BC /* TextDocument.swift */; };
 		06CD079B21327C65009757BC /* DocumentBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD079A21327C65009757BC /* DocumentBrowserViewController.swift */; };
@@ -54,6 +55,7 @@
 		069A8F032131608C00CB6004 /* StreamReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamReader.swift; sourceTree = "<group>"; };
 		069A8F05213161DF00CB6004 /* text.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = text.txt; sourceTree = "<group>"; };
 		069A8F072131ACFD00CB6004 /* StringReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringReader.swift; sourceTree = "<group>"; };
+		06C9B30A21344A290080360C /* AnotherTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnotherTextViewController.swift; sourceTree = "<group>"; };
 		06CD0770213252D6009757BC /* BookMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkView.swift; sourceTree = "<group>"; };
 		06CD079821327C24009757BC /* TextDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDocument.swift; sourceTree = "<group>"; };
 		06CD079A21327C65009757BC /* DocumentBrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentBrowserViewController.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				064344CD212DBB1600EDFA2E /* Info.plist */,
 				064344C5212DBB1600EDFA2E /* iOS_txtreader.xcdatamodeld */,
 				069A8EE92130FAE300CB6004 /* Extensions.swift */,
+				06C9B30A21344A290080360C /* AnotherTextViewController.swift */,
 			);
 			path = "iOS-txtreader";
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 				069A8F042131608C00CB6004 /* StreamReader.swift in Sources */,
 				06CD079B21327C65009757BC /* DocumentBrowserViewController.swift in Sources */,
 				069A8EEA2130FAE300CB6004 /* Extensions.swift in Sources */,
+				06C9B30B21344A290080360C /* AnotherTextViewController.swift in Sources */,
 				064344C1212DBB1600EDFA2E /* TextViewController.swift in Sources */,
 				06CD079921327C24009757BC /* TextDocument.swift in Sources */,
 				069A8EE82130F9FB00CB6004 /* TextViewCell.swift in Sources */,

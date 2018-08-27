@@ -410,7 +410,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iOS-txtreader/TextViewController/StringReader.swift"
-            timestampString = "557068858.070581"
+            timestampString = "557076039.5178649"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "33"
@@ -426,7 +426,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iOS-txtreader/TextViewController/StringReader.swift"
-            timestampString = "557068858.070664"
+            timestampString = "557076039.517925"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "34"
@@ -442,11 +442,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iOS-txtreader/TextViewController/StringReader.swift"
-            timestampString = "557068858.070729"
+            timestampString = "557076039.517969"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "142"
+            endingLineNumber = "142"
             landmarkName = "nextIndex(startPoint:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -458,11 +458,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iOS-txtreader/TextViewController/StringReader.swift"
-            timestampString = "557068858.070783"
+            timestampString = "557076039.5180089"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
             landmarkName = "nextIndex(startPoint:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -474,28 +474,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iOS-txtreader/TextViewController/StringReader.swift"
-            timestampString = "557068858.0708359"
+            timestampString = "557076039.518047"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
             landmarkName = "nextIndex(startPoint:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "iOS-txtreader/TextViewController/StringReader.swift"
-            timestampString = "557068858.070888"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
-            landmarkName = "calculate(completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -522,7 +506,7 @@
                   moduleName = "iOS-txtreader"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/sesang/Documents/iOS-txtreader/iOS-txtreader/TextViewController/TextViewController.swift"
-                  timestampString = "556996753.832005"
+                  timestampString = "557076039.572064"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "70"
@@ -537,12 +521,12 @@
                   moduleName = "iOS-txtreader"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/sesang/Documents/iOS-txtreader/iOS-txtreader/TextViewController/TextViewController.swift"
-                  timestampString = "556996753.833516"
+                  timestampString = "557076039.573604"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "70"
                   endingLineNumber = "70"
-                  offsetFromSymbolStart = "568">
+                  offsetFromSymbolStart = "648">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -586,7 +570,7 @@
                   moduleName = "iOS-txtreader"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/sesang/Documents/iOS-txtreader/iOS-txtreader/TextViewController/TextViewController.swift"
-                  timestampString = "556996753.839192"
+                  timestampString = "557076039.579406"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "72"
@@ -601,7 +585,7 @@
                   moduleName = "iOS-txtreader"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/sesang/Documents/iOS-txtreader/iOS-txtreader/TextViewController/TextViewController.swift"
-                  timestampString = "556996753.84068"
+                  timestampString = "557076039.5810471"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "73"
@@ -618,7 +602,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iOS-txtreader/TextViewController/StringReader.swift"
-            timestampString = "557068858.071094"
+            timestampString = "557076039.518123"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "35"
@@ -634,12 +618,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iOS-txtreader/TextViewController/StringReader.swift"
-            timestampString = "557068858.071138"
+            timestampString = "557076039.518164"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
             landmarkName = "nextIndex(startPoint:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "iOS-txtreader/New Group/DocumentBrowserViewController.swift"
+            timestampString = "557076039.518206"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "setUpDocuments()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "iOS-txtreader/New Group/TextDocument.swift"
+            timestampString = "557076039.518253"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
+            landmarkName = "load(fromContents:ofType:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
