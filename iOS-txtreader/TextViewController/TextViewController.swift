@@ -68,7 +68,7 @@ class TextViewController: UIViewController {
        
         DispatchQueue.global(qos: .userInteractive).async {
             let stringReader = StringReader(url: (self.content?.fileURL)!, attributes: self.attributes, frame: size)
-            stringReader.calculate(completion: { () -> (Void) in
+            stringReader?.calculate(completion: { () -> (Void) in
                 DispatchQueue.main.async {
                     self.stringReader = stringReader
                     self.collectionView.reloadData()

@@ -10,26 +10,27 @@ import UIKit
 
 class StringReader {
     let largeString : String
+    let attributedString : NSAttributedString
     let attributes :  [NSAttributedStringKey : Any]
     let frame : CGSize
-    init(url: URL, attributes :  [NSAttributedStringKey : Any], frame : CGSize )
+    init?(url: URL, attributes :  [NSAttributedStringKey : Any], frame : CGSize )
     {
 //        let encoding:UInt = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(
 //
 //            CFStringEncodings.EUC_KR.rawValue))
         let encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(0x0422))
-        let text = try? String(contentsOfFile: url.path, encoding : encoding)
-//        guard let text = try? String(contentsOfFile: url.path, encoding : encoding) else {
-////            return nil
-//        }
+//        let text = try? String(contentsOfFile: url.path, encoding : encoding)
+        guard let text = try? String(contentsOfFile: url.path, encoding : encoding) else {
+            return nil
+        }
         
 //        guard let text = try? String(contentsOfFile: url.path) else {
 //            return nil
 //        }
      
         
-        
-        self.largeString = text ?? ""
+        self.attributedString = NSAttributedString(string: text, attributes: attributes)
+        self.largeString = text
         self.attributes = attributes
         self.frame = frame
 
@@ -51,6 +52,27 @@ class StringReader {
         indice = array
         completion()
     }
+//    func precalculate(completion : @escaping ()-> (Void)) {
+//        let textStorage = NSTextStorage(attributedString: attributedString)
+//        let textLayout = NSLayoutManager()
+//        textStorage.addLayoutManager(textLayout)
+//        let textContainer = NSTextContainer(size: frame)
+//        textLayout.addTextContainer(textContainer)
+//    
+//        attributedString.
+//        while (i<=4) {
+//            // Create a text container
+//            NSTextContainer *textContainer = [[NSTextContainer alloc] initWithSize:scrollingView.frame.size];
+//            // Add text container to text layout manager
+//            [textLayout addTextContainer:textContainer];
+//            // Instantiate UITextView object using the text container
+//            UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(scrollingView.frame.size.width*i,0,scrollingView.frame.size.width,scrollingView.frame.size.height) textContainer:textContainer];
+//            // Give the container an identifier tag
+//            [textView setTag:i];
+//        
+//        indice = array
+//        completion()
+//    }
     func pageContent(index : Int) -> String{
         let start = largeString.index(largeString.startIndex, offsetBy: indice[index])
         let end : String.Index
