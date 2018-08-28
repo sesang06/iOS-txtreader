@@ -82,7 +82,7 @@ class DocumentBrowserViewController: UIViewController {
 }
 extension DocumentBrowserViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let textViewController = AnotherTextViewController()
+        let textViewController = OtherTextViewController()
         textViewController.content = contents?[indexPath.item]
         self.navigationController?.pushViewController(textViewController, animated: true)
     }

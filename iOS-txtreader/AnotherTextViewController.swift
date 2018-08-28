@@ -5,12 +5,14 @@
 //  Created by 조세상 on 2018. 8. 23..
 //  Copyright © 2018년 조세상. All rights reserved.
 //
+// 텍스트뷰를 통으로 집어넣는 것은 실패!
+
 import UIKit
 import Foundation
 import SnapKit
 
 
-class AnotherTextViewController: UIViewController {
+class AnotherTextViewController: UIViewController, UITextViewDelegate {
     lazy var scrollview : UIScrollView = {
         let cv = UIScrollView(frame: .zero)
         cv.backgroundColor = UIColor.white
@@ -59,7 +61,6 @@ class AnotherTextViewController: UIViewController {
         
         let encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(0x0422))
         let text = try? String(contentsOfFile: (content?.fileURL.path)!, encoding: encoding)
-        print(text)
         
         //        guard let text = try? String(contentsOfFile: url.path) else {
         //            return nil
@@ -67,24 +68,36 @@ class AnotherTextViewController: UIViewController {
         
     
         let textString = NSAttributedString(string: text! , attributes: attributes)
+        
+        let textStorage = NSTextStorage(attributedString: textString)
+        let textLayout = NSLayoutManager()
+        textStorage.addLayoutManager(textLayout)
+        
+        let textContainer = NSTextContainer(size: scrollview.frame.size)
+        textLayout.allowsNonContiguousLayout = true
+        
+        textLayout.addTextContainer(textContainer)
+        
+        
         let size = CGSize(width : view.frame.width,  height : CGFloat.infinity)
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         
         let estimatedRect = textString.boundingRect(with: size, options: options, context: nil)
-        scrollview.contentSize = estimatedRect.size
-        let textView = UITextView()
+        let textView = UITextView(frame: estimatedRect, textContainer:textContainer )
         textView.textContainerInset = UIEdgeInsetsMake(0, 0, 0, 0)
         textView.textContainer.lineFragmentPadding = 0
-
+        textView.delegate = self
 //        textView.isScrollEnabled = false
         textView.isEditable = false
+        textView.isPagingEnabled = true
         textView.attributedText = textString
-        scrollview.addSubview(textView)
+        view.addSubview(textView)
     
+        let rangeThatFits = textLayout.glyphRange(forBoundingRect: view.frame, in: textContainer)
+        print(rangeThatFits)
+        
         textView.snp.makeConstraints { (make) in
-            make.top.bottom.leading.trailing.equalTo(scrollview)
-            make.height.equalTo(estimatedRect.height)
-            make.width.equalTo(estimatedRect.width)
+            make.top.bottom.leading.trailing.equalTo(view)
         }
     }
     var bookMarkViewOriginY : CGFloat?
@@ -122,8 +135,36 @@ extension AnotherTextViewController : UIScrollViewDelegate {
         }
         
     }
-    
-    
+//    func stringThatFitsOnScreen(originalString: String) -> String? {
+//        // the visible rect area the text will fit into
+//        let userWidth  = textView.bounds.size.width - textView.textContainerInset.right - textView.textContainerInset.left
+//        let userHeight = textView.bounds.size.height - textView.textContainerInset.top - textView.textContainerInset.bottom
+//        let rect = CGRect(x: 0, y: 0, width: userWidth, height: userHeight)
+//        
+//        // we need a new UITextView object to calculate the glyphRange. This is in addition to
+//        // the UITextView that actually shows the text (probably a IBOutlet)
+//        let tempTextView = UITextView(frame: self.textView.bounds)
+//        tempTextView.font = textView.font
+//        tempTextView.text = originalString
+//        
+//        // get the layout manager and use it to layout the text
+//        let layoutManager = tempTextView.layoutManager
+//        layoutManager.ensureLayout(for: tempTextView.textContainer)
+//        
+//        // get the range of text that fits in visible rect
+//        let rangeThatFits = layoutManager.glyphRange(forBoundingRect: rect, in: tempTextView.textContainer)
+//        
+//        // convert from NSRange to Range
+//        guard let stringRange = Range(rangeThatFits, in: originalString) else {
+//            return nil
+//        }
+//        
+//        // return the text that fits
+//        let subString = originalString[stringRange]
+//        return String(subString)
+//    }
+//
+//    
 }
 
 

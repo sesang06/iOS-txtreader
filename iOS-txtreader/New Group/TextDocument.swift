@@ -28,7 +28,7 @@ class TextDocument: UIDocument {
            
             text = NSString(bytes: (contents as AnyObject).bytes, length: userContent.count, encoding: encoding.rawValue) as String?
             
-            print(text)
+//            print(text)
         }
     }
     lazy var createdDate: Date = {
