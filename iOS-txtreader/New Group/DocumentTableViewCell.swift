@@ -15,6 +15,8 @@ class DocumentTableViewCell: BaseTableCell {
     }()
     let thumbnailImageView : UIImageView = {
         let iv = UIImageView()
+        iv.clipsToBounds = true
+        iv.contentMode = .scaleAspectFill
         return iv
     }()
     let fileNameLabel : UILabel = {
@@ -31,17 +33,26 @@ class DocumentTableViewCell: BaseTableCell {
         didSet{
             fileNameLabel.text = content?.fileName
             var dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
+            dateFormatter.dateFormat = "yyyy. MM. dd."
             
             print(content?.fileModificationDate)
             
-            fileInfoLabel.text = "\(dateFormatter.string(from: (content?.createdDate)!))\(content?.fileType)\(content?.fileSize)"
-            
+            fileInfoLabel.text = "\(dateFormatter.string(from: (content?.createdDate)!)) \(content?.fileType) \(content?.fileSizeString)"
+            if content?.isFolder == true{
+                thumbnailImageView.image = UIImage(named: "outline_folder_black_48pt")
+            }
         }
     }
     override func setupViews() {
         addSubview(fileNameLabel)
         addSubview(fileInfoLabel)
+        addSubview(thumbnailImageView)
+        thumbnailImageView.snp.makeConstraints { (make) in
+            make.top.equalTo(self).offset(10)
+            make.leading.equalTo(self).offset(10)
+            make.bottom.equalTo(self).offset(-10)
+            make.width.equalTo(thumbnailImageView.snp.height)
+        }
         fileNameLabel.snp.makeConstraints { (make) in
             make.top.equalTo(self).offset(10)
             make.leading.equalTo(self).offset(10)

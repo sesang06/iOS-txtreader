@@ -10,8 +10,7 @@ import UIKit
 
 
 class DocumentBrowserViewController: UIViewController {
-    var document : TextDocument?
-    var documentURL : URL?
+    var dirPath : URL?
     var contents : [TextDocument]?
     lazy var tableView : UITableView = {
         let tv = UITableView()
@@ -35,12 +34,12 @@ class DocumentBrowserViewController: UIViewController {
         tableView.register(DocumentTableViewCell.self, forCellReuseIdentifier: cellId)
     }
     func setUpDocuments(){
-        let fileManager = FileManager.default
-        let dirPaths = fileManager.urls(for: .documentDirectory, in: .userDomainMask)
-        documentURL = dirPaths[0].appendingPathComponent("savetText.txt")
-        document = TextDocument(fileURL: documentURL!)
+        guard let dirPath = dirPath else {
+            return
+        }
         
-        let directoryContents = try! FileManager.default.contentsOfDirectory(at: dirPaths[0], includingPropertiesForKeys: nil, options: [])
+        
+        let directoryContents = try! FileManager.default.contentsOfDirectory(at: dirPath, includingPropertiesForKeys: nil, options: [])
         contents  = directoryContents.map { (url) -> TextDocument in
             
             let document = TextDocument(fileURL: url)
@@ -48,43 +47,49 @@ class DocumentBrowserViewController: UIViewController {
         }
         tableView.reloadData()
         
-        if fileManager.fileExists(atPath: (documentURL?.path)!){
-            document?.open(completionHandler: { (success) in
-                if success {
-                    print("File open OK")
-                    print("\(self.document?.text)")
-                }else {
-                    print("failed to open file")
-                }
-            })
-        }else {
-            document?.save(to: documentURL!, for: UIDocumentSaveOperation.forCreating, completionHandler: { (success) in
-                if success {
-                    print("file created OK")
-                }else {
-                    print("filed to create file")
-                }
-            })
-        }
+//        if fileManager.fileExists(atPath: (documentURL?.path)!){
+//            document?.open(completionHandler: { (success) in
+//                if success {
+//                    print("File open OK")
+//                    print("\(self.document?.text)")
+//                }else {
+//                    print("failed to open file")
+//                }
+//            })
+//        }else {
+//            document?.save(to: documentURL!, for: UIDocumentSaveOperation.forCreating, completionHandler: { (success) in
+//                if success {
+//                    print("file created OK")
+//                }else {
+//                    print("filed to create file")
+//                }
+//            })
+//        }
     }
-    func saveDocument(){
-        document!.text = "asdkfjasdkl;jf;lkajerlk;jasdlfkjlka;sgjkl;asjgflfk;sdjfla"
-        document?.save(to: documentURL!, for: UIDocumentSaveOperation.forOverwriting, completionHandler: { (success) in
-            if success {
-                print("file override ok")
-            }else {
-                print("file overrite faile")
-            }
-        })
-        
-    }
+//    func saveDocument(){
+//        document!.text = "asdkfjasdkl;jf;lkajerlk;jasdlfkjlka;sgjkl;asjgflfk;sdjfla"
+//        document?.save(to: documentURL!, for: UIDocumentSaveOperation.forOverwriting, completionHandler: { (success) in
+//            if success {
+//                print("file override ok")
+//            }else {
+//                print("file overrite faile")
+//            }
+//        })
+//
+//    }
     
 }
 extension DocumentBrowserViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let textViewController = OtherTextViewController()
-        textViewController.content = contents?[indexPath.item]
-        self.navigationController?.pushViewController(textViewController, animated: true)
+        if (contents?[indexPath.item].isFolder == true){
+            let vc = DocumentBrowserViewController()
+            vc.dirPath = contents?[indexPath.item].fileURL
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else{
+            let textViewController = OtherTextViewController()
+            textViewController.content = contents?[indexPath.item]
+            self.navigationController?.pushViewController(textViewController, animated: true)
+        }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100

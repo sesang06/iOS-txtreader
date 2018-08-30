@@ -20,11 +20,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         window = UIWindow(frame : UIScreen.main.bounds)
       
-        let nav = UINavigationController(rootViewController: DocumentBrowserViewController())
+        let fileManager = FileManager.default
+        let dirPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+        let vc = DocumentBrowserViewController()
+        vc.dirPath = dirPath
+        let nav = UINavigationController(rootViewController: vc)
         nav.navigationBar.isTranslucent = false
         
-        nav.navigationBar.tintColor = Constants.primaryColor
-        nav.navigationBar.barTintColor = Constants.primaryColor
+//        nav.navigationBar.tintColor = Constants.primaryColor
+//        nav.navigationBar.barTintColor = Constants.primaryColor
         //
         
         window?.rootViewController = nav
@@ -35,6 +39,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         do {
             
             let data = try Data(contentsOf: url)
+            let fileManager = FileManager.default
+            do {
+                let documentDirectory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
+                let fileURL = documentDirectory.appendingPathComponent("append.txt")
+                try data.write(to: fileURL)
+            } catch {
+                print(error)
+            }
             // Do something with the file
         } catch {
             print("Unable to load data: \(error)")

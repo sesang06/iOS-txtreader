@@ -27,6 +27,9 @@
 		069A8F082131ACFD00CB6004 /* StringReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069A8F072131ACFD00CB6004 /* StringReader.swift */; };
 		06C9B30B21344A290080360C /* AnotherTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C9B30A21344A290080360C /* AnotherTextViewController.swift */; };
 		06C9B30D213583170080360C /* OtherTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C9B30C213583170080360C /* OtherTextViewController.swift */; };
+		06C9B3162136DFE10080360C /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C9B3152136DFE10080360C /* ShareViewController.swift */; };
+		06C9B3192136DFE10080360C /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06C9B3172136DFE10080360C /* MainInterface.storyboard */; };
+		06C9B31D2136DFE10080360C /* Share To App.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 06C9B3132136DFE10080360C /* Share To App.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		06CD0771213252D6009757BC /* BookMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD0770213252D6009757BC /* BookMarkView.swift */; };
 		06CD079921327C24009757BC /* TextDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD079821327C24009757BC /* TextDocument.swift */; };
 		06CD079B21327C65009757BC /* DocumentBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD079A21327C65009757BC /* DocumentBrowserViewController.swift */; };
@@ -34,6 +37,30 @@
 		06D00F0A21341F4C000D1935 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D00F0921341F4C000D1935 /* TestViewController.swift */; };
 		F393B76EC08D26B018021575 /* Pods_iOS_txtreader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF82B24C591E05B2894F9B6 /* Pods_iOS_txtreader.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		06C9B31B2136DFE10080360C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 064344B3212DBB1600EDFA2E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 06C9B3122136DFE10080360C;
+			remoteInfo = "Share To App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		06C9B3212136DFE10080360C /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				06C9B31D2136DFE10080360C /* Share To App.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		064344BB212DBB1600EDFA2E /* iOS-txtreader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-txtreader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,6 +85,11 @@
 		069A8F072131ACFD00CB6004 /* StringReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringReader.swift; sourceTree = "<group>"; };
 		06C9B30A21344A290080360C /* AnotherTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnotherTextViewController.swift; sourceTree = "<group>"; };
 		06C9B30C213583170080360C /* OtherTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherTextViewController.swift; sourceTree = "<group>"; };
+		06C9B30E2136DF600080360C /* iOS-txtreader.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "iOS-txtreader.entitlements"; sourceTree = "<group>"; };
+		06C9B3132136DFE10080360C /* Share To App.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Share To App.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		06C9B3152136DFE10080360C /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		06C9B3182136DFE10080360C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		06C9B31A2136DFE10080360C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		06CD0770213252D6009757BC /* BookMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkView.swift; sourceTree = "<group>"; };
 		06CD079821327C24009757BC /* TextDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDocument.swift; sourceTree = "<group>"; };
 		06CD079A21327C65009757BC /* DocumentBrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentBrowserViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +109,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		06C9B3102136DFE10080360C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -84,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				064344BD212DBB1600EDFA2E /* iOS-txtreader */,
+				06C9B3142136DFE10080360C /* Share To App */,
 				064344BC212DBB1600EDFA2E /* Products */,
 				89A0072DF7DAE41532D6C004 /* Pods */,
 				83FBEA634FEAC4417A27C2D9 /* Frameworks */,
@@ -94,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				064344BB212DBB1600EDFA2E /* iOS-txtreader.app */,
+				06C9B3132136DFE10080360C /* Share To App.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -101,6 +142,8 @@
 		064344BD212DBB1600EDFA2E /* iOS-txtreader */ = {
 			isa = PBXGroup;
 			children = (
+				0658D96521384076007C7669 /* New Group1 */,
+				06C9B30E2136DF600080360C /* iOS-txtreader.entitlements */,
 				06C9B30C213583170080360C /* OtherTextViewController.swift */,
 				06D00F062132AD8B000D1935 /* DocumentBrowserViewController */,
 				06CD077521327A75009757BC /* TextViewController */,
@@ -117,6 +160,13 @@
 			path = "iOS-txtreader";
 			sourceTree = "<group>";
 		};
+		0658D96521384076007C7669 /* New Group1 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group1";
+			sourceTree = "<group>";
+		};
 		069A8F022131031D00CB6004 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -130,6 +180,16 @@
 				069A8EF72131031500CB6004 /* NanumPen.ttf */,
 			);
 			name = Fonts;
+			sourceTree = "<group>";
+		};
+		06C9B3142136DFE10080360C /* Share To App */ = {
+			isa = PBXGroup;
+			children = (
+				06C9B3152136DFE10080360C /* ShareViewController.swift */,
+				06C9B3172136DFE10080360C /* MainInterface.storyboard */,
+				06C9B31A2136DFE10080360C /* Info.plist */,
+			);
+			path = "Share To App";
 			sourceTree = "<group>";
 		};
 		06CD077521327A75009757BC /* TextViewController */ = {
@@ -185,15 +245,34 @@
 				064344B8212DBB1600EDFA2E /* Frameworks */,
 				064344B9212DBB1600EDFA2E /* Resources */,
 				9C9956B3DD280181E69E11C5 /* [CP] Embed Pods Frameworks */,
+				06C9B3212136DFE10080360C /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				06C9B31C2136DFE10080360C /* PBXTargetDependency */,
 			);
 			name = "iOS-txtreader";
 			productName = "iOS-txtreader";
 			productReference = 064344BB212DBB1600EDFA2E /* iOS-txtreader.app */;
 			productType = "com.apple.product-type.application";
+		};
+		06C9B3122136DFE10080360C /* Share To App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 06C9B31E2136DFE10080360C /* Build configuration list for PBXNativeTarget "Share To App" */;
+			buildPhases = (
+				06C9B30F2136DFE10080360C /* Sources */,
+				06C9B3102136DFE10080360C /* Frameworks */,
+				06C9B3112136DFE10080360C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Share To App";
+			productName = "Share To App";
+			productReference = 06C9B3132136DFE10080360C /* Share To App.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -206,6 +285,14 @@
 				ORGANIZATIONNAME = "조세상";
 				TargetAttributes = {
 					064344BA212DBB1600EDFA2E = {
+						CreatedOnToolsVersion = 9.4.1;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+					06C9B3122136DFE10080360C = {
 						CreatedOnToolsVersion = 9.4.1;
 					};
 				};
@@ -224,6 +311,7 @@
 			projectRoot = "";
 			targets = (
 				064344BA212DBB1600EDFA2E /* iOS-txtreader */,
+				06C9B3122136DFE10080360C /* Share To App */,
 			);
 		};
 /* End PBXProject section */
@@ -244,6 +332,14 @@
 				069A8EFF2131031500CB6004 /* NanumPen.ttf in Resources */,
 				069A8F002131031500CB6004 /* NanumMyeongjo.ttf in Resources */,
 				064344C9212DBB1600EDFA2E /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		06C9B3112136DFE10080360C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06C9B3192136DFE10080360C /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,7 +410,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		06C9B30F2136DFE10080360C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06C9B3162136DFE10080360C /* ShareViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		06C9B31C2136DFE10080360C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 06C9B3122136DFE10080360C /* Share To App */;
+			targetProxy = 06C9B31B2136DFE10080360C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		064344CA212DBB1600EDFA2E /* LaunchScreen.storyboard */ = {
@@ -323,6 +435,14 @@
 				064344CB212DBB1600EDFA2E /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		06C9B3172136DFE10080360C /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				06C9B3182136DFE10080360C /* Base */,
+			);
+			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -446,7 +566,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AF16602133F081E474790E0 /* Pods-iOS-txtreader.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "iOS-txtreader/iOS-txtreader.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7GDRWN9V7N;
 				INFOPLIST_FILE = "iOS-txtreader/Info.plist";
@@ -466,7 +588,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0A9844F609A4E80BF97EB80C /* Pods-iOS-txtreader.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "iOS-txtreader/iOS-txtreader.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7GDRWN9V7N;
 				INFOPLIST_FILE = "iOS-txtreader/Info.plist";
@@ -477,6 +601,44 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "sesang06.iOS-txtreader";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		06C9B31F2136DFE10080360C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7GDRWN9V7N;
+				INFOPLIST_FILE = "Share To App/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "sesang06.iOS-txtreader.Share-To-App";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		06C9B3202136DFE10080360C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7GDRWN9V7N;
+				INFOPLIST_FILE = "Share To App/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "sesang06.iOS-txtreader.Share-To-App";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -499,6 +661,15 @@
 			buildConfigurations = (
 				064344D1212DBB1600EDFA2E /* Debug */,
 				064344D2212DBB1600EDFA2E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		06C9B31E2136DFE10080360C /* Build configuration list for PBXNativeTarget "Share To App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06C9B31F2136DFE10080360C /* Debug */,
+				06C9B3202136DFE10080360C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -9,7 +9,7 @@
 import UIKit
 
 class TextDocument: UIDocument {
-    var text : String? = "asdf"
+    var text : String?
     override func contents(forType typeName: String) throws -> Any {
         if let content = text {
             let length = content.lengthOfBytes(using: String.Encoding.utf8)
@@ -24,11 +24,9 @@ class TextDocument: UIDocument {
         if let userContent = contents as? Data{
             
             let encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(0x0422))
-            //        let text = try? String(contentsOfFile: url.path, encoding : encoding)
            
-            text = NSString(bytes: (contents as AnyObject).bytes, length: userContent.count, encoding: encoding.rawValue) as String?
-            
-//            print(text)
+          text = String(data: userContent, encoding: String.Encoding.utf8)
+          
         }
     }
     lazy var createdDate: Date = {
@@ -51,6 +49,26 @@ class TextDocument: UIDocument {
     }()
     lazy var fileSize : UInt64 = {
         return fileURL.fileSize
+    }()
+    lazy var isFolder : Bool = {
+        if fileType == "public.folder" {
+            return true
+        }else {
+            return false
+        }
+    }()
+    func covertToFileString(with size: UInt64) -> String {
+        var convertedValue: Double = Double(size)
+        var multiplyFactor = 0
+        let tokens = ["bytes", "KB", "MB", "GB", "TB", "PB",  "EB",  "ZB", "YB"]
+        while convertedValue > 1024 {
+            convertedValue /= 1024
+            multiplyFactor += 1
+        }
+        return String(format: "%4.2f %@", convertedValue, tokens[multiplyFactor])
+    }
+    lazy var fileSizeString : String = {
+        return  covertToFileString(with : fileSize) 
     }()
     func extractAndBreakFilenameInComponents(fileURL: NSURL) -> (fileName: String, fileExtension: String) {
         

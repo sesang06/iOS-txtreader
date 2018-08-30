@@ -44,8 +44,8 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
     let bookMarkView = BookMarkView()
     var bookMarkTopConstraint : Constraint?
     var count : Int = 0
-    var textContainers : [NSTextContainer] = [NSTextContainer]()
-    var textViews :[UITextView] = [UITextView]()
+//    var textContainers : [NSTextContainer] = [NSTextContainer]()
+//    var textViews :[UITextView] = [UITextView]()
     var ranges : [NSRange] = [NSRange]()
     var string : NSAttributedString?
     override func viewDidLoad() {
@@ -85,59 +85,59 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
         bookMarkView.addGestureRecognizer(panGestureRecognizer)
     }
     func loadText(){
-        
-        let encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(0x0422))
-        let text = try? String(contentsOfFile: (content?.fileURL.path)!, encoding: encoding)
-        
-        //        guard let text = try? String(contentsOfFile: url.path) else {
-        //            return nil
-        //        }
-        
-        
-        let textString = NSAttributedString(string: text! , attributes: attributes)
-        string = textString
-        let textStorage = NSTextStorage(attributedString: textString)
-        let textLayout = NSLayoutManager()
-        textStorage.addLayoutManager(textLayout)
-        
-        let textContainer = NSTextContainer(size: view.frame.size)
-        textLayout.allowsNonContiguousLayout = true
-        
-        textLayout.addTextContainer(textContainer)
-        
-        
-        let size = CGSize(width : view.frame.width,  height : CGFloat.infinity)
-        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-        
-        let estimatedRect = textString.boundingRect(with: size, options: options, context: nil)
-        
-        count = Int(estimatedRect.size.height / scrollSize.height) + 1
-    
-        for i in 0..<count {
-            let textContainer = NSTextContainer(size: scrollSize)
-            textContainers.append(textContainer)
-            
-            textLayout.addTextContainer(textContainer)
-            let textView = UITextView(frame: CGRect.zero, textContainer: textContainer)
-//            let textView = UITextView(frame: CGRect(x: view.frame.size.width * CGFloat(i), y: 0, width: view.frame.size.width, height: view.frame.size.height), textContainer: textContainer)
-            textView.tag = i
-            textView.textContainerInset = UIEdgeInsetsMake(0, 0, 0, 0)
-            textView.textContainer.lineFragmentPadding = 0
-            textView.delegate = self
-            //        textView.isScrollEnabled = false
-            textView.isEditable = false
-            textView.isPagingEnabled = true
-            textView.attributedText = textString
-//            textView.isScrollEnabled = false
-//
-            textViews.append(textView)
-            // scrollview.addSubview(textView)
-            
-            let rangeThatFits = textLayout.glyphRange(forBoundingRect: view.frame, in: textContainer)
-            ranges.append(rangeThatFits)
-            print(rangeThatFits)
-        }
-        
+        content?.open(completionHandler: { (success) in
+            if success, let text = self.content?.text {
+                let attributedString = NSAttributedString(string: text , attributes: self.attributes)
+                self.string = attributedString
+                let textStorage = NSTextStorage(attributedString: attributedString)
+                let textLayout = NSLayoutManager()
+                textStorage.addLayoutManager(textLayout)
+                
+                let textContainer = NSTextContainer(size: self.view.frame.size)
+                textLayout.allowsNonContiguousLayout = true
+                textLayout.addTextContainer(textContainer)
+                
+                
+                let size = CGSize(width : self.view.frame.width,  height : CGFloat.infinity)
+                let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+                
+                let estimatedRect = attributedString.boundingRect(with: size, options: options, context: nil)
+                
+                self.count = Int(estimatedRect.size.height / self.scrollSize.height) + 1
+                
+                for i in 0..<self.count {
+                    let textContainer = NSTextContainer(size: self.scrollSize)
+//                    self.textContainers.append(textContainer)
+                    
+                    textLayout.addTextContainer(textContainer)
+//                    let textView = UITextView(frame: CGRect.zero, textContainer: textContainer)
+                    //            let textView = UITextView(frame: CGRect(x: view.frame.size.width * CGFloat(i), y: 0, width: view.frame.size.width, height: view.frame.size.height), textContainer: textContainer)
+//                    textView.tag = i
+//                    textView.textContainerInset = UIEdgeInsetsMake(0, 0, 0, 0)
+//                    textView.textContainer.lineFragmentPadding = 0
+//                    textView.delegate = self
+//                    //        textView.isScrollEnabled = false
+//                    textView.isEditable = false
+//                    textView.isPagingEnabled = true
+//                    textView.attributedText = textString
+//                    //            textView.isScrollEnabled = false
+//                    //
+//                    textViews.append(textView)
+//                    // scrollview.addSubview(textView)
+                    
+                    let rangeThatFits = textLayout.glyphRange(forBoundingRect: self.view.frame, in: textContainer)
+                    self.ranges.append(rangeThatFits)
+                    print(rangeThatFits)
+                    
+                }
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }else {
+                print("failed to open file")
+            }
+        })
+       
 
         
 //        textView.snp.makeConstraints { (make) in
