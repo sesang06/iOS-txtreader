@@ -115,7 +115,68 @@ extension Array {
         }
     }
 }
-
+extension UIViewController {
+    func showAlert(title: String? = nil, message: String? = nil){
+        
+    }
+    func showInputDialog(title : String? = nil, message : String? = nil,placeholder : String? = nil , confirm : ((String?)->Void)? = nil ) {
+        //Creating UIAlertController and
+        //Setting title and message for the alert dialog
+        let alertController = UIAlertController(title:title , message: message, preferredStyle: .alert)
+        
+        //the confirm action taking the inputs
+        let confirmAction = UIAlertAction(title: "confirm".localized, style: .default) { (_) in
+            
+            //getting the input values from user
+            let input = alertController.textFields?[0].text
+            confirm?(input)
+        }
+        
+        //the cancel action doing nothing
+        let cancelAction = UIAlertAction(title: "cancel".localized, style: .cancel) { (_) in
+            
+        }
+        
+        alertController.addTextField { (textField) in
+            textField.placeholder = placeholder
+            
+        }
+        
+        //adding the action to dialogbox
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+        
+        //finally presenting the dialog box
+        DispatchQueue.main.async {
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+}
+extension URL {
+    var attributes: [FileAttributeKey : Any]? {
+        do {
+            return try FileManager.default.attributesOfItem(atPath: path)
+        } catch let error as NSError {
+            print("FileAttribute error: \(error)")
+        }
+        return nil
+    }
+    
+    var fileSize: UInt64 {
+        return attributes?[.size] as? UInt64 ?? UInt64(0)
+    }
+    
+    var creationDate: Date? {
+        return attributes?[.creationDate] as? Date
+    }
+    var fileName : String? {
+        let fileURLParts = self.path.components(separatedBy: "/")
+        
+        // Get the file name from the last position of the array above.
+        let fileName = fileURLParts.last
+        return fileName
+    }
+}
 extension UIImageView {
     func imageFrame() -> CGRect {
         let imageViewSize = self.frame.size
@@ -135,6 +196,11 @@ extension UIImageView {
             return CGRect(x: 0, y: topLeftY, width: imageViewSize.width, height: height)
             
         }
+    }
+}
+extension String {
+    var localized: String {
+        return NSLocalizedString(self, tableName: nil, bundle: Bundle.main, value: "", comment: "")
     }
 }
 

@@ -33,6 +33,7 @@
 		06CD0771213252D6009757BC /* BookMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD0770213252D6009757BC /* BookMarkView.swift */; };
 		06CD079921327C24009757BC /* TextDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD079821327C24009757BC /* TextDocument.swift */; };
 		06CD079B21327C65009757BC /* DocumentBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD079A21327C65009757BC /* DocumentBrowserViewController.swift */; };
+		06CDFCCA213AB3F900E4B910 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 06CDFCCC213AB3F900E4B910 /* Localizable.strings */; };
 		06D00F082132AE09000D1935 /* DocumentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D00F072132AE09000D1935 /* DocumentTableViewCell.swift */; };
 		06D00F0A21341F4C000D1935 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D00F0921341F4C000D1935 /* TestViewController.swift */; };
 		F393B76EC08D26B018021575 /* Pods_iOS_txtreader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF82B24C591E05B2894F9B6 /* Pods_iOS_txtreader.framework */; };
@@ -93,6 +94,11 @@
 		06CD0770213252D6009757BC /* BookMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkView.swift; sourceTree = "<group>"; };
 		06CD079821327C24009757BC /* TextDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDocument.swift; sourceTree = "<group>"; };
 		06CD079A21327C65009757BC /* DocumentBrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentBrowserViewController.swift; sourceTree = "<group>"; };
+		06CDFCC6213AB3C900E4B910 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		06CDFCC7213AB3CA00E4B910 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/MainInterface.strings; sourceTree = "<group>"; };
+		06CDFCCB213AB3F900E4B910 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		06CDFCCD213AB3FC00E4B910 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		06CDFCCE213AD17C00E4B910 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		06D00F072132AE09000D1935 /* DocumentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentTableViewCell.swift; sourceTree = "<group>"; };
 		06D00F0921341F4C000D1935 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		0A9844F609A4E80BF97EB80C /* Pods-iOS-txtreader.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-txtreader.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-txtreader/Pods-iOS-txtreader.release.xcconfig"; sourceTree = "<group>"; };
@@ -142,6 +148,7 @@
 		064344BD212DBB1600EDFA2E /* iOS-txtreader */ = {
 			isa = PBXGroup;
 			children = (
+				06CDFCCC213AB3F900E4B910 /* Localizable.strings */,
 				0658D96521384076007C7669 /* New Group1 */,
 				06C9B30E2136DF600080360C /* iOS-txtreader.entitlements */,
 				06C9B30C213583170080360C /* OtherTextViewController.swift */,
@@ -288,7 +295,7 @@
 						CreatedOnToolsVersion = 9.4.1;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -304,6 +311,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = 064344B2212DBB1600EDFA2E;
 			productRefGroup = 064344BC212DBB1600EDFA2E /* Products */;
@@ -326,6 +334,7 @@
 				069A8F06213161DF00CB6004 /* text.txt in Resources */,
 				069A8EFD2131031500CB6004 /* NanumMyeongjoBold.ttf in Resources */,
 				064344CC212DBB1600EDFA2E /* LaunchScreen.storyboard in Resources */,
+				06CDFCCA213AB3F900E4B910 /* Localizable.strings in Resources */,
 				069A8EFA2131031500CB6004 /* NanumMyeongjoExtraBold.ttf in Resources */,
 				069A8EFE2131031500CB6004 /* NanumBrush.ttf in Resources */,
 				069A8EFB2131031500CB6004 /* NanumGothicExtraBold.ttf in Resources */,
@@ -433,6 +442,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				064344CB212DBB1600EDFA2E /* Base */,
+				06CDFCC6213AB3C900E4B910 /* ko */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -441,8 +451,19 @@
 			isa = PBXVariantGroup;
 			children = (
 				06C9B3182136DFE10080360C /* Base */,
+				06CDFCC7213AB3CA00E4B910 /* ko */,
 			);
 			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+		06CDFCCC213AB3F900E4B910 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				06CDFCCB213AB3F900E4B910 /* en */,
+				06CDFCCD213AB3FC00E4B910 /* ko */,
+				06CDFCCE213AD17C00E4B910 /* Base */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -452,6 +473,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -512,6 +534,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -568,7 +591,6 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "iOS-txtreader/iOS-txtreader.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7GDRWN9V7N;
 				INFOPLIST_FILE = "iOS-txtreader/Info.plist";
@@ -590,7 +612,6 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "iOS-txtreader/iOS-txtreader.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7GDRWN9V7N;
 				INFOPLIST_FILE = "iOS-txtreader/Info.plist";

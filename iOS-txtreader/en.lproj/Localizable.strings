@@ -1,0 +1,11 @@
+/* 
+  string.strings
+  iOS-txtreader
+
+  Created by 조세상 on 2018. 9. 1..
+  Copyright © 2018년 조세상. All rights reserved.
+*/
+cancel = "cancel";
+confirm = "confirm";
+createBroswerMessage = "Type !!";
+

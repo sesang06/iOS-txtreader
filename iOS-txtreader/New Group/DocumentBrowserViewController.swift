@@ -22,7 +22,18 @@ class DocumentBrowserViewController: UIViewController {
         let tb = UIToolbar()
         return tb
     }()
-    
+    lazy var editBrowserBarButtonItem : UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: #selector(editBrowser))
+        return button
+    }()
+    lazy var cancelEditBrowserBarButtoonItem : UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(self.cancelEditBrowser))
+        return button
+    }()
+    lazy var createBrowserBarButtonItem : UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(self.createBrowser))
+        return button
+    }()
     let cellId = "cellId"
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +49,8 @@ class DocumentBrowserViewController: UIViewController {
             make.trailing.leading.equalTo(view)
         }
         tableView.register(DocumentTableViewCell.self, forCellReuseIdentifier: cellId)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: #selector(editBrowser))
+        self.navigationItem.rightBarButtonItems = [createBrowserBarButtonItem, editBrowserBarButtonItem]
+        self.navigationItem.title = dirPath?.fileName
     }
     func setUpEditToolbar(){
         view.addSubview(editToolbar)
@@ -61,22 +73,52 @@ class DocumentBrowserViewController: UIViewController {
             }
         }
         contents?.remove(at: tableView.indexPathsForSelectedRows?.map{$0.item} ?? [])
-        tableView.beginUpdates()
-        tableView.deleteRows(at: tableView.indexPathsForSelectedRows ?? [], with: UITableViewRowAnimation.automatic)
-        tableView.endUpdates()
+        DispatchQueue.main.async {
+            self.tableView.beginUpdates()
+            self.tableView.deleteRows(at: self.tableView.indexPathsForSelectedRows ?? [], with: UITableViewRowAnimation.automatic)
+            self.tableView.endUpdates()
+        }
+      
     }
     
     @objc func editBrowser(){
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.setEditing(true, animated: true)
-    self.navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(self.cancelEditBrowser)), animated: true)
+        self.navigationItem.setRightBarButtonItems([createBrowserBarButtonItem,cancelEditBrowserBarButtoonItem], animated: true)
        
     }
     @objc func cancelEditBrowser(){
         tableView.setEditing(false, animated: true)
-    self.navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: #selector(self.editBrowser)), animated: true)
+        self.navigationItem.setRightBarButtonItems([createBrowserBarButtonItem,editBrowserBarButtonItem], animated: true)
 
        
+    }
+    //TODO :
+    @objc func createBrowser(){
+        self.showInputDialog(title: "createBroswerMessage".localized) { (input) in
+            if let input = input {
+                if input.count != 0, let fileURL = self.dirPath?.appendingPathComponent(input) {
+                    if FileManager.default.fileExists(atPath: fileURL.path){
+                        
+                    }else{
+                        do {  try FileManager.default.createDirectory(at: fileURL, withIntermediateDirectories: true, attributes: nil)
+                            let document = TextDocument(fileURL: fileURL)
+                            self.contents?.insert(document, at: 0)
+                            let indexPath = IndexPath(item: 0, section: 0)
+                            DispatchQueue.main.async {
+                                self.tableView.beginUpdates()
+                                self.tableView.insertRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+                                self.tableView.endUpdates()
+                            }
+                           
+                            
+                        } catch {
+                            
+                        }
+                    }
+                }
+            }
+        }
     }
     func setUpDocuments(){
         guard let dirPath = dirPath else {
@@ -90,8 +132,9 @@ class DocumentBrowserViewController: UIViewController {
             let document = TextDocument(fileURL: url)
             return document
         }
-        tableView.reloadData()
-        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
 //        if fileManager.fileExists(atPath: (documentURL?.path)!){
 //            document?.open(completionHandler: { (success) in
 //                if success {

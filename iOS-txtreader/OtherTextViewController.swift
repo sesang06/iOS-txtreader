@@ -84,6 +84,7 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
         }
         let panGestureRecognizer = UIPanGestureRecognizer(target:self, action: #selector(panGestureRecognizerAction))
         bookMarkView.addGestureRecognizer(panGestureRecognizer)
+        self.navigationItem.title = content?.fileName
     }
     func loadText(){
         content?.open(completionHandler: { (success) in
