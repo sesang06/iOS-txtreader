@@ -15,7 +15,7 @@ import SnapKit
 class OtherTextViewController: UIViewController, UITextViewDelegate {
     lazy var collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
+//        layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = UIColor.white
         cv.dataSource = self
@@ -23,14 +23,14 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
         
         return cv
     }()
-    lazy var scrollview : UIScrollView = {
-        let cv = UIScrollView(frame: .zero)
-        cv.backgroundColor = UIColor.white
-        cv.delegate = self
-        return cv
-    }()
+//    lazy var scrollview : UIScrollView = {
+//        let cv = UIScrollView(frame: .zero)
+//        cv.backgroundColor = UIColor.white
+//        cv.delegate = self
+//        return cv
+//    }()
     lazy var scrollSize : CGSize = {
-       let size = CGSize(width: view.frame.width, height: view.frame.height - 64)
+       let size = CGSize(width: view.frame.width, height: view.frame.height - 40)
         return size
     }()
     lazy var attributes :  [NSAttributedStringKey : Any] = {
@@ -43,11 +43,12 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
     let cellId = "cellId"
     let bookMarkView = BookMarkView()
     var bookMarkTopConstraint : Constraint?
-    var count : Int = 0
+//    var count : Int = 0
 //    var textContainers : [NSTextContainer] = [NSTextContainer]()
 //    var textViews :[UITextView] = [UITextView]()
     var ranges : [NSRange] = [NSRange]()
     var string : NSAttributedString?
+    var subStrings : [NSAttributedString] = [NSAttributedString]()
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpView()
@@ -60,12 +61,12 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     func setUpView(){
-        view.addSubview(scrollview)
-        scrollview.snp.makeConstraints { (make) in
-            make.top.equalTo(topLayoutGuide.snp.bottom)
-            make.bottom.equalTo(bottomLayoutGuide.snp.top)
-            make.trailing.leading.equalTo(view)
-        }
+//        view.addSubview(scrollview)
+//        scrollview.snp.makeConstraints { (make) in
+//            make.top.equalTo(topLayoutGuide.snp.bottom)
+//            make.bottom.equalTo(bottomLayoutGuide.snp.top)
+//            make.trailing.leading.equalTo(view)
+//        }
         
         view.addSubview(collectionView)
         collectionView.register(TextViewCell.self, forCellWithReuseIdentifier: cellId)
@@ -93,19 +94,19 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
                 let textLayout = NSLayoutManager()
                 textStorage.addLayoutManager(textLayout)
                 
-                let textContainer = NSTextContainer(size: self.view.frame.size)
+//                let textContainer = NSTextContainer(size: self.view.frame.size)
                 textLayout.allowsNonContiguousLayout = true
-                textLayout.addTextContainer(textContainer)
+//                textLayout.addTextContainer(textContainer)
                 
                 
-                let size = CGSize(width : self.view.frame.width,  height : CGFloat.infinity)
-                let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+//                let size = CGSize(width : self.view.frame.width,  height : CGFloat.infinity)
+//                let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+//
+//                let estimatedRect = attributedString.boundingRect(with: size, options: options, context: nil)
                 
-                let estimatedRect = attributedString.boundingRect(with: size, options: options, context: nil)
+//                self.count = Int(estimatedRect.size.height / self.scrollSize.height) + 1
                 
-                self.count = Int(estimatedRect.size.height / self.scrollSize.height) + 1
-                
-                for i in 0..<self.count {
+                while(true){
                     let textContainer = NSTextContainer(size: self.scrollSize)
 //                    self.textContainers.append(textContainer)
                     
@@ -126,12 +127,20 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
 //                    // scrollview.addSubview(textView)
                     
                     let rangeThatFits = textLayout.glyphRange(forBoundingRect: self.view.frame, in: textContainer)
+//                    print(rangeThatFits.location)
+                    if (rangeThatFits.length == 0){
+                        break
+                    }
                     self.ranges.append(rangeThatFits)
-                    print(rangeThatFits)
+                    
+                self.subStrings.append(attributedString.attributedSubstring(from: rangeThatFits))
+//                    cell.textView.attributedText = substring
+//                    print(rangeThatFits)
                     
                 }
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
+                    self.scrollViewDidScroll(self.collectionView)
                 }
             }else {
                 print("failed to open file")
@@ -155,35 +164,43 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
         guard let bookMarkViewOriginY = bookMarkViewOriginY  else {
             return
         }
-        let offset = min( max(bookMarkView.frame.height / 2, translation.y + bookMarkViewOriginY ), scrollview.frame.height - bookMarkView.frame.height / 2)
-        let scrollOffset = (offset - bookMarkView.frame.height / 2) / (scrollview.frame.height - bookMarkView.frame.height)
-        print(scrollOffset)
-        print((scrollview.contentSize.height - scrollview.frame.height) * scrollOffset)
+        let offset = min( max(bookMarkView.frame.height / 2, translation.y + bookMarkViewOriginY ), collectionView.frame.height - bookMarkView.frame.height / 2)
+        let scrollOffset = (offset - bookMarkView.frame.height / 2) / (collectionView.frame.height - bookMarkView.frame.height)
+//        print(scrollOffset)
+//        print((scrollview.contentSize.height - scrollview.frame.height) * scrollOffset)
         
         //        bookMarkTopConstraint?.update(offset: offset)
-        scrollview.contentOffset = CGPoint(x: scrollview.contentOffset.x, y: (scrollview.contentSize.height - scrollview.frame.height) * scrollOffset)
+        collectionView.contentOffset = CGPoint(x: collectionView.contentOffset.x, y: (collectionView.contentSize.height - collectionView.frame.height) * scrollOffset)
         if gesture.state == .ended {
             self.bookMarkViewOriginY = nil
         }
     }
+    deinit{
+        content?.close(completionHandler: { (sucess) in
+            
+        })
+    }
+
 }
 extension OtherTextViewController : UIScrollViewDelegate {
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        if let count = stringReader?.indice.count{
-//            let offset = scrollview.frame.height - bookMarkView.frame.height
-//            let currentIndex = (scrollview.contentOffset.y / scrollview.frame.height)
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        /*if*/ let count = ranges.count
+            //{
+        if (count != 0 && count != 1){
+        let offset = collectionView.frame.height - bookMarkView.frame.height
+            let currentIndex = (collectionView.contentOffset.y / collectionView.frame.height)
 //            print(currentIndex)
-//            let indexPath = IndexPath(item: Int(currentIndex), section: 0)
-//            bookMarkView.index = indexPath
-//            bookMarkTopConstraint?.update(offset:  offset * CGFloat(currentIndex) / CGFloat(count-1) + bookMarkView.frame.height / 2)
-//        }
-//
-//    }
+            let indexPath = IndexPath(item: Int(currentIndex), section: 0)
+            bookMarkView.index = indexPath
+            bookMarkTopConstraint?.update(offset:  offset * CGFloat(currentIndex) / CGFloat(count-1) + bookMarkView.frame.height / 2)
+        //        }
+        }
+    }
 }
 
 extension OtherTextViewController : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return count ?? 0
+        return self.ranges.count
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
@@ -202,18 +219,20 @@ extension OtherTextViewController : UICollectionViewDataSource{
 //        textViews[indexPath.item].snp.makeConstraints { (make) in
 //            make.top.bottom.leading.trailing.equalTo(cell)
 //        }
-        if let string = string {
-            let NSRange = ranges[indexPath.item]
-            let substring = string.attributedSubstring(from: NSRange)
-            cell.textView.attributedText = substring
-        }
+//        if let string = string {
+//            let NSRange = ranges[indexPath.item]
+//            let substring = string.attributedSubstring(from: NSRange)
+//            cell.textView.attributedText = substring
+//        }
+        cell.textView.attributedText = subStrings[indexPath.item]
+        cell.index = indexPath
         return cell
     }
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        print(view.frame.height)
-        print(collectionView.frame.height)
+//        print(view.frame.height)
+//        print(collectionView.frame.height)
         return CGSize(width: view.frame.width, height: view.frame.height)
     }
 }

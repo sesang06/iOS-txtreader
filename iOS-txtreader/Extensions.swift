@@ -108,6 +108,14 @@ extension UIView{
     }
 }
 
+extension Array {
+    mutating func remove(at indexes: [Int]) {
+        for index in indexes.sorted(by: >) {
+            remove(at: index)
+        }
+    }
+}
+
 extension UIImageView {
     func imageFrame() -> CGRect {
         let imageViewSize = self.frame.size

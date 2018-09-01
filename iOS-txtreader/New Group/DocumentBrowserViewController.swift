@@ -18,11 +18,17 @@ class DocumentBrowserViewController: UIViewController {
         tv.dataSource = self
         return tv
     }()
+    lazy var editToolbar : UIToolbar = {
+        let tb = UIToolbar()
+        return tb
+    }()
+    
     let cellId = "cellId"
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpViews()
         setUpDocuments()
+        setUpEditToolbar()
     }
     func setUpViews(){
         view.addSubview(tableView)
@@ -32,6 +38,45 @@ class DocumentBrowserViewController: UIViewController {
             make.trailing.leading.equalTo(view)
         }
         tableView.register(DocumentTableViewCell.self, forCellReuseIdentifier: cellId)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: #selector(editBrowser))
+    }
+    func setUpEditToolbar(){
+        view.addSubview(editToolbar)
+        editToolbar.items = [
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.trash, target: self, action: #selector(deleteDocument))
+        ]
+        editToolbar.snp.makeConstraints { (make) in
+            make.bottom.leading.trailing.equalTo(view)
+        }
+    }
+    @objc func deleteDocument(){
+        tableView.indexPathsForSelectedRows?.forEach {
+            if let url = contents?[$0.item].fileURL {
+                do {
+                    try FileManager.default.removeItem(at: url )
+
+                } catch let error as NSError {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        contents?.remove(at: tableView.indexPathsForSelectedRows?.map{$0.item} ?? [])
+        tableView.beginUpdates()
+        tableView.deleteRows(at: tableView.indexPathsForSelectedRows ?? [], with: UITableViewRowAnimation.automatic)
+        tableView.endUpdates()
+    }
+    
+    @objc func editBrowser(){
+        tableView.allowsMultipleSelectionDuringEditing = true
+        tableView.setEditing(true, animated: true)
+    self.navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(self.cancelEditBrowser)), animated: true)
+       
+    }
+    @objc func cancelEditBrowser(){
+        tableView.setEditing(false, animated: true)
+    self.navigationItem.setRightBarButton(UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: #selector(self.editBrowser)), animated: true)
+
+       
     }
     func setUpDocuments(){
         guard let dirPath = dirPath else {
@@ -91,9 +136,15 @@ extension DocumentBrowserViewController : UITableViewDelegate {
             self.navigationController?.pushViewController(textViewController, animated: true)
         }
     }
+    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
+//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+//        return UITableViewCellEditingStyle.insert
+//    }
 }
 extension DocumentBrowserViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

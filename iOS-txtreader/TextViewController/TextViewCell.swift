@@ -37,7 +37,7 @@ class TextViewCell: BaseCell {
         label.font = UIFont(name: "NanumGothic", size: 17)
         label.textAlignment = NSTextAlignment.center
 //        label.text = "목차"
-//        label.backgroundColor = UIColor.red
+        label.backgroundColor = UIColor.red
         return label
     }()
     func displayText(string : String ){
