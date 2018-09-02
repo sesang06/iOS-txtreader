@@ -57,8 +57,12 @@ class DocumentBrowserViewController: UIViewController {
         editToolbar.items = [
             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.trash, target: self, action: #selector(deleteDocument))
             ,
-            UIBarButtonItem(title: "이름 변경", style: UIBarButtonItemStyle.plain, target: self, action: #selector(changeDocumentName))
+            UIBarButtonItem(title: "이름 변경", style: UIBarButtonItemStyle.plain, target: self, action: #selector(changeDocumentName)),
             
+            UIBarButtonItem(title: "파일 복사", style: UIBarButtonItemStyle.plain, target: self, action: #selector(copyDocument)),
+            UIBarButtonItem(title: "파일 이동", style: UIBarButtonItemStyle.plain, target: self, action: #selector(moveDocument)),
+            
+            UIBarButtonItem(title: "파일 임포트", style: UIBarButtonItemStyle.plain, target: self, action: #selector(importDocument))
         ]
         editToolbar.snp.makeConstraints { (make) in
             make.bottom.leading.trailing.equalTo(view)
@@ -157,6 +161,15 @@ class DocumentBrowserViewController: UIViewController {
                 }
             }
         }
+    }
+    @objc func copyDocument(){
+        
+    }
+    @objc func moveDocument(){
+        
+    }
+    @objc func importDocument(){
+        
     }
     func setUpDocuments(){
         guard let dirPath = dirPath else {

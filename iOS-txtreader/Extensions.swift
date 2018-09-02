@@ -230,11 +230,25 @@ extension URL {
         return attributes?[.creationDate] as? Date
     }
     var fileName : String? {
-        let fileURLParts = self.path.components(separatedBy: "/")
+        return self.lastPathComponent
+    }
+    var newFileURL : URL?{
+        if !FileManager.default.fileExists(atPath: self.path) {
+            return self
+        }
+        var index : Int = 1
+        //var directory = self.pat
         
-        // Get the file name from the last position of the array above.
-        let fileName = fileURLParts.last
-        return fileName
+        let directoryURL = self.deletingLastPathComponent()
+        var fileURL = directoryURL.appendingPathComponent("\(self.deletingPathExtension().lastPathComponent) (\(index))").appendingPathExtension(self.pathExtension)
+    
+        while (FileManager.default.fileExists(atPath: fileURL.path)) {
+            index = index + 1
+            
+            fileURL = directoryURL.appendingPathComponent("\(self.deletingPathExtension().lastPathComponent) (\(index))").appendingPathExtension(self.pathExtension)
+        }
+        return fileURL
+        
     }
 }
 extension UIImageView {
@@ -263,4 +277,14 @@ extension String {
         return NSLocalizedString(self, tableName: nil, bundle: Bundle.main, value: "", comment: "")
     }
 }
-
+extension UIColor {
+    
+    static func rgb(r: CGFloat, g: CGFloat, b: CGFloat) -> UIColor {
+        return UIColor(red: r/255, green: g/255, blue: b/255, alpha: 1)
+    }
+    
+    static let backgroundColor = UIColor.rgb(r: 21, g: 22, b: 33)
+    static let outlineStrokeColor = UIColor.rgb(r: 234, g: 46, b: 111)
+    static let trackStrokeColor = UIColor.rgb(r: 56, g: 25, b: 49)
+    static let pulsatingFillColor = UIColor.rgb(r: 86, g: 30, b: 63)
+}

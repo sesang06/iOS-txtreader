@@ -25,7 +25,7 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
     }()
 
     lazy var scrollSize : CGSize = {
-       let size = CGSize(width: view.frame.width, height: view.frame.height - 40)
+       let size = CGSize(width: view.frame.width, height: view.frame.height - 40 - 64)
         return size
     }()
     lazy var attributes :  [NSAttributedStringKey : Any] = {
@@ -38,15 +38,81 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
     let cellId = "cellId"
     let bookMarkView = BookMarkView()
     var bookMarkTopConstraint : Constraint?
-//    var count : Int = 0
-//    var textContainers : [NSTextContainer] = [NSTextContainer]()
-//    var textViews :[UITextView] = [UITextView]()
+
     var ranges : [NSRange] = [NSRange]()
     var string : NSAttributedString?
     var subStrings : [NSAttributedString] = [NSAttributedString]()
+    
+    var shapeLayer: CAShapeLayer!
+    var pulsatingLayer: CAShapeLayer!
+    var trackLayer : CAShapeLayer!
+    let percentageLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Start"
+        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 32)
+        label.textColor = .white
+        return label
+    }()
+    private func setupNotificationObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleEnterForeground), name: .UIApplicationWillEnterForeground, object: nil)
+    }
+    
+    @objc private func handleEnterForeground() {
+        animatePulsatingLayer()
+    }
+    
+    private func createCircleShapeLayer(strokeColor: UIColor, fillColor: UIColor) -> CAShapeLayer {
+        let layer = CAShapeLayer()
+        let circularPath = UIBezierPath(arcCenter: .zero, radius: 100, startAngle: 0, endAngle: 2 * CGFloat.pi, clockwise: true)
+        layer.path = circularPath.cgPath
+        layer.strokeColor = strokeColor.cgColor
+        layer.lineWidth = 20
+        layer.fillColor = fillColor.cgColor
+        layer.lineCap = kCALineCapRound
+        layer.position = view.center
+        return layer
+    }
+    
+    private func setupPercentageLabel() {
+        view.addSubview(percentageLabel)
+        percentageLabel.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        percentageLabel.center = view.center
+    }
+    
+    private func setupCircleLayers() {
+        pulsatingLayer = createCircleShapeLayer(strokeColor: .clear, fillColor: UIColor.pulsatingFillColor)
+        view.layer.addSublayer(pulsatingLayer)
+        animatePulsatingLayer()
+        
+        trackLayer = createCircleShapeLayer(strokeColor: .trackStrokeColor, fillColor: .backgroundColor)
+        view.layer.addSublayer(trackLayer)
+        
+        shapeLayer = createCircleShapeLayer(strokeColor: .outlineStrokeColor, fillColor: .clear)
+        
+        shapeLayer.transform = CATransform3DMakeRotation(-CGFloat.pi / 2, 0, 0, 1)
+        shapeLayer.strokeEnd = 0
+        view.layer.addSublayer(shapeLayer)
+    }
+    
+    private func animatePulsatingLayer() {
+        let animation = CABasicAnimation(keyPath: "transform.scale")
+        
+        animation.toValue = 1.5
+        animation.duration = 0.8
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+        animation.autoreverses = true
+        animation.repeatCount = Float.infinity
+        
+        pulsatingLayer.add(animation, forKey: "pulsing")
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNotificationObservers()
+        
         setUpView()
+        setupCircleLayers()
+         setupPercentageLabel()
         loadText()
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -76,10 +142,8 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
         self.navigationItem.title = content?.fileName
     }
     func loadText(){
-        DispatchQueue.global(qos: .userInteractive).async {
-            
-        }
-        let scrollSize = CGSize(width: view.frame.width, height: view.frame.height - 40)
+        let scrollSize = self.scrollSize
+        shapeLayer.strokeEnd = 0
         
         content?.open(completionHandler: { (success) in
             guard success else {
@@ -136,12 +200,21 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
                     self.ranges.append(rangeThatFits)
                     
                     self.subStrings.append(attributedString.attributedSubstring(from: rangeThatFits))
-                    print(Float(rangeThatFits.upperBound) / Float(attributedString.length) )
+                    
+                    let percentage = CGFloat(rangeThatFits.upperBound) / CGFloat(attributedString.length)
+                    DispatchQueue.main.async {
+                        self.percentageLabel.text = "\(Int(percentage * 100))%"
+                        self.shapeLayer.strokeEnd = percentage
+                    }
                     //                    cell.textView.attributedText = substring
                     //                    print(rangeThatFits)
                     
                 }
                 DispatchQueue.main.async {
+                    self.shapeLayer.isHidden = true
+                    self.pulsatingLayer.isHidden = true
+                    self.trackLayer.isHidden = true
+                    self.percentageLabel.isHidden = true
                     self.collectionView.reloadData()
                     self.scrollViewDidScroll(self.collectionView)
                 }

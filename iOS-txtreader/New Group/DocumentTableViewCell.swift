@@ -31,11 +31,10 @@ class DocumentTableViewCell: BaseTableCell {
     }()
     weak var content : TextDocument? {
         didSet{
-            fileNameLabel.text = content?.fileName
-            var dateFormatter = DateFormatter()
+            fileNameLabel.text = content?.fileURL.fileName
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy. MM. dd."
             
-            print(content?.fileModificationDate)
             
             fileInfoLabel.text = "\(dateFormatter.string(from: (content?.createdDate)!)) \(content?.fileType) \(content?.fileSizeString)"
             if content?.isFolder == true{

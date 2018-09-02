@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        print(launchOptions)
         window = UIWindow(frame : UIScreen.main.bounds)
       
         let fileManager = FileManager.default
@@ -33,24 +34,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window?.rootViewController = nav
           window?.makeKeyAndVisible()
+        print("a")
         return true
     }
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        do {
-            
-            let data = try Data(contentsOf: url)
-            let fileManager = FileManager.default
-            do {
-                let documentDirectory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
-                let fileURL = documentDirectory.appendingPathComponent("append.txt")
-                try data.write(to: fileURL)
-            } catch {
-                print(error)
-            }
-            // Do something with the file
-        } catch {
-            print("Unable to load data: \(error)")
+       
+        guard let shouldOpenInPlace = options[UIApplicationOpenURLOptionsKey.openInPlace] as? Bool else {
+            return false
         }
+        
+        if (shouldOpenInPlace){
+            if let root = self.window?.rootViewController as? UINavigationController{
+                let vc = OtherTextViewController()
+                let document = TextDocument(fileURL: url)
+                vc.content = document
+                root.pushViewController(vc, animated:true )
+                
+            }
+        }else {
+            do {
+                
+                let data = try Data(contentsOf: url)
+                let fileManager = FileManager.default
+                let documentDirectory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
+                
+                if let fileURL = documentDirectory.appendingPathComponent(url.lastPathComponent).newFileURL{
+                    try data.write(to: fileURL)
+                    //                window = UIWindow(frame : UIScreen.main.bounds)
+                    
+                    let fileManager = FileManager.default
+                    let dirPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+                    
+                    if let root = self.window?.rootViewController as? UINavigationController{
+                        let vc = OtherTextViewController()
+                        let document = TextDocument(fileURL: fileURL)
+                        vc.content = document
+                        //                    let fileManager = FileManager.default
+                        //                    let dirPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+                        //                    let vc = DocumentBrowserViewController()
+                        //                    vc.dirPath = dirPath
+                        root.pushViewController(vc, animated:true )
+                        
+                    }
+                }
+                
+                // Do something with the file
+            } catch {
+                print("Unable to load data: \(error)")
+            }
+        }
+      
         return true
     }
     
@@ -80,54 +113,83 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - Core Data stack
 
+    // MARK: - utility routines
+    lazy var applicationDocumentsDirectory: URL = {
+        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return urls[urls.count-1]
+    }()
+    
+    // MARK: - Core Data stack (generic)
+    lazy var managedObjectModel: NSManagedObjectModel = {
+        let modelURL = Bundle.main.url(forResource: "DB_File_name", withExtension: "momd")!
+        return NSManagedObjectModel(contentsOf: modelURL)!
+    }()
+    
+    lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
+        let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
+        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let url = self.applicationDocumentsDirectory.appendingPathComponent("DB_File_name").appendingPathExtension("sqlite")
+        
+        do {
+            try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: nil)
+        } catch {
+            let dict : [String : Any] = [NSLocalizedDescriptionKey        : "Failed to initialize the application's saved data" as NSString,
+                                         NSLocalizedFailureReasonErrorKey : "There was an error creating or loading the application's saved data." as NSString,
+                                         NSUnderlyingErrorKey             : error as NSError]
+            
+            let wrappedError = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
+            fatalError("Unresolved error \(wrappedError), \(wrappedError.userInfo)")
+        }
+        
+        return coordinator
+    }()
+    
+    // MARK: - Core Data stack (iOS 9)
+    @available(iOS 9.0, *)
+    lazy var managedObjectContext: NSManagedObjectContext = {
+        var managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
+        return managedObjectContext
+    }()
+    
+    // MARK: - Core Data stack (iOS 10)
     @available(iOS 10.0, *)
     lazy var persistentContainer: NSPersistentContainer = {
-        /*
-         The persistent container for the application. This implementation
-         creates and returns a container, having loaded the store for the
-         application to it. This property is optional since there are legitimate
-         error conditions that could cause the creation of the store to fail.
-        */
-        let container = NSPersistentContainer(name: "iOS_txtreader")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                 
-                /*
-                 Typical reasons for an error here include:
-                 * The parent directory does not exist, cannot be created, or disallows writing.
-                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                 * The device is out of space.
-                 * The store could not be migrated to the current model version.
-                 Check the error message to determine what the actual problem was.
-                 */
+        let container = NSPersistentContainer(name: "DB_File_name")
+        container.loadPersistentStores(completionHandler: {
+            (storeDescription, error) in
+            if let error = error as NSError?
+            {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
-        })
+        }
+        )
+        
         return container
     }()
-
-    // MARK: - Core Data Saving support
-
-    func saveContext () {
+    
+    // MARK: - Core Data context
+    lazy var databaseContext : NSManagedObjectContext = {
         if #available(iOS 10.0, *) {
-            let context = persistentContainer.viewContext
-            if context.hasChanges {
-                do {
-                    try context.save()
-                } catch {
-                    // Replace this implementation with code to handle the error appropriately.
-                    // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                    let nserror = error as NSError
-                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-                }
-            }
+            return self.persistentContainer.viewContext
         } else {
-            // Fallback on earlier versions
+            return self.managedObjectContext
         }
-       
+    }()
+    
+    // MARK: - Core Data save
+    func saveContext () {
+        do {
+            if databaseContext.hasChanges {
+                try databaseContext.save()
+            }
+        } catch {
+            let nserror = error as NSError
+            
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
     }
+    
 
+    
 }
-

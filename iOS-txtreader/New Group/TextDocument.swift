@@ -7,9 +7,20 @@
 //
 
 import UIKit
-
+import CoreData
 class TextDocument: UIDocument {
     var text : String?
+//    func fetch() -> [NSManagedObject] {
+//        var context : NSManagedObjectContext!
+//        
+//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//        
+//        if #available(iOS 10.0, *) {
+//            context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+//        } else if #available(iOS 9.0, *){
+//            context = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
+//        }
+//    }
     override func contents(forType typeName: String) throws -> Any {
         if let content = text {
             let length = content.lengthOfBytes(using: String.Encoding.utf8)
@@ -24,9 +35,14 @@ class TextDocument: UIDocument {
         if let userContent = contents as? Data{
             
             let encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(0x0422))
-           
-          text = String(data: userContent, encoding: String.Encoding.utf8)
-          
+            var convertedString: NSString?
+            
+            let gussedEncoding = NSString.stringEncoding(for: userContent, encodingOptions: [.likelyLanguageKey:"ko"], convertedString: &convertedString, usedLossyConversion: nil)
+            
+//            print(convertedString)
+            print(gussedEncoding)
+//          text = String(data: userContent, encoding: encoding)
+            text = String(convertedString!)
         }
     }
     lazy var createdDate: Date = {
