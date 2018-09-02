@@ -115,15 +115,63 @@ extension Array {
         }
     }
 }
+//class UIAlertControllerDelegate : NSObject, UITextFieldDelegate{
+//    let action : UIAlertAction
+//    init(action : UIAlertAction){
+//        self.action = action
+//    }
+//    didca
+//}
 extension UIViewController {
-    func showAlert(title: String? = nil, message: String? = nil){
+    func showAlert(title: String? = nil, message: String? = nil, completion : (()->Void)? = nil ){
+        let alertController = UIAlertController(title:title , message: message, preferredStyle: .alert)
+        //the confirm action taking the inputs
+        let confirmAction = UIAlertAction(title: "confirm".localized, style: .default) { (_) in
+            
+            //getting the input values from user
+            completion?()
+        }
         
+      
+        //adding the action to dialogbox
+        alertController.addAction(confirmAction)
+        
+        //finally presenting the dialog box
+        DispatchQueue.main.async {
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
-    func showInputDialog(title : String? = nil, message : String? = nil,placeholder : String? = nil , confirm : ((String?)->Void)? = nil ) {
+    func showAlert(title: String? = nil, message: String? = nil, completion : ((Bool)->Void)? = nil ){
+        let alertController = UIAlertController(title:title , message: message, preferredStyle: .alert)
+        
+        //the confirm action taking the inputs
+        let confirmAction = UIAlertAction(title: "confirm".localized, style: .default) { (_) in
+            
+            //getting the input values from user
+            completion?(true)
+        }
+        
+        //the cancel action doing nothing
+        let cancelAction = UIAlertAction(title: "cancel".localized, style: .cancel) { (_) in
+            completion?(false)
+        }
+        
+        
+        //adding the action to dialogbox
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+        
+        //finally presenting the dialog box
+        DispatchQueue.main.async {
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+   
+    func showInputDialog(title : String? = nil, message : String? = nil,placeholder : String? = nil , defaultText : String? = nil, confirm : ((String?)->Void)? = nil  ) {
         //Creating UIAlertController and
         //Setting title and message for the alert dialog
         let alertController = UIAlertController(title:title , message: message, preferredStyle: .alert)
-        
+    
         //the confirm action taking the inputs
         let confirmAction = UIAlertAction(title: "confirm".localized, style: .default) { (_) in
             
@@ -136,20 +184,32 @@ extension UIViewController {
         let cancelAction = UIAlertAction(title: "cancel".localized, style: .cancel) { (_) in
             
         }
-        
-        alertController.addTextField { (textField) in
-            textField.placeholder = placeholder
-            
-        }
-        
+
         //adding the action to dialogbox
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)
-        
+        alertController.addTextField { (textField) in
+            textField.placeholder = placeholder
+            textField.text = defaultText
+            textField.clearButtonMode = UITextFieldViewMode.whileEditing
+            textField.addTarget(alertController, action: #selector(alertController.didTextChangeInputDialog), for: UIControlEvents.editingChanged)
+        }
         //finally presenting the dialog box
         DispatchQueue.main.async {
             self.present(alertController, animated: true, completion: nil)
         }
+    }
+
+}
+extension UIAlertController {
+    @objc func didTextChangeInputDialog(_ sender : UITextField){
+        if (sender.text?.count == 0){
+            self.actions[0].isEnabled = false
+            
+        }else {
+            self.actions[0].isEnabled = true
+        }
+        
     }
 }
 extension URL {

@@ -8,4 +8,4 @@
 cancel = "cancel";
 confirm = "confirm";
 createBroswerMessage = "Type !!";
-
+changeDocumentNameMessage = "이름을 바꿔봐욤";

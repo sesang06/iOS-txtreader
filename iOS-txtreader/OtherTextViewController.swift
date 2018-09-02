@@ -23,12 +23,7 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
         
         return cv
     }()
-//    lazy var scrollview : UIScrollView = {
-//        let cv = UIScrollView(frame: .zero)
-//        cv.backgroundColor = UIColor.white
-//        cv.delegate = self
-//        return cv
-//    }()
+
     lazy var scrollSize : CGSize = {
        let size = CGSize(width: view.frame.width, height: view.frame.height - 40)
         return size
@@ -61,13 +56,7 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     func setUpView(){
-//        view.addSubview(scrollview)
-//        scrollview.snp.makeConstraints { (make) in
-//            make.top.equalTo(topLayoutGuide.snp.bottom)
-//            make.bottom.equalTo(bottomLayoutGuide.snp.top)
-//            make.trailing.leading.equalTo(view)
-//        }
-        
+
         view.addSubview(collectionView)
         collectionView.register(TextViewCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.snp.makeConstraints { (make) in
@@ -87,65 +76,78 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
         self.navigationItem.title = content?.fileName
     }
     func loadText(){
+        DispatchQueue.global(qos: .userInteractive).async {
+            
+        }
+        let scrollSize = CGSize(width: view.frame.width, height: view.frame.height - 40)
+        
         content?.open(completionHandler: { (success) in
-            if success, let text = self.content?.text {
+            guard success else {
+                return
+            }
+            guard  let text = self.content?.text  else {
+                return
+            }
+           
+            DispatchQueue.global(qos: .userInteractive).async {
                 let attributedString = NSAttributedString(string: text , attributes: self.attributes)
                 self.string = attributedString
                 let textStorage = NSTextStorage(attributedString: attributedString)
                 let textLayout = NSLayoutManager()
                 textStorage.addLayoutManager(textLayout)
                 
-//                let textContainer = NSTextContainer(size: self.view.frame.size)
+                //                let textContainer = NSTextContainer(size: self.view.frame.size)
                 textLayout.allowsNonContiguousLayout = true
-//                textLayout.addTextContainer(textContainer)
+                //                textLayout.addTextContainer(textContainer)
                 
                 
-//                let size = CGSize(width : self.view.frame.width,  height : CGFloat.infinity)
-//                let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-//
-//                let estimatedRect = attributedString.boundingRect(with: size, options: options, context: nil)
+                //                let size = CGSize(width : self.view.frame.width,  height : CGFloat.infinity)
+                //                let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+                //
+                //                let estimatedRect = attributedString.boundingRect(with: size, options: options, context: nil)
                 
-//                self.count = Int(estimatedRect.size.height / self.scrollSize.height) + 1
+                //                self.count = Int(estimatedRect.size.height / self.scrollSize.height) + 1
                 
                 while(true){
-                    let textContainer = NSTextContainer(size: self.scrollSize)
-//                    self.textContainers.append(textContainer)
+                    let textContainer = NSTextContainer(size: scrollSize)
+                    //                    self.textContainers.append(textContainer)
                     
                     textLayout.addTextContainer(textContainer)
-//                    let textView = UITextView(frame: CGRect.zero, textContainer: textContainer)
+                    //                    let textView = UITextView(frame: CGRect.zero, textContainer: textContainer)
                     //            let textView = UITextView(frame: CGRect(x: view.frame.size.width * CGFloat(i), y: 0, width: view.frame.size.width, height: view.frame.size.height), textContainer: textContainer)
-//                    textView.tag = i
-//                    textView.textContainerInset = UIEdgeInsetsMake(0, 0, 0, 0)
-//                    textView.textContainer.lineFragmentPadding = 0
-//                    textView.delegate = self
-//                    //        textView.isScrollEnabled = false
-//                    textView.isEditable = false
-//                    textView.isPagingEnabled = true
-//                    textView.attributedText = textString
-//                    //            textView.isScrollEnabled = false
-//                    //
-//                    textViews.append(textView)
-//                    // scrollview.addSubview(textView)
+                    //                    textView.tag = i
+                    //                    textView.textContainerInset = UIEdgeInsetsMake(0, 0, 0, 0)
+                    //                    textView.textContainer.lineFragmentPadding = 0
+                    //                    textView.delegate = self
+                    //                    //        textView.isScrollEnabled = false
+                    //                    textView.isEditable = false
+                    //                    textView.isPagingEnabled = true
+                    //                    textView.attributedText = textString
+                    //                    //            textView.isScrollEnabled = false
+                    //                    //
+                    //                    textViews.append(textView)
+                    //                    // scrollview.addSubview(textView)
                     
-                    let rangeThatFits = textLayout.glyphRange(forBoundingRect: self.view.frame, in: textContainer)
-//                    print(rangeThatFits.location)
+                    let rangeThatFits = textLayout.glyphRange(forBoundingRect: .infinite, in: textContainer)
+                    //                    print(rangeThatFits.location)
                     if (rangeThatFits.length == 0){
                         break
                     }
                     self.ranges.append(rangeThatFits)
                     
-                self.subStrings.append(attributedString.attributedSubstring(from: rangeThatFits))
-//                    cell.textView.attributedText = substring
-//                    print(rangeThatFits)
+                    self.subStrings.append(attributedString.attributedSubstring(from: rangeThatFits))
+                    print(Float(rangeThatFits.upperBound) / Float(attributedString.length) )
+                    //                    cell.textView.attributedText = substring
+                    //                    print(rangeThatFits)
                     
                 }
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                     self.scrollViewDidScroll(self.collectionView)
                 }
-            }else {
-                print("failed to open file")
             }
+            
+           
         })
        
 
@@ -183,6 +185,7 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
     }
 
 }
+
 extension OtherTextViewController : UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         /*if*/ let count = ranges.count

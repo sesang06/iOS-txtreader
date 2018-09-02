@@ -56,10 +56,48 @@ class DocumentBrowserViewController: UIViewController {
         view.addSubview(editToolbar)
         editToolbar.items = [
             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.trash, target: self, action: #selector(deleteDocument))
+            ,
+            UIBarButtonItem(title: "이름 변경", style: UIBarButtonItemStyle.plain, target: self, action: #selector(changeDocumentName))
+            
         ]
         editToolbar.snp.makeConstraints { (make) in
             make.bottom.leading.trailing.equalTo(view)
         }
+    }
+    @objc func changeDocumentName(){
+        guard let indexPath = tableView.indexPathForSelectedRow else {
+            return
+        }
+        guard let selectedContent = contents?[indexPath.item] else {
+            return
+        }
+        self.showInputDialog(title: "changeDocumentNameMessage".localized,  defaultText: selectedContent.fileName , confirm : { (input) in
+            guard let input = input else {
+                return
+            }
+            guard !input.isEmpty else {
+                return
+            }
+            guard let newURL = self.dirPath?.appendingPathComponent(input) else{
+                return
+            }
+            
+            guard !FileManager.default.fileExists(atPath: newURL.path) else {
+                return
+            }
+            do {
+                try FileManager.default.moveItem(at: selectedContent.fileURL, to: newURL)
+                let document = TextDocument(fileURL: newURL)
+                self.contents?[indexPath.item] = document
+                DispatchQueue.main.async {
+                    self.tableView.beginUpdates()
+                    self.tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+                    self.tableView.endUpdates()
+                }
+            } catch {
+                
+            }
+        })
     }
     @objc func deleteDocument(){
         tableView.indexPathsForSelectedRows?.forEach {
@@ -169,14 +207,17 @@ class DocumentBrowserViewController: UIViewController {
 }
 extension DocumentBrowserViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (contents?[indexPath.item].isFolder == true){
-            let vc = DocumentBrowserViewController()
-            vc.dirPath = contents?[indexPath.item].fileURL
-            self.navigationController?.pushViewController(vc, animated: true)
-        }else{
-            let textViewController = OtherTextViewController()
-            textViewController.content = contents?[indexPath.item]
-            self.navigationController?.pushViewController(textViewController, animated: true)
+        if (!tableView.isEditing){
+            if (contents?[indexPath.item].isFolder == true){
+                let vc = DocumentBrowserViewController()
+                vc.dirPath = contents?[indexPath.item].fileURL
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else{
+                let textViewController = OtherTextViewController()
+                textViewController.content = contents?[indexPath.item]
+                self.navigationController?.pushViewController(textViewController, animated: true)
+            }
+            self.tableView.deselectRow(at: indexPath, animated: false)
         }
     }
     func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
