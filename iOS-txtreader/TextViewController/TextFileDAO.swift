@@ -12,9 +12,9 @@ import UIKit
 
 class TextFileData{
     init(){
-        
+        return
     }
-    var bookmark : Int64
+    var bookmark : Int64?
     var objectID : NSManagedObjectID?
     var fileURL : String?
     var openDate : Date?
@@ -57,5 +57,27 @@ class TextFileDAO{
         return textFileList
     }
     
-    
+    func insert(_ data : TextFileData){
+        let object = NSEntityDescription.insertNewObject(forEntityName: "TextFile", into: self.context) as! TextFileMO
+        object.bookmark = data.bookmark!
+        object.fileURL = data.fileURL
+        object.openDate = data.openDate
+        do {
+            try self.context.save()
+        } catch let e as NSError {
+            NSLog("An error has occrued : %s", e.localizedDescription)
+        }
+    }
+    func delete(_ objectID : NSManagedObjectID) -> Bool {
+        let object = self.context.object(with: objectID)
+        self.context.delete(object)
+        
+        do {
+            try self.context.save()
+            return true
+        }catch let e as NSError {
+            NSLog("An error has occrued : %s", e.localizedDescription)
+            return false
+        }
+    }
 }

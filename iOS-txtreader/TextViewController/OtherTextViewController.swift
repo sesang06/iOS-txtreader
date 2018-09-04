@@ -144,7 +144,13 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
     func loadText(){
         let scrollSize = self.scrollSize
         shapeLayer.strokeEnd = 0
-     
+//        let fileManager = FileManager.default
+//        let dirPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+//            print (content?.fileURL.relativePath)
+//        print(content?.fileURL.baseURL)
+//        let data = try! content?.fileURL.bookmarkData()
+//        print(String(data: data!, encoding:.utf8 ))
+      
         content?.open(completionHandler: { (success) in
             guard success else {
                 return
