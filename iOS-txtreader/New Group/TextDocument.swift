@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreData
-class TextDocument: UIDocument {
+class TextDocument: UIManagedDocument {
     var text : String?
 //    func fetch() -> [NSManagedObject] {
 //        var context : NSManagedObjectContext!

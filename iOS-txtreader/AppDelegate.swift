@@ -17,8 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        
+
         // Override point for customization after application launch.
-        print(launchOptions)
         window = UIWindow(frame : UIScreen.main.bounds)
       
         let fileManager = FileManager.default
@@ -34,7 +36,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window?.rootViewController = nav
           window?.makeKeyAndVisible()
-        print("a")
         return true
     }
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {

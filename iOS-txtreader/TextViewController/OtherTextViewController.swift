@@ -144,7 +144,7 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
     func loadText(){
         let scrollSize = self.scrollSize
         shapeLayer.strokeEnd = 0
-        
+     
         content?.open(completionHandler: { (success) in
             guard success else {
                 return
