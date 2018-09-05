@@ -46,6 +46,8 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
     var shapeLayer: CAShapeLayer!
     var pulsatingLayer: CAShapeLayer!
     var trackLayer : CAShapeLayer!
+    var textFileData : TextFileData?
+    var textFileDAO : TextFileDAO = TextFileDAO()
     let percentageLabel: UILabel = {
         let label = UILabel()
         label.text = "Start"
@@ -113,13 +115,40 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
         setUpView()
         setupCircleLayers()
          setupPercentageLabel()
+         fetchTextFileData()
         loadText()
+       
         // Do any additional setup after loading the view, typically from a nib.
     }
     
+    func fetchTextFileData(){
+        let data = self.textFileDAO.fetch(fileURL: content?.fileURL)
+        if data == nil {
+            let data = TextFileData()
+            data.bookmark = 0
+            data.fileURL = content?.fileURL.path
+            data.openDate = Date()
+            self.textFileDAO.insert(data)
+            self.textFileData = self.textFileDAO.fetch(fileURL: content?.fileURL)
+        }else {
+            self.textFileData = data
+        }
+    }
+    func updateTextFileData(){
+        let currentIndex = (collectionView.contentOffset.y / collectionView.frame.height)
+        //            print(currentIndex)
+        let indexPath = IndexPath(item: Int(currentIndex), section: 0)
+        
+        self.textFileData?.bookmark = Int64(indexPath.item)
+        self.textFileDAO.update(self.textFileData!)
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        updateTextFileData()
     }
     func setUpView(){
 
@@ -223,6 +252,15 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
                     self.percentageLabel.isHidden = true
                     self.collectionView.reloadData()
                     self.scrollViewDidScroll(self.collectionView)
+                   
+                }
+                DispatchQueue.main.async {
+                    if let item = self.textFileData?.bookmark{
+                        let indexPath = IndexPath(item: Int(item), section: 0)
+                        self.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.bottom, animated: false)
+                        
+                    }
+                    
                 }
             }
             

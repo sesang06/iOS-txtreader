@@ -32,10 +32,23 @@ class TextFileDAO{
             return appDelegate.managedObjectContext
         }
     }()
-    func fetch() -> [TextFileData]{
+    func fetch(fileURL : URL? = nil) -> TextFileData?{
+        if let url = fileURL {
+            let format = NSPredicate(format: "fileURL == %@", url.path)
+            let textFileDatas = self.fetch(predicate: format)
+            if let textFileData = textFileDatas.first {
+                return textFileData
+            }
+            
+        }
+        return nil
+    }
+    func fetch(predicate : NSPredicate? = nil) -> [TextFileData]{
         var textFileList = [TextFileData]()
         let fetchRequest : NSFetchRequest<TextFileMO> = TextFileMO.fetchRequest()
-        
+        if let pre = predicate {
+          fetchRequest.predicate = pre
+        }
 //        let reg = NSSortDescriptor(key: "a", ascending : false)
 //        fetchRequest.sortDescriptors = reg
         
@@ -57,6 +70,8 @@ class TextFileDAO{
         return textFileList
     }
     
+    
+    
     func insert(_ data : TextFileData){
         let object = NSEntityDescription.insertNewObject(forEntityName: "TextFile", into: self.context) as! TextFileMO
         object.bookmark = data.bookmark!
@@ -68,6 +83,7 @@ class TextFileDAO{
             NSLog("An error has occrued : %s", e.localizedDescription)
         }
     }
+    
     func delete(_ objectID : NSManagedObjectID) -> Bool {
         let object = self.context.object(with: objectID)
         self.context.delete(object)
@@ -78,6 +94,15 @@ class TextFileDAO{
         }catch let e as NSError {
             NSLog("An error has occrued : %s", e.localizedDescription)
             return false
+        }
+    }
+    func update(_ data : TextFileData){
+        let object =  self.context.object(with: data.objectID!)
+        object.setValue(data.bookmark, forKey: "bookmark")
+        do {
+            try self.context.save()
+        } catch let e as NSError {
+            NSLog("An error has occrued : %s", e.localizedDescription)
         }
     }
 }

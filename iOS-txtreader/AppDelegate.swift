@@ -122,14 +122,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - Core Data stack (generic)
     lazy var managedObjectModel: NSManagedObjectModel = {
-        let modelURL = Bundle.main.url(forResource: "DB_File_name", withExtension: "momd")!
+        let modelURL = Bundle.main.url(forResource: "iOS_txtreader", withExtension: "momd")!
         return NSManagedObjectModel(contentsOf: modelURL)!
     }()
     
     lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
         let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let url = self.applicationDocumentsDirectory.appendingPathComponent("DB_File_name").appendingPathExtension("sqlite")
+        let url = self.applicationDocumentsDirectory.appendingPathComponent("iOS_txtreader").appendingPathExtension("sqlite")
         
         do {
             try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: nil)
@@ -156,7 +156,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Core Data stack (iOS 10)
     @available(iOS 10.0, *)
     lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "DB_File_name")
+        let container = NSPersistentContainer(name: "iOS_txtreader")
         container.loadPersistentStores(completionHandler: {
             (storeDescription, error) in
             if let error = error as NSError?
