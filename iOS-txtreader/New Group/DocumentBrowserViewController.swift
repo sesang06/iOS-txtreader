@@ -12,6 +12,7 @@ extension DocumentBrowserViewController : DocumentOptionsViewControllerDelegate 
     func optionsViewDidClicked(documentOptionsViewController: DocumentOptionsViewController, type: DocumentBrowserViewType) {
         documentOptionsViewController.dismiss(animated: true) {
             self.documentType = type
+            self.setUpDocuments()
         }
     }
     
@@ -50,10 +51,7 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         setUpViews()
         setUpDocuments()
         setUpEditToolbar()
-        
-        self.navigationItem.titleView?.isUserInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target:self, action: #selector(navBarTapped))
-        self.navigationItem.titleView?.addGestureRecognizer(tap)
+       
     }
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none
@@ -83,10 +81,7 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         tableView.register(DocumentTableViewCell.self, forCellReuseIdentifier: cellId)
         self.navigationItem.rightBarButtonItems = [createBrowserBarButtonItem, editBrowserBarButtonItem]
         
-        let label = UILabel()
-        label.text = dirPath?.lastPathComponent
-        label.font = UIFont.systemFont(ofSize: 20)
-        self.navigationItem.titleView = label
+      
 //        self.navigationItem.title = dirPath?.lastPathComponent
     }
     func setUpEditToolbar(){
@@ -209,17 +204,50 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         
     }
     func setUpDocuments(){
-        guard let dirPath = dirPath else {
-            return
+        switch documentType {
+        case .Local:
+            guard let dirPath = dirPath else {
+                return
+            }
+            let directoryContents = try! FileManager.default.contentsOfDirectory(at: dirPath, includingPropertiesForKeys: nil, options: [])
+            contents  = directoryContents.map { (url) -> TextDocument in
+                
+                let document = TextDocument(fileURL: url)
+                return document
+            }
+            let label = UILabel()
+            label.text = dirPath.lastPathComponent
+            label.font = UIFont.systemFont(ofSize: 20)
+            self.navigationItem.titleView = label
+            break
+        case .Recent:
+            let textDatas = TextFileDAO.default.fetchRecent()
+            contents = textDatas?.compactMap { (textData) -> TextDocument? in
+                guard let urlString = textData.fileURL else {
+                    return nil
+                }
+                let fileURL =  URL(fileURLWithPath: urlString)
+                    
+                print(fileURL)
+                guard FileManager.default.fileExists(atPath: fileURL.path) == true else {
+                    return nil
+                }
+                let document = TextDocument(fileURL: fileURL, encoding: textData.encoding)
+                return document
+               
+            }
+            let label = UILabel()
+            label.text = "recent".localized
+            label.font = UIFont.systemFont(ofSize: 20)
+            self.navigationItem.titleView = label
+            break
+        default:
+            break
         }
         
-        
-        let directoryContents = try! FileManager.default.contentsOfDirectory(at: dirPath, includingPropertiesForKeys: nil, options: [])
-        contents  = directoryContents.map { (url) -> TextDocument in
-            
-            let document = TextDocument(fileURL: url)
-            return document
-        }
+        self.navigationItem.titleView?.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target:self, action: #selector(navBarTapped))
+        self.navigationItem.titleView?.addGestureRecognizer(tap)
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }

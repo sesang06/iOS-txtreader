@@ -10,6 +10,12 @@ import UIKit
 import CoreData
 class TextDocument: UIDocument {
     var text : String?
+    var encoding : UInt?
+    convenience init(fileURL url: URL, encoding: UInt?) {
+        self.init(fileURL: url)
+        self.encoding = 2147484706
+        print(self.encoding)
+    }
 //    func fetch() -> [NSManagedObject] {
 //        var context : NSManagedObjectContext!
 //        
@@ -31,18 +37,31 @@ class TextDocument: UIDocument {
     }
     //TODO : incoding
     override func load(fromContents contents: Any, ofType typeName: String?) throws {
-        // Load your document from contents
+        // Load your document from content
+        
         if let userContent = contents as? Data{
             
-            let encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(0x0422))
+//
+//            let encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(0x0422))
             var convertedString: NSString?
-            
-            let gussedEncoding = NSString.stringEncoding(for: userContent, encodingOptions: [.likelyLanguageKey:"ko"], convertedString: &convertedString, usedLossyConversion: nil)
-            
-//            print(convertedString)
-            print(gussedEncoding)
-//          text = String(data: userContent, encoding: encoding)
-            text = String(convertedString!)
+//            var encoding : UInt =
+//            do{
+//                let string =  try NSString(contentsOf: fileURL, usedEncoding: nil)
+//                print(string)
+//            }catch {
+////                 print(encoding)
+//            }
+            if let encoding = encoding {
+                text = String(data: userContent, encoding: String.Encoding(rawValue: encoding))
+            } else {
+                let gussedEncoding = NSString.stringEncoding(for: userContent, encodingOptions: [.likelyLanguageKey:"ko"], convertedString: &convertedString, usedLossyConversion: nil)
+             
+    //            print(convertedString)
+                print(gussedEncoding)
+    //          text = String(data: userContent, encoding: encoding)
+                text = String(convertedString!)
+                self.encoding = gussedEncoding
+            }
         }
     }
     lazy var createdDate: Date = {

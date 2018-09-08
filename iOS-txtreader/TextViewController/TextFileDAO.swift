@@ -18,11 +18,13 @@ class TextFileData{
     var objectID : NSManagedObjectID?
     var fileURL : String?
     var openDate : Date?
+    var encoding : UInt?
 }
 
 class TextFileDAO{
+    static let `default` : TextFileDAO = TextFileDAO()
     init(){
-        
+    
     }
     lazy var context : NSManagedObjectContext = {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -32,6 +34,9 @@ class TextFileDAO{
             return appDelegate.managedObjectContext
         }
     }()
+    
+    
+    
     func fetch(fileURL : URL? = nil) -> TextFileData?{
         if let url = fileURL {
             let format = NSPredicate(format: "fileURL == %@", url.path)
@@ -43,12 +48,17 @@ class TextFileDAO{
         }
         return nil
     }
-    func fetch(predicate : NSPredicate? = nil) -> [TextFileData]{
+    func fetchRecent() -> [TextFileData]?{
+        let sortDescriptors = [NSSortDescriptor(key: "openDate", ascending: false)]
+        return self.fetch(sortDescriptors: sortDescriptors)
+    }
+    func fetch(predicate : NSPredicate? = nil, sortDescriptors : [NSSortDescriptor]? = nil) -> [TextFileData]{
         var textFileList = [TextFileData]()
         let fetchRequest : NSFetchRequest<TextFileMO> = TextFileMO.fetchRequest()
         if let pre = predicate {
           fetchRequest.predicate = pre
         }
+        fetchRequest.sortDescriptors = sortDescriptors
 //        let reg = NSSortDescriptor(key: "a", ascending : false)
 //        fetchRequest.sortDescriptors = reg
         
@@ -61,7 +71,7 @@ class TextFileDAO{
                 data.fileURL = record.fileURL
                 data.openDate = record.openDate
                 data.objectID = record.objectID
-                
+                data.encoding = UInt(record.encoding)
                 textFileList.append(data)
             }
         } catch let e as NSError {
@@ -77,6 +87,9 @@ class TextFileDAO{
         object.bookmark = data.bookmark!
         object.fileURL = data.fileURL
         object.openDate = data.openDate
+        if let encoding = data.encoding{
+            object.encoding = Int64(encoding)
+        }
         do {
             try self.context.save()
         } catch let e as NSError {

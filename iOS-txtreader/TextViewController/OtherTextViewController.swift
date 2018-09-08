@@ -138,7 +138,7 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
         let currentIndex = (collectionView.contentOffset.y / collectionView.frame.height)
         //            print(currentIndex)
         let indexPath = IndexPath(item: Int(currentIndex), section: 0)
-        
+        self.textFileData?.encoding = content?.encoding
         self.textFileData?.bookmark = Int64(indexPath.item)
         self.textFileDAO.update(self.textFileData!)
     }
