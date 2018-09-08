@@ -8,10 +8,19 @@
 
 import UIKit
 
-
-class DocumentBrowserViewController: UIViewController {
+extension DocumentBrowserViewController : DocumentOptionsViewControllerDelegate {
+    func optionsViewDidClicked(documentOptionsViewController: DocumentOptionsViewController, type: DocumentBrowserViewType) {
+        documentOptionsViewController.dismiss(animated: true) {
+            self.documentType = type
+        }
+    }
+    
+   
+}
+class DocumentBrowserViewController: UIViewController , UIPopoverPresentationControllerDelegate {
     var dirPath : URL?
     var contents : [TextDocument]?
+    var documentType : DocumentBrowserViewType = .Local
     lazy var tableView : UITableView = {
         let tv = UITableView()
         tv.delegate = self
@@ -37,9 +46,32 @@ class DocumentBrowserViewController: UIViewController {
     let cellId = "cellId"
     override func viewDidLoad() {
         super.viewDidLoad()
+       
         setUpViews()
         setUpDocuments()
         setUpEditToolbar()
+        
+        self.navigationItem.titleView?.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target:self, action: #selector(navBarTapped))
+        self.navigationItem.titleView?.addGestureRecognizer(tap)
+    }
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
+    
+    @objc func navBarTapped(){
+        let vc = DocumentOptionsViewController()
+        vc.preferredContentSize = CGSize(width: 100, height: 100)
+        vc.modalPresentationStyle = .popover
+        let popOver = vc.popoverPresentationController
+        popOver?.sourceView = self.navigationItem.titleView
+        popOver?.sourceRect = self.navigationItem.titleView!.frame
+        popOver?.permittedArrowDirections = [.up]
+        popOver?.delegate = self
+        vc.delegate = self
+        self.present(vc, animated: true) {
+            
+        }
     }
     func setUpViews(){
         view.addSubview(tableView)
@@ -50,7 +82,12 @@ class DocumentBrowserViewController: UIViewController {
         }
         tableView.register(DocumentTableViewCell.self, forCellReuseIdentifier: cellId)
         self.navigationItem.rightBarButtonItems = [createBrowserBarButtonItem, editBrowserBarButtonItem]
-        self.navigationItem.title = dirPath?.fileName
+        
+        let label = UILabel()
+        label.text = dirPath?.lastPathComponent
+        label.font = UIFont.systemFont(ofSize: 20)
+        self.navigationItem.titleView = label
+//        self.navigationItem.title = dirPath?.lastPathComponent
     }
     func setUpEditToolbar(){
         view.addSubview(editToolbar)

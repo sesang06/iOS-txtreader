@@ -29,7 +29,7 @@ class TextDocument: UIDocument {
         // Encode your document with an instance of NSData or NSFileWrapper
         return Data()
     }
-    
+    //TODO : incoding
     override func load(fromContents contents: Any, ofType typeName: String?) throws {
         // Load your document from contents
         if let userContent = contents as? Data{

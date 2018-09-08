@@ -4,8 +4,10 @@
         <attribute name="bookmark" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="fileURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="openDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="childrens" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TextFile" inverseName="parent" inverseEntity="TextFile" syncable="YES"/>
+        <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TextFile" inverseName="childrens" inverseEntity="TextFile" syncable="YES"/>
     </entity>
     <elements>
-        <element name="TextFile" positionX="-63" positionY="-18" width="128" height="90"/>
+        <element name="TextFile" positionX="-63" positionY="-18" width="128" height="118"/>
     </elements>
 </model>

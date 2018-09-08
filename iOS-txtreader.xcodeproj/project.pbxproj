@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		060D8B8E2143D6680018D7EF /* DocumentOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060D8B8D2143D6680018D7EF /* DocumentOptionsViewController.swift */; };
 		06135781213ED79F000E3AEE /* TextFileMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06135780213ED79F000E3AEE /* TextFileMO.swift */; };
 		06135787213ED9D4000E3AEE /* TextFileDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06135786213ED9D4000E3AEE /* TextFileDAO.swift */; };
 		064344BF212DBB1600EDFA2E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064344BE212DBB1600EDFA2E /* AppDelegate.swift */; };
@@ -66,6 +67,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		060D8B8D2143D6680018D7EF /* DocumentOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentOptionsViewController.swift; sourceTree = "<group>"; };
 		06135780213ED79F000E3AEE /* TextFileMO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFileMO.swift; sourceTree = "<group>"; };
 		06135786213ED9D4000E3AEE /* TextFileDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFileDAO.swift; sourceTree = "<group>"; };
 		064344BB212DBB1600EDFA2E /* iOS-txtreader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-txtreader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -232,6 +234,7 @@
 				06CD079821327C24009757BC /* TextDocument.swift */,
 				06CD079A21327C65009757BC /* DocumentBrowserViewController.swift */,
 				06D00F072132AE09000D1935 /* DocumentTableViewCell.swift */,
+				060D8B8D2143D6680018D7EF /* DocumentOptionsViewController.swift */,
 			);
 			name = DocumentBrowserViewController;
 			path = "New Group";
@@ -423,6 +426,7 @@
 				06C9B30B21344A290080360C /* AnotherTextViewController.swift in Sources */,
 				06135787213ED9D4000E3AEE /* TextFileDAO.swift in Sources */,
 				064344C1212DBB1600EDFA2E /* TextViewController.swift in Sources */,
+				060D8B8E2143D6680018D7EF /* DocumentOptionsViewController.swift in Sources */,
 				06C9B30D213583170080360C /* OtherTextViewController.swift in Sources */,
 				06CD079921327C24009757BC /* TextDocument.swift in Sources */,
 				069A8EE82130F9FB00CB6004 /* TextViewCell.swift in Sources */,

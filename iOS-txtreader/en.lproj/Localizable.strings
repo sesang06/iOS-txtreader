@@ -8,4 +8,7 @@
 cancel = "cancel";
 confirm = "confirm";
 createBroswerMessage = "Type !!";
-
+local = "local";
+recent = "recent";
+iCloud = "iCloud";
+bookmark = "bookmark";
