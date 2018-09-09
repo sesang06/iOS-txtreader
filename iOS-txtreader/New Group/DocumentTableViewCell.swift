@@ -21,48 +21,55 @@ class DocumentTableViewCell: BaseTableCell {
     }()
     let fileNameLabel : UILabel = {
         let label = UILabel()
-        label.text = "aaa"
+//        label.text = "aaa"
         return label
     }()
     let fileInfoLabel : UILabel = {
         let label = UILabel()
-        label.text = "asdfgsazxcv"
+//        label.text = "asdfgsazxcv"
         return label
     }()
     weak var content : TextDocument? {
         didSet{
-            fileNameLabel.text = content?.fileURL.fileName
+            textLabel?.text = content?.fileURL.fileName
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy. MM. dd."
             
-            
-            fileInfoLabel.text = "\(dateFormatter.string(from: (content?.createdDate)!)) \(content?.fileType) \(content?.fileSizeString)"
+            detailTextLabel?.text = "a"
+//            detailTextLabel?.text = "\(dateFormatter.string(from: (content?.createdDate)!)) \(content?.fileSizeString)"
             if content?.isFolder == true{
-                thumbnailImageView.image = UIImage(named: "outline_folder_black_48pt")
+                imageView?.image = UIImage(named: "outline_folder_black_48pt")
+            }else {
+                imageView?.image = nil
             }
         }
     }
+//    override func setEditing(_ editing: Bool, animated: Bool) {
+//        super.setEditing(editing, animated: animated)
+//
+//    }
     override func setupViews() {
-        addSubview(fileNameLabel)
-        addSubview(fileInfoLabel)
-        addSubview(thumbnailImageView)
+        
+        contentView.addSubview(fileNameLabel)
+        contentView.addSubview(fileInfoLabel)
+        contentView.addSubview(thumbnailImageView)
         thumbnailImageView.snp.makeConstraints { (make) in
-            make.top.equalTo(self).offset(10)
-            make.leading.equalTo(self).offset(10)
-            make.bottom.equalTo(self).offset(-10)
+            make.top.equalTo(self.contentView).offset(10)
+            make.leading.equalTo(self.contentView).offset(10)
+            make.bottom.equalTo(self.contentView).offset(-10)
             make.width.equalTo(thumbnailImageView.snp.height)
         }
         fileNameLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self).offset(10)
-            make.leading.equalTo(self).offset(10)
-            make.trailing.equalTo(self).offset(-10)
+            make.top.equalTo(self.contentView).offset(10)
+            make.leading.equalTo(self.contentView).offset(10)
+            make.trailing.equalTo(self.contentView).offset(-10)
             make.height.equalTo(30)
         }
         fileInfoLabel.snp.makeConstraints { (make) in
             make.top.equalTo(fileNameLabel.snp.bottom).offset(0)
-            make.leading.equalTo(self).offset(10)
-            make.trailing.equalTo(self).offset(-10)
-            make.bottom.equalTo(self).offset(-10)
+            make.leading.equalTo(self.contentView).offset(10)
+            make.trailing.equalTo(self.contentView).offset(-10)
+            make.bottom.equalTo(self.contentView).offset(-10)
         }
     }
 }

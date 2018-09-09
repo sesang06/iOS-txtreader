@@ -132,12 +132,14 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
             self.textFileData = self.textFileDAO.fetch(fileURL: content?.fileURL)
         }else {
             self.textFileData = data
+            content?.encoding = self.textFileData?.encoding
         }
     }
     func updateTextFileData(){
         let currentIndex = (collectionView.contentOffset.y / collectionView.frame.height)
         //            print(currentIndex)
         let indexPath = IndexPath(item: Int(currentIndex), section: 0)
+        print(content?.encoding)
         self.textFileData?.encoding = content?.encoding
         self.textFileData?.bookmark = Int64(indexPath.item)
         self.textFileDAO.update(self.textFileData!)
@@ -170,6 +172,7 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
         bookMarkView.addGestureRecognizer(panGestureRecognizer)
         self.navigationItem.title = content?.fileName
     }
+    
     func loadText(){
         let scrollSize = self.scrollSize
         shapeLayer.strokeEnd = 0
@@ -227,14 +230,21 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
                     //                    textViews.append(textView)
                     //                    // scrollview.addSubview(textView)
                     
-                    let rangeThatFits = textLayout.glyphRange(forBoundingRect: .infinite, in: textContainer)
+//                    let rangeThatFits = textLayout.glyphRange(forBoundingRect: .infinite, in: textContainer)
+                 
+                    let rangeThatFits = textLayout.glyphRange(for: textContainer)
+                    print(rangeThatFits.upperBound)
+                    print(self.string?.length)
                     //                    print(rangeThatFits.location)
-                    if (rangeThatFits.length == 0){
+                    if (rangeThatFits.upperBound >= attributedString.length){
+                        let finalRange = NSMakeRange(rangeThatFits.location, attributedString.length - rangeThatFits.location)
+                        self.ranges.append(finalRange)
+                        
                         break
                     }
                     self.ranges.append(rangeThatFits)
                     
-                    self.subStrings.append(attributedString.attributedSubstring(from: rangeThatFits))
+//                    self.subStrings.append(attributedString.attributedSubstring(from: rangeThatFits))
                     
                     let percentage = CGFloat(rangeThatFits.upperBound) / CGFloat(attributedString.length)
                     DispatchQueue.main.async {
@@ -243,7 +253,7 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
                     }
                     //                    cell.textView.attributedText = substring
                     //                    print(rangeThatFits)
-                    
+                  
                 }
                 DispatchQueue.main.async {
                     self.shapeLayer.isHidden = true
@@ -277,7 +287,7 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
     @objc func panGestureRecognizerAction(gesture : UIPanGestureRecognizer){
         let translation = gesture.translation(in: view)
         //   view.frame.origin.y = translation.y
-        print(translation)
+//        print(translation)
         if gesture.state == .began {
             bookMarkViewOriginY = bookMarkView.frame.origin.y + bookMarkView.frame.height / 2
         }
@@ -340,12 +350,14 @@ extension OtherTextViewController : UICollectionViewDataSource{
 //        textViews[indexPath.item].snp.makeConstraints { (make) in
 //            make.top.bottom.leading.trailing.equalTo(cell)
 //        }
-//        if let string = string {
-//            let NSRange = ranges[indexPath.item]
-//            let substring = string.attributedSubstring(from: NSRange)
-//            cell.textView.attributedText = substring
-//        }
-        cell.textView.attributedText = subStrings[indexPath.item]
+        if let string = string {
+            let NSRange = ranges[indexPath.item]
+            print(NSRange)
+            print(string.length)
+            let substring = string.attributedSubstring(from: NSRange)
+            cell.textView.attributedText = substring
+        }
+//        cell.textView.attributedText = subStrings[indexPath.item]
         cell.index = indexPath
         return cell
     }

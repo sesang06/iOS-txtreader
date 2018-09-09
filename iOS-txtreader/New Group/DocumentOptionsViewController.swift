@@ -22,11 +22,13 @@ class DocumentOptionsViewController : UITableViewController {
     weak var delegate : DocumentOptionsViewControllerDelegate?
     override func viewDidLoad() {
         self.preferredContentSize = CGSize(width: 500, height: 44 * 4)
+
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
         self.tableView.isScrollEnabled = false
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for : indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for : indexPath) as! UITableViewCell
+     
         let text : String
         switch (indexPath.item){
         case 0 : text = "local".localized

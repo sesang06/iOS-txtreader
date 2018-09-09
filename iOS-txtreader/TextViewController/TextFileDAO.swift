@@ -112,6 +112,7 @@ class TextFileDAO{
     func update(_ data : TextFileData){
         let object =  self.context.object(with: data.objectID!)
         object.setValue(data.bookmark, forKey: "bookmark")
+        object.setValue(data.encoding, forKey: "encoding")
         do {
             try self.context.save()
         } catch let e as NSError {

@@ -37,7 +37,7 @@ class BaseCell : UICollectionViewCell {
 
 class BaseTableCell : UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        super.init(style: UITableViewCellStyle.subtitle, reuseIdentifier: reuseIdentifier)
         setupViews()
     }
     required init?(coder aDecoder: NSCoder) {

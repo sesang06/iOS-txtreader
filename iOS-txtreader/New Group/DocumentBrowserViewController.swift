@@ -79,10 +79,14 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
             make.trailing.leading.equalTo(view)
         }
         tableView.register(DocumentTableViewCell.self, forCellReuseIdentifier: cellId)
+    
         self.navigationItem.rightBarButtonItems = [createBrowserBarButtonItem, editBrowserBarButtonItem]
         
-      
 //        self.navigationItem.title = dirPath?.lastPathComponent
+    }
+    func tableView(_ tableView: UITableView,
+                   shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool{
+        return true
     }
     func setUpEditToolbar(){
         view.addSubview(editToolbar)
@@ -298,12 +302,10 @@ extension DocumentBrowserViewController : UITableViewDelegate {
             self.tableView.deselectRow(at: indexPath, animated: false)
         }
     }
-    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
-    }
+ 
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 100
+//    }
 //    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
 //        return UITableViewCellEditingStyle.insert
 //    }
@@ -314,6 +316,7 @@ extension DocumentBrowserViewController : UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! DocumentTableViewCell
+ 
         cell.content = contents?[indexPath.item]
         return cell
     }

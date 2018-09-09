@@ -13,7 +13,7 @@ class TextDocument: UIDocument {
     var encoding : UInt?
     convenience init(fileURL url: URL, encoding: UInt?) {
         self.init(fileURL: url)
-        self.encoding = 2147484706
+        self.encoding = encoding
         print(self.encoding)
     }
 //    func fetch() -> [NSManagedObject] {
@@ -40,29 +40,42 @@ class TextDocument: UIDocument {
         // Load your document from content
         
         if let userContent = contents as? Data{
-            
-//
-//            let encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(0x0422))
-            var convertedString: NSString?
-//            var encoding : UInt =
-//            do{
-//                let string =  try NSString(contentsOf: fileURL, usedEncoding: nil)
-//                print(string)
-//            }catch {
-////                 print(encoding)
-//            }
-            if let encoding = encoding {
-                text = String(data: userContent, encoding: String.Encoding(rawValue: encoding))
-            } else {
-                let gussedEncoding = NSString.stringEncoding(for: userContent, encodingOptions: [.likelyLanguageKey:"ko"], convertedString: &convertedString, usedLossyConversion: nil)
-             
-    //            print(convertedString)
-                print(gussedEncoding)
-    //          text = String(data: userContent, encoding: encoding)
-                text = String(convertedString!)
-                self.encoding = gussedEncoding
+            let encodings : [String.Encoding] = [String.Encoding.utf8, dosKorean]
+            for encoding in encodings {
+                let string = guessString(userContent: userContent, encoding: encoding)
+                if (string != nil){
+                    text = string
+                    break
+                }
             }
+//            parseUnknownString(userContent: userContent)
+//            if let encoding = encoding {
+//                text = String(data: userContent, encoding: String.Encoding(rawValue: encoding))
+//            } else {
+//                let encodings : [String.Encoding] = [String.Encoding.utf8, dosKorean]
+//                for encoding in encodings {
+//                    let string = guessString(userContent: userContent, encoding: encoding)
+//                    if (string != nil){
+//                        text = string
+//                        break
+//                    }
+//                }
+////                guessString(userContent: userContent)
+//            }
         }
+    }
+    let dosKorean = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.dosKorean.rawValue)))
+    
+    
+    func guessString(userContent : Data, encoding : String.Encoding) -> String?{
+        return String(data : userContent, encoding : encoding)
+    }
+    func parseUnknownString(userContent : Data){
+        
+        var convertedString: NSString?
+        let gussedEncoding = NSString.stringEncoding(for: userContent, encodingOptions: [.likelyLanguageKey:"ko", StringEncodingDetectionOptionsKey.suggestedEncodingsKey : [String.Encoding.utf8.rawValue, dosKorean.rawValue]], convertedString: &convertedString, usedLossyConversion: nil)
+        text = String(convertedString!)
+        self.encoding = gussedEncoding
     }
     lazy var createdDate: Date = {
         var theCreationDate = Date()
