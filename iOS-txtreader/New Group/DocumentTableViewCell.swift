@@ -29,14 +29,21 @@ class DocumentTableViewCell: BaseTableCell {
 //        label.text = "asdfgsazxcv"
         return label
     }()
+    
     weak var content : TextDocument? {
         didSet{
             textLabel?.text = content?.fileURL.fileName
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy. MM. dd."
+            let dateText : String
+            if let createdDate = content?.createdDate {
+                dateText = dateFormatter.string(from: createdDate)
+            } else {
+                dateText = ""
+            }
+            let fileSizeText = content?.fileSizeString ?? ""
+            detailTextLabel?.text = "\(dateText) \(fileSizeText)"
             
-            detailTextLabel?.text = "a"
-//            detailTextLabel?.text = "\(dateFormatter.string(from: (content?.createdDate)!)) \(content?.fileSizeString)"
             if content?.isFolder == true{
                 imageView?.image = UIImage(named: "outline_folder_black_48pt")
             }else {

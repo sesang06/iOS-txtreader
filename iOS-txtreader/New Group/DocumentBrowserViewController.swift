@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import SnapKit
 extension DocumentBrowserViewController : DocumentOptionsViewControllerDelegate {
     func optionsViewDidClicked(documentOptionsViewController: DocumentOptionsViewController, type: DocumentBrowserViewType) {
         documentOptionsViewController.dismiss(animated: true) {
@@ -51,7 +51,26 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         setUpViews()
         setUpDocuments()
         setUpEditToolbar()
-       
+        
+    }
+    var isMain : Bool? {
+        didSet{
+            if (isMain == true) {
+                setUpOptionsView()
+            }
+        }
+    }
+    func setUpOptionsView(){
+        if let revealVC = self.revealViewController() {
+            let btn = UIBarButtonItem()
+            btn.image = UIImage(named: "baseline_menu_black_24pt")
+            btn.target = revealVC
+            btn.action = #selector(revealVC.revealToggle(_:))
+            self.navigationItem.leftBarButtonItem = btn
+            self.view.addGestureRecognizer(revealVC.panGestureRecognizer())
+            
+        }
+        
     }
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none
@@ -90,20 +109,37 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
     }
     func setUpEditToolbar(){
         view.addSubview(editToolbar)
+
         editToolbar.items = [
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+            ,
             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.trash, target: self, action: #selector(deleteDocument))
             ,
-            UIBarButtonItem(title: "이름 변경", style: UIBarButtonItemStyle.plain, target: self, action: #selector(changeDocumentName)),
-            
-            UIBarButtonItem(title: "파일 복사", style: UIBarButtonItemStyle.plain, target: self, action: #selector(copyDocument)),
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+            ,
+            UIBarButtonItem(image : UIImage(named: "rename_file"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(changeDocumentName)),
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+            ,
+            UIBarButtonItem(image : UIImage(named: "copy_file"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(copyDocument)),
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+            ,
             UIBarButtonItem(title: "파일 이동", style: UIBarButtonItemStyle.plain, target: self, action: #selector(moveDocument)),
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+            ,
             
-            UIBarButtonItem(title: "파일 임포트", style: UIBarButtonItemStyle.plain, target: self, action: #selector(importDocument))
+            UIBarButtonItem(image : UIImage(named: "export_file"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(importDocument)),
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+            
         ]
         editToolbar.snp.makeConstraints { (make) in
-            make.bottom.leading.trailing.equalTo(view)
+            editToolBarConstraint = make.bottom.equalTo(view).constraint
+            make.top.equalTo(view.snp.bottom).priority(.low)
+            make.leading.trailing.equalTo(view)
         }
+        editToolBarConstraint?.deactivate()
+        enableToolbarButtons()
     }
+    var editToolBarConstraint : Constraint?
     @objc func changeDocumentName(){
         guard let indexPath = tableView.indexPathForSelectedRow else {
             return
@@ -159,17 +195,26 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
       
     }
     
+
     @objc func editBrowser(){
+        
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.setEditing(true, animated: true)
-        self.navigationItem.setRightBarButtonItems([createBrowserBarButtonItem,cancelEditBrowserBarButtoonItem], animated: true)
-       
+    self.navigationItem.setRightBarButtonItems([createBrowserBarButtonItem,cancelEditBrowserBarButtoonItem], animated: true)
+        editToolBarConstraint?.activate()
+        UIView.animate(withDuration: 0.1) {
+            self.view.layoutIfNeeded()
+        }
     }
     @objc func cancelEditBrowser(){
+        
         tableView.setEditing(false, animated: true)
-        self.navigationItem.setRightBarButtonItems([createBrowserBarButtonItem,editBrowserBarButtonItem], animated: true)
-
-       
+    self.navigationItem.setRightBarButtonItems([createBrowserBarButtonItem,editBrowserBarButtonItem], animated: true)
+         self.editToolBarConstraint?.deactivate()
+        UIView.animate(withDuration: 0.1) {
+            self.view.layoutIfNeeded()
+        }
+        enableToolbarButtons()
     }
     //TODO :
     @objc func createBrowser(){
@@ -287,6 +332,17 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
 //    }
     
 }
+extension DocumentBrowserViewController {
+    func enableToolbarButtons(){
+        let count = tableView.indexPathsForSelectedRows?.count ?? 0
+        editToolbar.items?[1].isEnabled = (count > 0) ? true : false
+        editToolbar.items?[3].isEnabled = (count == 1) ? true : false
+        editToolbar.items?[5].isEnabled = (count > 0) ? true : false
+        editToolbar.items?[7].isEnabled = (count > 0) ? true : false
+        editToolbar.items?[9].isEnabled = (count == 1) ? true : false
+
+    }
+}
 extension DocumentBrowserViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if (!tableView.isEditing){
@@ -295,14 +351,21 @@ extension DocumentBrowserViewController : UITableViewDelegate {
                 vc.dirPath = contents?[indexPath.item].fileURL
                 self.navigationController?.pushViewController(vc, animated: true)
             }else{
+//                let textViewController = ThirdTextViewController(collectionViewLayout: UICollectionViewFlowLayout())
                 let textViewController = OtherTextViewController()
                 textViewController.content = contents?[indexPath.item]
                 self.navigationController?.pushViewController(textViewController, animated: true)
             }
             self.tableView.deselectRow(at: indexPath, animated: false)
+        }else{
+            enableToolbarButtons()
         }
     }
- 
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if (tableView.isEditing){
+            enableToolbarButtons()
+        }
+    }
 //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 //        return 100
 //    }

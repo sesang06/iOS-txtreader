@@ -12,20 +12,20 @@ import Foundation
 import SnapKit
 
 
-class OtherTextViewController: UIViewController, UITextViewDelegate {
-    lazy var collectionView : UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-//        layout.scrollDirection = .horizontal
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.backgroundColor = UIColor.white
-        cv.dataSource = self
-        cv.delegate = self
-        
-        return cv
-    }()
+class ThirdTextViewController: UICollectionViewController, UITextViewDelegate {
+//    lazy var collectionView : UICollectionView = {
+//        let layout = UICollectionViewFlowLayout()
+//        //        layout.scrollDirection = .horizontal
+//        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+//        cv.backgroundColor = UIColor.white
+//        cv.dataSource = self
+//        cv.delegate = self
+//
+//        return cv
+//    }()
     
     lazy var scrollSize : CGSize = {
-       let size = CGSize(width: view.frame.width, height: view.frame.height - 40 - 64)
+        let size = CGSize(width: view.frame.width, height: view.frame.height - 40 - 64)
         return size
     }()
     lazy var attributes :  [NSAttributedStringKey : Any] = {
@@ -45,7 +45,7 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
     let cellId = "cellId"
     let bookMarkView = BookMarkView()
     var bookMarkTopConstraint : Constraint?
-
+    
     var ranges : [NSRange] = [NSRange]()
     var string : NSAttributedString?
     var subStrings : [NSAttributedString] = [NSAttributedString]()
@@ -121,18 +121,18 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
         
         setUpView()
         
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(toggle))
-        gesture.cancelsTouchesInView = true
-        collectionView.isUserInteractionEnabled = false
-        collectionView.addGestureRecognizer(gesture)
-       
+//        let gesture = UITapGestureRecognizer(target: self, action: #selector(toggle))
+//        gesture.cancelsTouchesInView = true
+//        collectionView?.isUserInteractionEnabled = false
+//        collectionView?.addGestureRecognizer(gesture)
+        
         // Do any additional setup after loading the view, typically from a nib.
     }
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-////        navigationController?.hidesBarsOnTap = true
-////        loadText()
-//    }
+        override func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(animated)
+            navigationController?.hidesBarsOnTap = true
+           // loadText()
+        }
     
     @objc func toggle() {
         navigationController?.setNavigationBarHidden(navigationController?.isNavigationBarHidden == false, animated: true)
@@ -152,14 +152,14 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
         }
     }
     func updateTextFileData(){
-        let currentIndex = (collectionView.contentOffset.y / collectionView.frame.height)
+        let currentIndex = ((collectionView!.contentOffset.y) / collectionView!.frame.height)
         //            print(currentIndex)
         let indexPath = IndexPath(item: Int(currentIndex), section: 0)
         print(content?.encoding)
         self.textFileData?.encoding = content?.encoding
         self.textFileData?.bookmark = Int64(indexPath.item)
         if let data = self.textFileData {
-         
+            
             self.textFileDAO.update(data)
         }
     }
@@ -172,14 +172,14 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
         updateTextFileData()
     }
     func setUpView(){
-
-        view.addSubview(collectionView)
-        collectionView.register(TextViewCell.self, forCellWithReuseIdentifier: cellId)
-        collectionView.snp.makeConstraints { (make) in
-            make.top.equalTo(topLayoutGuide.snp.bottom)
-            make.bottom.equalTo(bottomLayoutGuide.snp.top)
-            make.trailing.leading.equalTo(view)
-        }
+        
+//        view.addSubview(collectionView!)
+        collectionView?.register(TextViewCell.self, forCellWithReuseIdentifier: cellId)
+//        collectionView.snp.makeConstraints { (make) in
+//            make.top.equalTo(topLayoutGuide.snp.bottom)
+//            make.bottom.equalTo(bottomLayoutGuide.snp.top)
+//            make.trailing.leading.equalTo(view)
+//        }
         view.addSubview(bookMarkView)
         bookMarkView.snp.makeConstraints { (make) in
             make.height.equalTo(40)
@@ -190,9 +190,9 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
         let panGestureRecognizer = UIPanGestureRecognizer(target:self, action: #selector(panGestureRecognizerAction))
         bookMarkView.addGestureRecognizer(panGestureRecognizer)
         self.navigationItem.title = content?.fileName
-//        self.navigationController?.
-//        self.navigationController?.hidesBarsOnTap = true
-//        self.navigationController?.hidesBarsOnSwipe = true
+        //        self.navigationController?.
+        //        self.navigationController?.hidesBarsOnTap = true
+        //        self.navigationController?.hidesBarsOnSwipe = true
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -206,13 +206,13 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
     func loadText(){
         let scrollSize = self.scrollSize
         shapeLayer.strokeEnd = 0
-//        let fileManager = FileManager.default
-//        let dirPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-//            print (content?.fileURL.relativePath)
-//        print(content?.fileURL.baseURL)
-//        let data = try! content?.fileURL.bookmarkData()
-//        print(String(data: data!, encoding:.utf8 ))
-      
+        //        let fileManager = FileManager.default
+        //        let dirPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+        //            print (content?.fileURL.relativePath)
+        //        print(content?.fileURL.baseURL)
+        //        let data = try! content?.fileURL.bookmarkData()
+        //        print(String(data: data!, encoding:.utf8 ))
+        
         if (content == nil){
             print("error")
         }
@@ -223,7 +223,7 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
             guard  let text = self.content?.text  else {
                 return
             }
-           
+            
             DispatchQueue.global(qos: .userInteractive).async {
                 let attributedString = NSAttributedString(string: text , attributes: self.attributes)
                 self.string = attributedString
@@ -263,8 +263,8 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
                     //                    textViews.append(textView)
                     //                    // scrollview.addSubview(textView)
                     
-//                    let rangeThatFits = textLayout.glyphRange(forBoundingRect: .infinite, in: textContainer)
-                 
+                    //                    let rangeThatFits = textLayout.glyphRange(forBoundingRect: .infinite, in: textContainer)
+                    
                     let rangeThatFits = textLayout.glyphRange(for: textContainer)
                     print(rangeThatFits.upperBound)
                     print(self.string?.length)
@@ -277,7 +277,7 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
                     }
                     self.ranges.append(rangeThatFits)
                     
-//                    self.subStrings.append(attributedString.attributedSubstring(from: rangeThatFits))
+                    //                    self.subStrings.append(attributedString.attributedSubstring(from: rangeThatFits))
                     
                     let percentage = CGFloat(rangeThatFits.upperBound) / CGFloat(attributedString.length)
                     DispatchQueue.main.async {
@@ -286,54 +286,54 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
                     }
                     //                    cell.textView.attributedText = substring
                     //                    print(rangeThatFits)
-                  
+                    
                 }
                 DispatchQueue.main.async {
                     self.shapeLayer.isHidden = true
                     self.pulsatingLayer.isHidden = true
                     self.trackLayer.isHidden = true
                     self.percentageLabel.isHidden = true
-                    self.collectionView.reloadData()
-                    self.scrollViewDidScroll(self.collectionView)
-                   
+                    self.collectionView?.reloadData()
+                    self.scrollViewDidScroll(self.collectionView!)
+                    
                 }
                 DispatchQueue.main.async {
                     if let item = self.textFileData?.bookmark{
                         let indexPath = IndexPath(item: Int(item), section: 0)
-                        self.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.bottom, animated: false)
+                        self.collectionView?.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.bottom, animated: false)
                         
                     }
                     
                 }
             }
             
-           
+            
         })
-       
-
         
-//        textView.snp.makeConstraints { (make) in
-//            make.top.bottom.leading.trailing.equalTo(view)
-//        }
+        
+        
+        //        textView.snp.makeConstraints { (make) in
+        //            make.top.bottom.leading.trailing.equalTo(view)
+        //        }
     }
     var bookMarkViewOriginY : CGFloat?
     @objc func panGestureRecognizerAction(gesture : UIPanGestureRecognizer){
         let translation = gesture.translation(in: view)
         //   view.frame.origin.y = translation.y
-//        print(translation)
+        //        print(translation)
         if gesture.state == .began {
             bookMarkViewOriginY = bookMarkView.frame.origin.y + bookMarkView.frame.height / 2
         }
         guard let bookMarkViewOriginY = bookMarkViewOriginY  else {
             return
         }
-        let offset = min( max(bookMarkView.frame.height / 2, translation.y + bookMarkViewOriginY ), collectionView.frame.height - bookMarkView.frame.height / 2)
-        let scrollOffset = (offset - bookMarkView.frame.height / 2) / (collectionView.frame.height - bookMarkView.frame.height)
-//        print(scrollOffset)
-//        print((scrollview.contentSize.height - scrollview.frame.height) * scrollOffset)
+        let offset = min( max(bookMarkView.frame.height / 2, translation.y + bookMarkViewOriginY ), collectionView!.frame.height - bookMarkView.frame.height / 2)
+        let scrollOffset = (offset - bookMarkView.frame.height / 2) / (collectionView!.frame.height - bookMarkView.frame.height)
+        //        print(scrollOffset)
+        //        print((scrollview.contentSize.height - scrollview.frame.height) * scrollOffset)
         
         //        bookMarkTopConstraint?.update(offset: offset)
-        collectionView.contentOffset = CGPoint(x: collectionView.contentOffset.x, y: (collectionView.contentSize.height - collectionView.frame.height) * scrollOffset)
+        collectionView?.contentOffset = CGPoint(x: collectionView!.contentOffset.x, y: (collectionView!.contentSize.height - collectionView!.frame.height) * scrollOffset)
         if gesture.state == .ended {
             self.bookMarkViewOriginY = nil
         }
@@ -343,27 +343,27 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
             
         })
     }
-
+    
 }
 
-extension OtherTextViewController : UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+extension ThirdTextViewController{
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         /*if*/ let count = ranges.count
-            //{
+        //{
         if (count != 0 && count != 1){
-        let offset = collectionView.frame.height - bookMarkView.frame.height
-            let currentIndex = (collectionView.contentOffset.y / collectionView.frame.height)
-//            print(currentIndex)
+            let offset = collectionView!.frame.height - bookMarkView.frame.height
+            let currentIndex = (collectionView!.contentOffset.y / collectionView!.frame.height)
+            //            print(currentIndex)
             let indexPath = IndexPath(item: Int(currentIndex), section: 0)
             bookMarkView.index = indexPath
             bookMarkTopConstraint?.update(offset:  offset * CGFloat(currentIndex) / CGFloat(count-1) + bookMarkView.frame.height / 2)
-        //        }
+            //        }
         }
     }
 }
 
-extension OtherTextViewController : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+extension ThirdTextViewController:  UICollectionViewDelegateFlowLayout{
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.ranges.count
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -374,15 +374,15 @@ extension OtherTextViewController : UICollectionViewDelegate, UICollectionViewDe
     }
 }
 
-extension OtherTextViewController : UICollectionViewDataSource{
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+extension ThirdTextViewController {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! TextViewCell
-//        let textView = UITextView(frame: CGRect.zero, textContainer: textContainers[indexPath.item])
-//        textView.isScrollEnabled = false
-//        cell.addSubview(textViews[indexPath.item])
-//        textViews[indexPath.item].snp.makeConstraints { (make) in
-//            make.top.bottom.leading.trailing.equalTo(cell)
-//        }
+        //        let textView = UITextView(frame: CGRect.zero, textContainer: textContainers[indexPath.item])
+        //        textView.isScrollEnabled = false
+        //        cell.addSubview(textViews[indexPath.item])
+        //        textViews[indexPath.item].snp.makeConstraints { (make) in
+        //            make.top.bottom.leading.trailing.equalTo(cell)
+        //        }
         if let string = string {
             let NSRange = ranges[indexPath.item]
             print(NSRange)
@@ -390,15 +390,15 @@ extension OtherTextViewController : UICollectionViewDataSource{
             let substring = string.attributedSubstring(from: NSRange)
             cell.textView.attributedText = substring
         }
-//        cell.textView.attributedText = subStrings[indexPath.item]
+        //        cell.textView.attributedText = subStrings[indexPath.item]
         cell.index = indexPath
         return cell
     }
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        print(view.frame.height)
-//        print(collectionView.frame.height)
+        //        print(view.frame.height)
+        //        print(collectionView.frame.height)
         return CGSize(width: view.frame.width, height: view.frame.height)
     }
 }

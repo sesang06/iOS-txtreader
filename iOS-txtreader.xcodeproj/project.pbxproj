@@ -10,6 +10,8 @@
 		06135781213ED79F000E3AEE /* TextFileMO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06135780213ED79F000E3AEE /* TextFileMO.swift */; };
 		06135787213ED9D4000E3AEE /* TextFileDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06135786213ED9D4000E3AEE /* TextFileDAO.swift */; };
 		061888C22144C98200A1B2E7 /* DocumentEncodingPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061888C12144C98200A1B2E7 /* DocumentEncodingPreviewViewController.swift */; };
+		063536852146B46100263D62 /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063536842146B46100263D62 /* OptionsViewController.swift */; };
+		063536872146C6A200263D62 /* ThirdTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063536862146C6A200263D62 /* ThirdTextViewController.swift */; };
 		064344BF212DBB1600EDFA2E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064344BE212DBB1600EDFA2E /* AppDelegate.swift */; };
 		064344C1212DBB1600EDFA2E /* TextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064344C0212DBB1600EDFA2E /* TextViewController.swift */; };
 		064344C7212DBB1600EDFA2E /* iOS_txtreader.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 064344C5212DBB1600EDFA2E /* iOS_txtreader.xcdatamodeld */; };
@@ -40,6 +42,7 @@
 		06D00F082132AE09000D1935 /* DocumentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D00F072132AE09000D1935 /* DocumentTableViewCell.swift */; };
 		06D00F0A21341F4C000D1935 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D00F0921341F4C000D1935 /* TestViewController.swift */; };
 		06F3155D214558A20021A188 /* DocumentOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060D8B8D2143D6680018D7EF /* DocumentOptionsViewController.swift */; };
+		06F3156121457F560021A188 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06F3156021457F560021A188 /* SWRevealViewController.m */; };
 		F393B76EC08D26B018021575 /* Pods_iOS_txtreader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF82B24C591E05B2894F9B6 /* Pods_iOS_txtreader.framework */; };
 /* End PBXBuildFile section */
 
@@ -72,6 +75,8 @@
 		06135780213ED79F000E3AEE /* TextFileMO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFileMO.swift; sourceTree = "<group>"; };
 		06135786213ED9D4000E3AEE /* TextFileDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFileDAO.swift; sourceTree = "<group>"; };
 		061888C12144C98200A1B2E7 /* DocumentEncodingPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentEncodingPreviewViewController.swift; sourceTree = "<group>"; };
+		063536842146B46100263D62 /* OptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
+		063536862146C6A200263D62 /* ThirdTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdTextViewController.swift; sourceTree = "<group>"; };
 		064344BB212DBB1600EDFA2E /* iOS-txtreader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-txtreader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		064344BE212DBB1600EDFA2E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		064344C0212DBB1600EDFA2E /* TextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewController.swift; sourceTree = "<group>"; };
@@ -109,6 +114,9 @@
 		06CDFCCE213AD17C00E4B910 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		06D00F072132AE09000D1935 /* DocumentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentTableViewCell.swift; sourceTree = "<group>"; };
 		06D00F0921341F4C000D1935 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		06F3155E21457F550021A188 /* iOS-txtreader-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOS-txtreader-Bridging-Header.h"; sourceTree = "<group>"; };
+		06F3155F21457F560021A188 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
+		06F3156021457F560021A188 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		0A9844F609A4E80BF97EB80C /* Pods-iOS-txtreader.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-txtreader.release.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-txtreader/Pods-iOS-txtreader.release.xcconfig"; sourceTree = "<group>"; };
 		7AF16602133F081E474790E0 /* Pods-iOS-txtreader.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iOS-txtreader.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iOS-txtreader/Pods-iOS-txtreader.debug.xcconfig"; sourceTree = "<group>"; };
 		BFF82B24C591E05B2894F9B6 /* Pods_iOS_txtreader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS_txtreader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -167,6 +175,8 @@
 		064344BD212DBB1600EDFA2E /* iOS-txtreader */ = {
 			isa = PBXGroup;
 			children = (
+				06F3155F21457F560021A188 /* SWRevealViewController.h */,
+				06F3156021457F560021A188 /* SWRevealViewController.m */,
 				0613577D213ED3B4000E3AEE /* Unused */,
 				06CDFCCC213AB3F900E4B910 /* Localizable.strings */,
 				0658D96521384076007C7669 /* New Group1 */,
@@ -181,6 +191,8 @@
 				064344CD212DBB1600EDFA2E /* Info.plist */,
 				064344C5212DBB1600EDFA2E /* iOS_txtreader.xcdatamodeld */,
 				069A8EE92130FAE300CB6004 /* Extensions.swift */,
+				06F3155E21457F550021A188 /* iOS-txtreader-Bridging-Header.h */,
+				063536842146B46100263D62 /* OptionsViewController.swift */,
 			);
 			path = "iOS-txtreader";
 			sourceTree = "<group>";
@@ -221,6 +233,7 @@
 			isa = PBXGroup;
 			children = (
 				06C9B30C213583170080360C /* OtherTextViewController.swift */,
+				063536862146C6A200263D62 /* ThirdTextViewController.swift */,
 				069A8EE72130F9FB00CB6004 /* TextViewCell.swift */,
 				06D00F0921341F4C000D1935 /* TestViewController.swift */,
 				06CD0770213252D6009757BC /* BookMarkView.swift */,
@@ -313,6 +326,7 @@
 				TargetAttributes = {
 					064344BA212DBB1600EDFA2E = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 0940;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 0;
@@ -423,6 +437,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				069A8F082131ACFD00CB6004 /* StringReader.swift in Sources */,
+				06F3156121457F560021A188 /* SWRevealViewController.m in Sources */,
 				069A8F042131608C00CB6004 /* StreamReader.swift in Sources */,
 				06CD079B21327C65009757BC /* DocumentBrowserViewController.swift in Sources */,
 				069A8EEA2130FAE300CB6004 /* Extensions.swift in Sources */,
@@ -430,8 +445,10 @@
 				06135787213ED9D4000E3AEE /* TextFileDAO.swift in Sources */,
 				06F3155D214558A20021A188 /* DocumentOptionsViewController.swift in Sources */,
 				064344C1212DBB1600EDFA2E /* TextViewController.swift in Sources */,
+				063536852146B46100263D62 /* OptionsViewController.swift in Sources */,
 				06C9B30D213583170080360C /* OtherTextViewController.swift in Sources */,
 				061888C22144C98200A1B2E7 /* DocumentEncodingPreviewViewController.swift in Sources */,
+				063536872146C6A200263D62 /* ThirdTextViewController.swift in Sources */,
 				06CD079921327C24009757BC /* TextDocument.swift in Sources */,
 				069A8EE82130F9FB00CB6004 /* TextViewCell.swift in Sources */,
 				06135781213ED79F000E3AEE /* TextFileMO.swift in Sources */,
@@ -615,6 +632,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7GDRWN9V7N;
 				INFOPLIST_FILE = "iOS-txtreader/Info.plist";
@@ -625,6 +643,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "sesang06.iOS-txtreader";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "iOS-txtreader/iOS-txtreader-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -636,6 +656,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7GDRWN9V7N;
 				INFOPLIST_FILE = "iOS-txtreader/Info.plist";
@@ -646,6 +667,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "sesang06.iOS-txtreader";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "iOS-txtreader/iOS-txtreader-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

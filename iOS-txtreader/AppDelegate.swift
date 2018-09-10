@@ -18,8 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+       
         
-
+        
         // Override point for customization after application launch.
         window = UIWindow(frame : UIScreen.main.bounds)
       
@@ -27,14 +28,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let dirPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
         let vc = DocumentBrowserViewController()
         vc.dirPath = dirPath
-        let nav = UINavigationController(rootViewController: vc)
+       let nav = UINavigationController(rootViewController: vc)
         nav.navigationBar.isTranslucent = false
+        
+        
+        let revealController = SWRevealViewController()
+        
+        let frontNavigationController =  nav
+        let rearNavigationController = OptionsViewController()
+        
+        revealController.frontViewController = frontNavigationController
+        revealController.rearViewController = rearNavigationController
+        vc.isMain = true
+        
+        window?.rootViewController = revealController
+
         
 //        nav.navigationBar.tintColor = Constants.primaryColor
 //        nav.navigationBar.barTintColor = Constants.primaryColor
         //
         
-        window?.rootViewController = nav
+//        window?.rootViewController = nav
           window?.makeKeyAndVisible()
         return true
     }
