@@ -26,7 +26,8 @@ class TextViewCell: BaseCell {
         let tv = UITextView()
         tv.textContainerInset = UIEdgeInsetsMake(0, 0, 0, 0)
         tv.textContainer.lineFragmentPadding = 0
-
+        tv.isUserInteractionEnabled = false
+//        tv.isSelectable = false
         tv.isScrollEnabled = false
         tv.isEditable = false
         return tv

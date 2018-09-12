@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let vc = DocumentBrowserViewController()
         vc.dirPath = dirPath
        let nav = UINavigationController(rootViewController: vc)
-        nav.navigationBar.isTranslucent = false
+//        nav.navigationBar.isTranslucent = false
         
         
         let revealController = SWRevealViewController()

@@ -14,6 +14,9 @@ class OptionsViewController : UITableViewController {
     let cellId = "cellId"
     override func viewDidLoad() {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
+        let footerView = UIView()
+        footerView.backgroundColor = .clear
+        tableView.tableFooterView = footerView
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)

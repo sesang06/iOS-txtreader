@@ -21,6 +21,8 @@ extension DocumentBrowserViewController : DocumentOptionsViewControllerDelegate 
 class DocumentBrowserViewController: UIViewController , UIPopoverPresentationControllerDelegate {
     var dirPath : URL?
     var contents : [TextDocument]?
+    
+    var filteredContents : [TextDocument]?
     var documentType : DocumentBrowserViewType = .Local
     lazy var tableView : UITableView = {
         let tv = UITableView()
@@ -45,6 +47,7 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         return button
     }()
     let cellId = "cellId"
+    let searchController = UISearchController(searchResultsController: nil)
     override func viewDidLoad() {
         super.viewDidLoad()
        
@@ -98,7 +101,16 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
             make.trailing.leading.equalTo(view)
         }
         tableView.register(DocumentTableViewCell.self, forCellReuseIdentifier: cellId)
-    
+        tableView.tableHeaderView = searchController.searchBar
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = true
+        definesPresentationContext = true
+        
+        //searchController.obscuresBackgroundDuringPresentation = true
+        
+        let footerView = UIView()
+        footerView.backgroundColor = .clear
+        tableView.tableFooterView = footerView
         self.navigationItem.rightBarButtonItems = [createBrowserBarButtonItem, editBrowserBarButtonItem]
         
 //        self.navigationItem.title = dirPath?.lastPathComponent
@@ -375,12 +387,41 @@ extension DocumentBrowserViewController : UITableViewDelegate {
 }
 extension DocumentBrowserViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering(){
+            return filteredContents?.count ?? 0
+        }
+        
         return contents?.count ?? 0
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! DocumentTableViewCell
- 
-        cell.content = contents?[indexPath.item]
+        if isFiltering() {
+            cell.content = filteredContents?[indexPath.item]
+        }else {
+            cell.content = contents?[indexPath.item]
+        }
         return cell
+    }
+}
+//북마크, 검색, 내보내기, 주/야간 설정
+
+extension DocumentBrowserViewController : UISearchResultsUpdating {
+    func isFiltering() -> Bool {
+        return searchController.isActive && !searchBarIsEmpty()
+    }
+
+    
+    func searchBarIsEmpty() -> Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    func filterContentForSearcyText(_ searchText : String){
+        filteredContents = contents?.filter{
+            $0.fileName?.contains(searchText) ?? false
+        }
+        tableView.reloadData()
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearcyText(searchController.searchBar.text!)
     }
 }

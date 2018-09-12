@@ -63,6 +63,50 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
         label.textColor = .white
         return label
     }()
+    lazy var toolbar : UIToolbar = {
+       let toolbar = UIToolbar()
+        return toolbar
+    }()
+    lazy var searchBar : UISearchBar = {
+       let searchBar = UISearchBar()
+        searchBar.isHidden = true
+        searchBar.delegate = self
+        return searchBar
+    }()
+    func setUpToolbar(){
+        view.addSubview(toolbar)
+        toolbar.snp.makeConstraints { (make) in
+            make.bottom.trailing.leading.equalTo(view)
+        }
+        
+        let searchBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.search, target: self, action: #selector(searchText))
+        let exportBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.redo, target: self, action: #selector(exportText))
+        let readModeBarButton = UIBarButtonItem(title: "보기 모드", style: UIBarButtonItemStyle.plain, target: self, action: #selector(viewerMode))
+        toolbar.items = [
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+            searchBarButton,
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+            exportBarButton,
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+            readModeBarButton,
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+            
+        
+        ]
+        
+        
+        
+    }
+    @objc func viewerMode(){
+        
+    }
+    @objc func exportText(){
+        
+    }
+    @objc func searchText(){
+        searchBar.isHidden = false
+        searchBar.becomeFirstResponder()
+    }
     private func setupNotificationObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleEnterForeground), name: .UIApplicationWillEnterForeground, object: nil)
     }
@@ -117,22 +161,36 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        if #available(iOS 11, *) {
+            collectionView.contentInsetAdjustmentBehavior = .never
+        } else {
+            self.automaticallyAdjustsScrollViewInsets = false
+        }
+//        self.automaticallyAdjustsScrollViewInsets = false
         setupNotificationObservers()
         
         setUpView()
-        
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(toggle))
-        gesture.cancelsTouchesInView = true
-        collectionView.isUserInteractionEnabled = false
-        collectionView.addGestureRecognizer(gesture)
-       
+        setUpToolbar()
+//        let gesture = UITapGestureRecognizer(target: self, action: #selector(toggle))
+//        gesture.cancelsTouchesInView = true
+//        collectionView.isUserInteractionEnabled = false
+//        collectionView.addGestureRecognizer(gesture)
+//
         // Do any additional setup after loading the view, typically from a nib.
     }
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-////        navigationController?.hidesBarsOnTap = true
-////        loadText()
-//    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        navigationController?.hidesBarsOnTap = true
+//        navigationController?.navigationBar.isTranslucent = true
+//        self.extendedLayoutIncludesOpaqueBars = true
+//        self.edgesForExtendedLayout = .top
+//
+//        view.layoutIfNeeded()
+        self.navigationController?.navigationBar.addSubview(searchBar)
+        searchBar.snp.makeConstraints { (make) in
+            make.top.trailing.leading.bottom.equalTo((self.navigationController?.navigationBar)!)
+        }
+    }
     
     @objc func toggle() {
         navigationController?.setNavigationBarHidden(navigationController?.isNavigationBarHidden == false, animated: true)
@@ -169,16 +227,22 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+          navigationController?.hidesBarsOnTap = false
         updateTextFileData()
     }
     func setUpView(){
-
+//        self.edgesForExtendedLayout = .all
+//        self.automaticallyAdjustsScrollViewInsets = false
         view.addSubview(collectionView)
         collectionView.register(TextViewCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.snp.makeConstraints { (make) in
-            make.top.equalTo(topLayoutGuide.snp.bottom)
-            make.bottom.equalTo(bottomLayoutGuide.snp.top)
-            make.trailing.leading.equalTo(view)
+//            make.top.equalTo(topLayoutGuide.snp.bottom)
+//            make.bottom.equalTo(bottomLayoutGuide.snp.top)
+//            make.trailing.leading.equalTo(view)
+            make.top.bottom.trailing.leading.equalTo(view)
+            
+            
+            
         }
         view.addSubview(bookMarkView)
         bookMarkView.snp.makeConstraints { (make) in
@@ -198,7 +262,7 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
     override var prefersStatusBarHidden: Bool {
         return navigationController?.isNavigationBarHidden == true
     }
-    
+
     override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
         return UIStatusBarAnimation.slide
     }
@@ -402,5 +466,32 @@ extension OtherTextViewController : UICollectionViewDataSource{
         return CGSize(width: view.frame.width, height: view.frame.height)
     }
 }
+extension OtherTextViewController : UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let text = searchBar.text ?? ""
+        guard let attributedString = string else {
+            return
+        }
+        guard let range = attributedString.string.range(of: text) else {
+            return
+        }
+        let intValue = attributedString.string.distance(from: attributedString.string.startIndex, to: range.lowerBound)
+        
+        
+        var finalIndex : Int?
+        for (index, element) in ranges.enumerated(){
+            if (element.lowerBound <= intValue){
+                finalIndex = index
+                break
+            }
+        }
+        guard let index = finalIndex else {
+            return
+        }
+        
+        let indexPath = IndexPath(item: index, section: 0)
+        collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.bottom, animated: true)
 
+    }
+}
 
