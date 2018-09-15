@@ -45,6 +45,20 @@ class TextViewCell: BaseCell {
     override func setupViews() {
         self.addSubview(textView)
         self.addSubview(pageLabel)
+        
+        switch (UserDefaultsManager.default.viewType){
+        case .darcula?:
+            self.backgroundColor = UIColor.black
+            self.textView.backgroundColor = UIColor.black
+            break
+        case .normal?:
+            self.backgroundColor = UIColor.white
+            self.textView.backgroundColor = UIColor.white
+            break
+        default:
+            break
+            
+        }
         textView.snp.makeConstraints { (make) in
             make.top.leading.trailing.equalTo(self)
             make.bottom.equalTo(self).offset(-40)

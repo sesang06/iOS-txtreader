@@ -26,5 +26,18 @@ class OptionsViewController : UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return options.count
     }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.row {
+        case 2:
+            let textViewer = TextViewerSettingsViewController()
+            let uv = UINavigationController(rootViewController: textViewer)
+            self.present(uv, animated: true) {
+                self.revealViewController().revealToggle(self)
+            }
+            break
+        default:
+            break
+        }
+    }
 }
 

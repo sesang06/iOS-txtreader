@@ -31,8 +31,27 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
     lazy var attributes :  [NSAttributedStringKey : Any] = {
         let style = NSMutableParagraphStyle()
         style.lineSpacing = 5
-        let attributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.paragraphStyle : style, NSAttributedStringKey.font : UIFont(name: "NanumGothic", size: 20)!]
+        
+        switch (UserDefaultsManager.default.viewType){
+        case .darcula?:
+            let attributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.paragraphStyle : style, NSAttributedStringKey.font : UIFont(name: "NanumGothic", size: 20)!, NSAttributedStringKey.foregroundColor : UIColor.white
+            ]
+            return attributes
+            break
+        case .normal?:
+            let attributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.paragraphStyle : style, NSAttributedStringKey.font : UIFont(name: "NanumGothic", size: 20)!, NSAttributedStringKey.foregroundColor : UIColor.black
+            ]
+            return attributes
+            break
+        default:
+            break
+            
+        }
+        let attributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.paragraphStyle : style, NSAttributedStringKey.font : UIFont(name: "NanumGothic", size: 20)!, NSAttributedStringKey.foregroundColor : UIColor.black
+        ]
         return attributes
+        
+        
     }()
     weak var content : TextDocument? {
         didSet{

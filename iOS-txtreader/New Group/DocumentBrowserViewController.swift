@@ -24,6 +24,7 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
     
     var filteredContents : [TextDocument]?
     var documentType : DocumentBrowserViewType = .Local
+    let documentInteractionController = UIDocumentInteractionController()
     lazy var tableView : UITableView = {
         let tv = UITableView()
         tv.delegate = self
@@ -81,7 +82,6 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
     
     @objc func navBarTapped(){
         let vc = DocumentOptionsViewController()
-        vc.preferredContentSize = CGSize(width: 100, height: 100)
         vc.modalPresentationStyle = .popover
         let popOver = vc.popoverPresentationController
         popOver?.sourceView = self.navigationItem.titleView
@@ -89,8 +89,10 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         popOver?.permittedArrowDirections = [.up]
         popOver?.delegate = self
         vc.delegate = self
-        self.present(vc, animated: true) {
-            
+        DispatchQueue.main.async {
+            self.present(vc, animated: true) {
+                
+            }
         }
     }
     func setUpViews(){
@@ -139,8 +141,8 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
             ,
             
-            UIBarButtonItem(image : UIImage(named: "export_file"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(importDocument)),
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+            exportBarButton
+           , UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
             
         ]
         editToolbar.snp.makeConstraints { (make) in
@@ -151,6 +153,7 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         editToolBarConstraint?.deactivate()
         enableToolbarButtons()
     }
+    let exportBarButton =  UIBarButtonItem(image : UIImage(named: "export_file"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(importDocument))
     var editToolBarConstraint : Constraint?
     @objc func changeDocumentName(){
         guard let indexPath = tableView.indexPathForSelectedRow else {
@@ -259,9 +262,43 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         
     }
     @objc func moveDocument(){
+        let vc = DocumentFileMoveViewController()
         
+        let nc = UINavigationController(rootViewController: vc)
+        nc.modalPresentationStyle = .popover
+        let popOver = nc.popoverPresentationController
+        popOver?.sourceView = self.view
+        popOver?.sourceRect = self.view.frame
+        popOver?.delegate = self
+            popOver?.permittedArrowDirections = UIPopoverArrowDirection(rawValue: 0)
+//        print(popOver?.permittedArrowDirections)
+        
+        nc.preferredContentSize = CGSize(width:300, height: 300)
+        DispatchQueue.main.async {
+            self.present(nc, animated: true) {
+                
+            }
+        }
     }
+//    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+//        return UIModalPresentationStyle.fullScreen
+//    }
+//    func presentationController(_ controller: UIPresentationController, viewControllerForAdaptivePresentationStyle style: UIModalPresentationStyle) -> UIViewController? {
+//        let nv = UINavigationController(rootViewController: controller.presentedViewController)
+//        return nv
+//    }
     @objc func importDocument(){
+        guard let indexPath = tableView.indexPathForSelectedRow else {
+            return
+        }
+        guard let selectedContent = contents?[indexPath.item] else {
+            return
+        }
+        DispatchQueue.main.async {
+            self.documentInteractionController.url = selectedContent.fileURL
+            self.documentInteractionController.delegate = self
+            self.documentInteractionController.presentOpenInMenu(from: self.exportBarButton, animated: true)
+        }
         
     }
     func setUpDocuments(){
@@ -270,7 +307,7 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
             guard let dirPath = dirPath else {
                 return
             }
-            let directoryContents = try! FileManager.default.contentsOfDirectory(at: dirPath, includingPropertiesForKeys: nil, options: [])
+            let directoryContents = try! FileManager.default.contentsOfDirectory(at: dirPath, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles, .skipsPackageDescendants, .skipsSubdirectoryDescendants])
             contents  = directoryContents.map { (url) -> TextDocument in
                 
                 let document = TextDocument(fileURL: url)
@@ -312,36 +349,7 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
-//        if fileManager.fileExists(atPath: (documentURL?.path)!){
-//            document?.open(completionHandler: { (success) in
-//                if success {
-//                    print("File open OK")
-//                    print("\(self.document?.text)")
-//                }else {
-//                    print("failed to open file")
-//                }
-//            })
-//        }else {
-//            document?.save(to: documentURL!, for: UIDocumentSaveOperation.forCreating, completionHandler: { (success) in
-//                if success {
-//                    print("file created OK")
-//                }else {
-//                    print("filed to create file")
-//                }
-//            })
-//        }
     }
-//    func saveDocument(){
-//        document!.text = "asdkfjasdkl;jf;lkajerlk;jasdlfkjlka;sgjkl;asjgflfk;sdjfla"
-//        document?.save(to: documentURL!, for: UIDocumentSaveOperation.forOverwriting, completionHandler: { (success) in
-//            if success {
-//                print("file override ok")
-//            }else {
-//                print("file overrite faile")
-//            }
-//        })
-//
-//    }
     
 }
 extension DocumentBrowserViewController {
@@ -378,12 +386,6 @@ extension DocumentBrowserViewController : UITableViewDelegate {
             enableToolbarButtons()
         }
     }
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 100
-//    }
-//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-//        return UITableViewCellEditingStyle.insert
-//    }
 }
 extension DocumentBrowserViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -423,5 +425,16 @@ extension DocumentBrowserViewController : UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearcyText(searchController.searchBar.text!)
+    }
+}
+extension DocumentBrowserViewController : UIDocumentInteractionControllerDelegate {
+    func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
+        return self
+    }
+    func documentInteractionControllerViewForPreview(_ controller: UIDocumentInteractionController) -> UIView? {
+        return self.view
+    }
+    func documentInteractionControllerRectForPreview(_ controller: UIDocumentInteractionController) -> CGRect {
+        return self.view.frame
     }
 }
