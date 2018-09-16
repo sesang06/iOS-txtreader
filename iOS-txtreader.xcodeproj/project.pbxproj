@@ -43,6 +43,7 @@
 		06CDFCCA213AB3F900E4B910 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 06CDFCCC213AB3F900E4B910 /* Localizable.strings */; };
 		06CF1F54214E0AB5007E8F8D /* DeveloperInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CF1F53214E0AB5007E8F8D /* DeveloperInfoViewController.swift */; };
 		06CF1F56214E16BB007E8F8D /* ProgramInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CF1F55214E16BB007E8F8D /* ProgramInfoViewController.swift */; };
+		06CF1F58214E72E1007E8F8D /* BookMarkProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CF1F57214E72E1007E8F8D /* BookMarkProgressView.swift */; };
 		06D00F082132AE09000D1935 /* DocumentBrowerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D00F072132AE09000D1935 /* DocumentBrowerCell.swift */; };
 		06D00F0A21341F4C000D1935 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D00F0921341F4C000D1935 /* TestViewController.swift */; };
 		06F3155D214558A20021A188 /* DocumentOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060D8B8D2143D6680018D7EF /* DocumentOptionsViewController.swift */; };
@@ -120,6 +121,7 @@
 		06CDFCCE213AD17C00E4B910 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		06CF1F53214E0AB5007E8F8D /* DeveloperInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperInfoViewController.swift; sourceTree = "<group>"; };
 		06CF1F55214E16BB007E8F8D /* ProgramInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramInfoViewController.swift; sourceTree = "<group>"; };
+		06CF1F57214E72E1007E8F8D /* BookMarkProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkProgressView.swift; sourceTree = "<group>"; };
 		06D00F072132AE09000D1935 /* DocumentBrowerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentBrowerCell.swift; sourceTree = "<group>"; };
 		06D00F0921341F4C000D1935 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		06F3155E21457F550021A188 /* iOS-txtreader-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOS-txtreader-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 			children = (
 				061888C12144C98200A1B2E7 /* DocumentEncodingPreviewViewController.swift */,
 				06CD0770213252D6009757BC /* BookMarkView.swift */,
+				06CF1F57214E72E1007E8F8D /* BookMarkProgressView.swift */,
 			);
 			path = Accessory;
 			sourceTree = "<group>";
@@ -521,6 +524,7 @@
 				06D00F0A21341F4C000D1935 /* TestViewController.swift in Sources */,
 				064344BF212DBB1600EDFA2E /* AppDelegate.swift in Sources */,
 				06CF1F54214E0AB5007E8F8D /* DeveloperInfoViewController.swift in Sources */,
+				06CF1F58214E72E1007E8F8D /* BookMarkProgressView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

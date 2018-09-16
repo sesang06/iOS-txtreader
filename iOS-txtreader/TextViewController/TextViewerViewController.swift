@@ -24,6 +24,12 @@ class TextViewerViewController: UIViewController, UITextViewDelegate {
         return cv
     }()
     
+    lazy var bookMarkProgressView : BookMarkProgressView = {
+       let bmp = BookMarkProgressView()
+        bmp.isHidden = true
+        return bmp
+    }()
+    
     lazy var scrollSize : CGSize = {
        let size = CGSize(width: view.frame.width, height: view.frame.height - 40 - 64)
         return size
@@ -63,7 +69,7 @@ class TextViewerViewController: UIViewController, UITextViewDelegate {
     var bookMarkTopConstraint : Constraint?
 
     var ranges : [NSRange] = [NSRange]()
-    var string : NSAttributedString?
+    var string : NSMutableAttributedString?
     var subStrings : [NSAttributedString] = [NSAttributedString]()
     
     var shapeLayer: CAShapeLayer!
@@ -280,6 +286,11 @@ class TextViewerViewController: UIViewController, UITextViewDelegate {
 //        self.navigationController?.
 //        self.navigationController?.hidesBarsOnTap = true
 //        self.navigationController?.hidesBarsOnSwipe = true
+        view.addSubview(bookMarkProgressView)
+        bookMarkProgressView.snp.makeConstraints { (make) in
+            make.height.width.equalTo(100)
+            make.center.equalTo(view)
+        }
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -306,7 +317,7 @@ class TextViewerViewController: UIViewController, UITextViewDelegate {
             }
            
             DispatchQueue.global(qos: .userInteractive).async {
-                let attributedString = NSAttributedString(string: text , attributes: self.attributes)
+                let attributedString = NSMutableAttributedString(string: text , attributes: self.attributes)
                 self.string = attributedString
                 let textStorage = NSTextStorage(attributedString: attributedString)
                 let textLayout = NSLayoutManager()
@@ -375,6 +386,7 @@ class TextViewerViewController: UIViewController, UITextViewDelegate {
                     self.trackLayer.isHidden = true
                     self.percentageLabel.isHidden = true
                     self.collectionView.reloadData()
+                    self.bookMarkProgressView.totalPage = self.ranges.count
                     self.scrollViewDidScroll(self.collectionView)
                    
                 }
@@ -402,7 +414,9 @@ class TextViewerViewController: UIViewController, UITextViewDelegate {
         let translation = gesture.translation(in: view)
         //   view.frame.origin.y = translation.y
 //        print(translation)
+        
         if gesture.state == .began {
+            bookMarkProgressView.isHidden = false
             bookMarkViewOriginY = bookMarkView.frame.origin.y + bookMarkView.frame.height / 2
         }
         guard let bookMarkViewOriginY = bookMarkViewOriginY  else {
@@ -417,6 +431,7 @@ class TextViewerViewController: UIViewController, UITextViewDelegate {
         collectionView.contentOffset = CGPoint(x: collectionView.contentOffset.x, y: (collectionView.contentSize.height - collectionView.frame.height) * scrollOffset)
         if gesture.state == .ended {
             self.bookMarkViewOriginY = nil
+            self.bookMarkProgressView.isHidden = true
         }
     }
     deinit{
@@ -437,6 +452,7 @@ extension TextViewerViewController : UIScrollViewDelegate {
 //            print(currentIndex)
             let indexPath = IndexPath(item: Int(currentIndex), section: 0)
             bookMarkView.index = indexPath
+            bookMarkProgressView.index = indexPath
             bookMarkTopConstraint?.update(offset:  offset * CGFloat(currentIndex) / CGFloat(count-1) + bookMarkView.frame.height / 2)
         //        }
         }
@@ -489,16 +505,23 @@ extension TextViewerViewController : UISearchBarDelegate {
         guard let attributedString = string else {
             return
         }
-        guard let range = attributedString.string.range(of: text) else {
+//        guard let range = attributedString.string.range(of: text) else {
+//            return
+//        }
+
+        let range = attributedString.mutableString.range(of: text)
+        
+        
+        guard range != NSRange(location: NSNotFound, length: 0)  else {
+            print("TODO : NOT FOUND!!")
             return
         }
-       
-        let intValue = attributedString.string.distance(from: attributedString.string.startIndex, to: range.lowerBound)
+//        let intValue = attributedString.string.distance(from: attributedString.string.startIndex, to: range.lowerBound)
         
         
         var finalIndex : Int?
         for (index, element) in ranges.enumerated(){
-            if (element.lowerBound >= intValue){
+            if NSLocationInRange(range.lowerBound, element)    {
                 finalIndex = index
                 break
             }
@@ -506,10 +529,17 @@ extension TextViewerViewController : UISearchBarDelegate {
         guard let index = finalIndex else {
             return
         }
-        
+       
+       
+        string?.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.red, range: range)
+//        string?.addAttribute(NSAttributedStringKey.backgroundColor : UIColor.red, range: range)
         let indexPath = IndexPath(item: index, section: 0)
-        collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.bottom, animated: true)
+        DispatchQueue.main.async {
+//            self.collectionView.reloadItems(at: [indexPath])
+            self.collectionView.reloadData()
+            self.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.bottom, animated: true)
 
+        }
     }
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()

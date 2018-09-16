@@ -258,8 +258,54 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
             }
         }
     }
+    
+    // copy document
+    //TODO : appropriate animation!!
     @objc func copyDocument(){
-        
+        guard let indexPaths = tableView.indexPathsForSelectedRows else {
+            return
+        }
+        for indexPath in indexPaths {
+            guard let content = contents?[indexPath.item] else {
+                break
+            }
+            guard let newPath = content.fileURL.newFileURL else {
+                break
+            }
+            do {
+                try FileManager.default.copyItem(at: content.fileURL, to: newPath)
+             }catch let error as NSError {
+                print(error.localizedDescription)
+            }
+        }
+     
+        let newContents = indexPaths.compactMap { (indexPath) -> TextDocument? in
+          
+            guard let content = contents?[indexPath.item] else {
+                return nil
+            }
+            guard let newPath = content.fileURL.newFileURL else {
+                return nil
+            }
+            do {
+                try FileManager.default.copyItem(at: content.fileURL, to: newPath)
+                let newContent = TextDocument(fileURL: newPath)
+                return newContent
+            }catch let error as NSError {
+                print(error.localizedDescription)
+                return nil
+            }
+            
+        }
+        contents?.insert(contentsOf: newContents, at: 0)
+        let items = Array(0..<newContents.count).map{ IndexPath(row: $0, section: 0) }
+
+        DispatchQueue.main.async {
+            self.tableView.setEditing(false, animated: true)
+            self.tableView.beginUpdates()
+            self.tableView.insertRows(at: items, with: UITableViewRowAnimation.automatic)
+            self.tableView.endUpdates()
+        }
     }
     @objc func moveDocument(){
         let vc = DocumentFileMoveViewController()
