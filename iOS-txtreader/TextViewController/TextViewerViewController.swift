@@ -58,7 +58,6 @@ class TextViewerViewController: UIViewController, UITextViewDelegate {
         ]
         return attributes
         
-        
     }()
     weak var content : TextDocument? {
         didSet{
@@ -71,17 +70,45 @@ class TextViewerViewController: UIViewController, UITextViewDelegate {
     var bookMarkTopConstraint : Constraint?
 
     var ranges : [NSRange] = [NSRange]()
+    var searchRange : NSRange?
     var string : NSMutableAttributedString?
-    var subStrings : [NSAttributedString] = [NSAttributedString]()
     
     var textFileData : TextFileData?
-    var textFileDAO : TextFileDAO = TextFileDAO()
+    
     let documentInteractionController = UIDocumentInteractionController()
+    
+    var bookMarkViewOriginY : CGFloat?
     
     lazy var toolbar : UIToolbar = {
        let toolbar = UIToolbar()
         return toolbar
     }()
+    lazy var defaultToolBarItems : [UIBarButtonItem] = {
+        let searchBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.search, target: self, action: #selector(searchText))
+        let exportBarButton = UIBarButtonItem(title: "내보내기", style: .plain, target: self, action: #selector(exportText))
+        let readModeBarButton = UIBarButtonItem(title: "보기 모드", style: UIBarButtonItemStyle.plain, target: self, action: #selector(viewerMode))
+        return [
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+            searchBarButton,
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+            exportBarButton,
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+            readModeBarButton,
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        ]
+    }()
+    lazy var searchToolBarItems : [UIBarButtonItem] = {
+        let searchPreviousBarButton = UIBarButtonItem(title: "이전 탐색", style: UIBarButtonItemStyle.plain, target: self, action: #selector(searchPrevious))
+        let searchNextBarButton = UIBarButtonItem(title: "다음 탐색", style: UIBarButtonItemStyle.plain, target: self, action: #selector(searchNext))
+        return [
+             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+             searchPreviousBarButton,
+              UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+              searchNextBarButton,
+               UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        ]
+    }()
+    
     lazy var searchBar : UISearchBar = {
        let searchBar = UISearchBar()
         searchBar.isHidden = true
@@ -89,20 +116,7 @@ class TextViewerViewController: UIViewController, UITextViewDelegate {
         searchBar.showsCancelButton = true
         return searchBar
     }()
-    @objc func viewerMode(){
-        
-    }
-    @objc func exportText(){
-        DispatchQueue.main.async {
-            self.documentInteractionController.url = self.content?.fileURL
-            self.documentInteractionController.delegate = self
-            self.documentInteractionController.presentOptionsMenu(from: self.view.frame, in: self.view, animated: true)
-        }
-    }
-    @objc func searchText(){
-        searchBar.isHidden = false
-        searchBar.becomeFirstResponder()
-    }
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -128,43 +142,33 @@ class TextViewerViewController: UIViewController, UITextViewDelegate {
         setUpBookMark()
         setUpNavigationBar()
         setUpToolbar()
-
     }
-    
-    
-    var bookMarkViewOriginY : CGFloat?
-    
     deinit{
         content?.close(completionHandler: { (sucess) in
-            
         })
     }
 
 }
 
 extension TextViewerViewController {
+    @objc func viewerMode(){
+        
+    }
+    @objc func exportText(){
+        DispatchQueue.main.async {
+            self.documentInteractionController.url = self.content?.fileURL
+            self.documentInteractionController.delegate = self
+            self.documentInteractionController.presentOptionsMenu(from: self.view.frame, in: self.view, animated: true)
+        }
+    }
+    
     func setUpToolbar(){
         view.addSubview(toolbar)
         toolbar.snp.makeConstraints { (make) in
             make.bottom.trailing.leading.equalTo(view)
         }
         
-        let searchBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.search, target: self, action: #selector(searchText))
-        let exportBarButton = UIBarButtonItem(title: "내보내기", style: .plain, target: self, action: #selector(exportText))
-        let readModeBarButton = UIBarButtonItem(title: "보기 모드", style: UIBarButtonItemStyle.plain, target: self, action: #selector(viewerMode))
-        toolbar.items = [
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
-            searchBarButton,
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
-            exportBarButton,
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
-            readModeBarButton,
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-            
-            
-        ]
-        
-        
+        toolbar.items = defaultToolBarItems
         
     }
     
@@ -189,14 +193,14 @@ extension TextViewerViewController {
 }
 extension TextViewerViewController {
     func fetchTextFileData(){
-        let data = self.textFileDAO.fetch(fileURL: content?.fileURL)
+        let data = TextFileDAO.default.fetch(fileURL: content?.fileURL)
         if data == nil {
             let data = TextFileData()
             data.bookmark = 0
             data.fileURL = content?.fileURL.path
             data.openDate = Date()
-            self.textFileDAO.insert(data)
-            self.textFileData = self.textFileDAO.fetch(fileURL: content?.fileURL)
+            TextFileDAO.default.insert(data)
+            self.textFileData = TextFileDAO.default.fetch(fileURL: content?.fileURL)
         }else {
             self.textFileData = data
             content?.encoding = self.textFileData?.encoding
@@ -211,7 +215,7 @@ extension TextViewerViewController {
         self.textFileData?.bookmark = Int64(indexPath.item)
         if let data = self.textFileData {
             
-            self.textFileDAO.update(data)
+            TextFileDAO.default.update(data)
         }
     }
     func setUpText(){
@@ -397,10 +401,10 @@ extension TextViewerViewController : UICollectionViewDelegate, UICollectionViewD
         view.addSubview(collectionView)
         collectionView.register(TextViewerCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.snp.makeConstraints { (make) in
-            //            make.top.equalTo(topLayoutGuide.snp.bottom)
-            //            make.bottom.equalTo(bottomLayoutGuide.snp.top)
-            //            make.trailing.leading.equalTo(view)
-            make.top.bottom.trailing.leading.equalTo(view)
+                        make.top.equalTo(topLayoutGuide.snp.bottom)
+                        make.bottom.equalTo(bottomLayoutGuide.snp.top)
+                        make.trailing.leading.equalTo(view)
+//            make.top.bottom.trailing.leading.equalTo(view)
         }
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -443,6 +447,19 @@ extension TextViewerViewController : UICollectionViewDataSource{
     }
 }
 extension TextViewerViewController : UISearchBarDelegate {
+    @objc func searchText(){
+//        toolbar.items = searchToolBarItems
+        searchBar.isHidden = false
+        searchBar.becomeFirstResponder()
+    }
+    @objc func searchPrevious(_ sender : Any){
+        let text = searchBar.text ?? ""
+        searchTextInRange(text: text, isNext: false)
+    }
+    @objc func searchNext(_ sender : Any){
+        let text = searchBar.text ?? ""
+        searchTextInRange(text: text, isNext: true)
+    }
     func setUpSearchBar(){
         self.navigationController?.navigationBar.addSubview(searchBar)
         searchBar.snp.makeConstraints { (make) in
@@ -450,9 +467,55 @@ extension TextViewerViewController : UISearchBarDelegate {
         }
 
     }
+    func searchTextInRange(text : String, isNext : Bool){
+        guard let previousRange = searchRange, let attributedString = string else {
+            return
+        }
+        let nextRange : NSRange
+        let range : NSRange
+        if (isNext){
+            nextRange = NSRange.init(location: previousRange.location + 1, length: attributedString.length - previousRange.location - 1)
+            range = attributedString.mutableString.range(of: text, options: [], range: nextRange)
+            
+        }else{
+            nextRange = NSRange.init(location: 0, length: previousRange.location)
+            range = attributedString.mutableString.range(of: text, options: [NSString.CompareOptions.backwards], range: nextRange)
+            
+        }
+       
+        guard range != NSRange(location: NSNotFound, length: 0)  else {
+            print("TODO : NOT FOUND!!")
+            return
+        }
+        var finalIndex : Int?
+        for (index, element) in ranges.enumerated(){
+            if NSLocationInRange(range.lowerBound, element)    {
+                finalIndex = index
+                break
+            }
+        }
+        guard let index = finalIndex else {
+            return
+        }
+        
+        searchRange = range
+        attributedString.removeAttribute(NSAttributedStringKey.backgroundColor, range: previousRange)
+        attributedString.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.red, range: range)
+        //        string?.addAttribute(NSAttributedStringKey.backgroundColor : UIColor.red, range: range)
+        let indexPath = IndexPath(item: index, section: 0)
+        DispatchQueue.main.async {
+            //            self.collectionView.reloadItems(at: [indexPath])
+            self.collectionView.reloadData()
+            self.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.bottom, animated: true)
+            
+        }
+        
+    }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+       
         let text = searchBar.text ?? ""
+        
         guard let attributedString = string else {
             return
         }
@@ -467,6 +530,7 @@ extension TextViewerViewController : UISearchBarDelegate {
             print("TODO : NOT FOUND!!")
             return
         }
+         toolbar.items = searchToolBarItems
 //        let intValue = attributedString.string.distance(from: attributedString.string.startIndex, to: range.lowerBound)
         
         
@@ -481,7 +545,7 @@ extension TextViewerViewController : UISearchBarDelegate {
             return
         }
        
-       
+       searchRange = range
         string?.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.red, range: range)
 //        string?.addAttribute(NSAttributedStringKey.backgroundColor : UIColor.red, range: range)
         let indexPath = IndexPath(item: index, section: 0)
@@ -495,7 +559,9 @@ extension TextViewerViewController : UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         searchBar.isHidden = true
+        toolbar.items = defaultToolBarItems
     }
+    
 }
 extension TextViewerViewController : UIDocumentInteractionControllerDelegate {
     func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
