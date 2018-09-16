@@ -46,6 +46,7 @@
 		06CF1F58214E72E1007E8F8D /* BookMarkProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CF1F57214E72E1007E8F8D /* BookMarkProgressView.swift */; };
 		06D00F082132AE09000D1935 /* DocumentBrowerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D00F072132AE09000D1935 /* DocumentBrowerCell.swift */; };
 		06D00F0A21341F4C000D1935 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D00F0921341F4C000D1935 /* TestViewController.swift */; };
+		06DF1AC6214E8AED00D7FE22 /* TextLoadingProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DF1AC5214E8AED00D7FE22 /* TextLoadingProgressView.swift */; };
 		06F3155D214558A20021A188 /* DocumentOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060D8B8D2143D6680018D7EF /* DocumentOptionsViewController.swift */; };
 		06F3156121457F560021A188 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06F3156021457F560021A188 /* SWRevealViewController.m */; };
 		F393B76EC08D26B018021575 /* Pods_iOS_txtreader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF82B24C591E05B2894F9B6 /* Pods_iOS_txtreader.framework */; };
@@ -124,6 +125,7 @@
 		06CF1F57214E72E1007E8F8D /* BookMarkProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkProgressView.swift; sourceTree = "<group>"; };
 		06D00F072132AE09000D1935 /* DocumentBrowerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentBrowerCell.swift; sourceTree = "<group>"; };
 		06D00F0921341F4C000D1935 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		06DF1AC5214E8AED00D7FE22 /* TextLoadingProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextLoadingProgressView.swift; sourceTree = "<group>"; };
 		06F3155E21457F550021A188 /* iOS-txtreader-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOS-txtreader-Bridging-Header.h"; sourceTree = "<group>"; };
 		06F3155F21457F560021A188 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		06F3156021457F560021A188 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
@@ -275,6 +277,7 @@
 				061888C12144C98200A1B2E7 /* DocumentEncodingPreviewViewController.swift */,
 				06CD0770213252D6009757BC /* BookMarkView.swift */,
 				06CF1F57214E72E1007E8F8D /* BookMarkProgressView.swift */,
+				06DF1AC5214E8AED00D7FE22 /* TextLoadingProgressView.swift */,
 			);
 			path = Accessory;
 			sourceTree = "<group>";
@@ -519,6 +522,7 @@
 				06CD079921327C24009757BC /* TextDocument.swift in Sources */,
 				069A8EE82130F9FB00CB6004 /* TextViewerCell.swift in Sources */,
 				06D00F082132AE09000D1935 /* DocumentBrowerCell.swift in Sources */,
+				06DF1AC6214E8AED00D7FE22 /* TextLoadingProgressView.swift in Sources */,
 				064344C7212DBB1600EDFA2E /* iOS_txtreader.xcdatamodeld in Sources */,
 				06CD0771213252D6009757BC /* BookMarkView.swift in Sources */,
 				06D00F0A21341F4C000D1935 /* TestViewController.swift in Sources */,
