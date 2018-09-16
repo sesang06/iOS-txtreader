@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DocumentTableViewCell: BaseTableCell {
+class DocumentBrowerCell: BaseTableCell {
     let bookMarkProgressView : UIView = {
         let v = UIView()
         return v

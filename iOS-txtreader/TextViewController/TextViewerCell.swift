@@ -8,7 +8,7 @@
 
 import UIKit
 import SnapKit
-class TextViewCell: BaseCell {
+class TextViewerCell: BaseCell {
     lazy var attributes :  [NSAttributedStringKey : Any] = {
         let style = NSMutableParagraphStyle()
         style.lineSpacing = 5

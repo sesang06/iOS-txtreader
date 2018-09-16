@@ -174,7 +174,7 @@ class ThirdTextViewController: UICollectionViewController, UITextViewDelegate {
     func setUpView(){
         
 //        view.addSubview(collectionView!)
-        collectionView?.register(TextViewCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView?.register(TextViewerCell.self, forCellWithReuseIdentifier: cellId)
 //        collectionView.snp.makeConstraints { (make) in
 //            make.top.equalTo(topLayoutGuide.snp.bottom)
 //            make.bottom.equalTo(bottomLayoutGuide.snp.top)
@@ -376,7 +376,7 @@ extension ThirdTextViewController:  UICollectionViewDelegateFlowLayout{
 
 extension ThirdTextViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! TextViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! TextViewerCell
         //        let textView = UITextView(frame: CGRect.zero, textContainer: textContainers[indexPath.item])
         //        textView.isScrollEnabled = false
         //        cell.addSubview(textViews[indexPath.item])

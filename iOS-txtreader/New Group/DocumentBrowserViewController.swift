@@ -102,7 +102,7 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
             make.bottom.equalTo(bottomLayoutGuide.snp.top)
             make.trailing.leading.equalTo(view)
         }
-        tableView.register(DocumentTableViewCell.self, forCellReuseIdentifier: cellId)
+        tableView.register(DocumentBrowerCell.self, forCellReuseIdentifier: cellId)
         tableView.tableHeaderView = searchController.searchBar
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = true
@@ -263,14 +263,14 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
     }
     @objc func moveDocument(){
         let vc = DocumentFileMoveViewController()
-        
+        vc.delegate = self
         let nc = UINavigationController(rootViewController: vc)
         nc.modalPresentationStyle = .popover
         let popOver = nc.popoverPresentationController
         popOver?.sourceView = self.view
         popOver?.sourceRect = self.view.frame
         popOver?.delegate = self
-            popOver?.permittedArrowDirections = UIPopoverArrowDirection(rawValue: 0)
+        popOver?.permittedArrowDirections = UIPopoverArrowDirection(rawValue: 0)
 //        print(popOver?.permittedArrowDirections)
         
         nc.preferredContentSize = CGSize(width:300, height: 300)
@@ -280,13 +280,7 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
             }
         }
     }
-//    func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
-//        return UIModalPresentationStyle.fullScreen
-//    }
-//    func presentationController(_ controller: UIPresentationController, viewControllerForAdaptivePresentationStyle style: UIModalPresentationStyle) -> UIViewController? {
-//        let nv = UINavigationController(rootViewController: controller.presentedViewController)
-//        return nv
-//    }
+
     @objc func importDocument(){
         guard let indexPath = tableView.indexPathForSelectedRow else {
             return
@@ -372,7 +366,7 @@ extension DocumentBrowserViewController : UITableViewDelegate {
                 self.navigationController?.pushViewController(vc, animated: true)
             }else{
 //                let textViewController = ThirdTextViewController(collectionViewLayout: UICollectionViewFlowLayout())
-                let textViewController = OtherTextViewController()
+                let textViewController = TextViewerViewController()
                 textViewController.content = contents?[indexPath.item]
                 self.navigationController?.pushViewController(textViewController, animated: true)
             }
@@ -396,7 +390,7 @@ extension DocumentBrowserViewController : UITableViewDataSource {
         return contents?.count ?? 0
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! DocumentTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! DocumentBrowerCell
         if isFiltering() {
             cell.content = filteredContents?[indexPath.item]
         }else {
@@ -437,4 +431,32 @@ extension DocumentBrowserViewController : UIDocumentInteractionControllerDelegat
     func documentInteractionControllerRectForPreview(_ controller: UIDocumentInteractionController) -> CGRect {
         return self.view.frame
     }
+}
+
+extension DocumentBrowserViewController : DocumentFileMoveViewControllerDelegate {
+    func documentFileMoveViewDidClicked(documentFileMoveViewController: DocumentFileMoveViewController, url: URL) {
+       
+        documentFileMoveViewController.dismiss(animated: true) {
+            self.tableView.indexPathsForSelectedRows?.forEach {
+                if let at = self.contents?[$0.item].fileURL {
+                    do {
+                        try FileManager.default.moveItem(at: at, to: url.appendingPathComponent(at.lastPathComponent))
+                        
+                    } catch let error as NSError {
+                        print(error.localizedDescription)
+                    }
+                }
+            }
+            self.contents?.remove(at: self.tableView.indexPathsForSelectedRows?.map{$0.item} ?? [])
+            
+            DispatchQueue.main.async {
+                self.tableView.beginUpdates()
+                self.tableView.deleteRows(at: self.tableView.indexPathsForSelectedRows ?? [], with: UITableViewRowAnimation.automatic)
+                self.tableView.endUpdates()
+            }
+        }
+       
+    }
+    
+    
 }

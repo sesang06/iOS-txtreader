@@ -9,7 +9,7 @@
 import Foundation
 
 class OptionsViewController : UITableViewController {
-    let options : [String] = ["저장 공간 관리" , "정보",  "설정" ,"내 계정", "도움말" ]
+    let options : [String] = ["저장 공간 관리" , "정보",  "설정" ,"내 계정", "도움말" , "제작자 정보", "문의하기", "프로그램 정보" ]
     let settings : [String] = ["자동 정렬", "빈칸 삽입", "워드랩", "텍스트 인코딩", "줄 간격", "글자" ,"배경 색" , "마지막 페이지 이어보기", "상태바 표시", "안티앨리어스 사용", "여백", "글꼴", "숨김 파일 표시", ""]
     let cellId = "cellId"
     override func viewDidLoad() {
@@ -35,9 +35,17 @@ class OptionsViewController : UITableViewController {
                 self.revealViewController().revealToggle(self)
             }
             break
+        case 5:
+            let vc = DeveloperInfoViewController()
+            let uv = UINavigationController(rootViewController: vc)
+            self.present(uv, animated: true) {
+                self.revealViewController().revealToggle(self)
+            }
+            break
         default:
             break
         }
     }
+    
 }
 

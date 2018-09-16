@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if (shouldOpenInPlace){
             if let root = self.window?.rootViewController as? UINavigationController{
-                let vc = OtherTextViewController()
+                let vc = TextViewerViewController()
                 let document = TextDocument(fileURL: url)
                 vc.content = document
                 root.pushViewController(vc, animated:true )
@@ -81,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     let dirPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
                     
                     if let root = self.window?.rootViewController as? UINavigationController{
-                        let vc = OtherTextViewController()
+                        let vc = TextViewerViewController()
                         let document = TextDocument(fileURL: fileURL)
                         vc.content = document
                         //                    let fileManager = FileManager.default

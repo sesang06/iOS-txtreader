@@ -43,7 +43,7 @@ class TextViewController: UIViewController {
     }
     func setUpView(){
         view.addSubview(collectionView)
-        collectionView.register(TextViewCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView.register(TextViewerCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.snp.makeConstraints { (make) in
             make.top.equalTo(topLayoutGuide.snp.bottom)
             make.bottom.equalTo(bottomLayoutGuide.snp.top)
@@ -130,7 +130,7 @@ extension TextViewController : UICollectionViewDelegate, UICollectionViewDelegat
 
 extension TextViewController : UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! TextViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! TextViewerCell
         cell.index = indexPath
         if let str = stringReader?.pageContent(index: indexPath.item) {
              cell.displayText(string: str)

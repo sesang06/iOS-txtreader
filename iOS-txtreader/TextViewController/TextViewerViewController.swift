@@ -12,7 +12,7 @@ import Foundation
 import SnapKit
 
 
-class OtherTextViewController: UIViewController, UITextViewDelegate {
+class TextViewerViewController: UIViewController, UITextViewDelegate {
     lazy var collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
 //        layout.scrollDirection = .horizontal
@@ -37,15 +37,12 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
             let attributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.paragraphStyle : style, NSAttributedStringKey.font : UIFont(name: "NanumGothic", size: 20)!, NSAttributedStringKey.foregroundColor : UIColor.white
             ]
             return attributes
-            break
         case .normal?:
             let attributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.paragraphStyle : style, NSAttributedStringKey.font : UIFont(name: "NanumGothic", size: 20)!, NSAttributedStringKey.foregroundColor : UIColor.black
             ]
             return attributes
-            break
         default:
             break
-            
         }
         let attributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.paragraphStyle : style, NSAttributedStringKey.font : UIFont(name: "NanumGothic", size: 20)!, NSAttributedStringKey.foregroundColor : UIColor.black
         ]
@@ -74,6 +71,8 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
     var trackLayer : CAShapeLayer!
     var textFileData : TextFileData?
     var textFileDAO : TextFileDAO = TextFileDAO()
+    let documentInteractionController = UIDocumentInteractionController()
+    
     let percentageLabel: UILabel = {
         let label = UILabel()
         label.text = "Start"
@@ -90,6 +89,7 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
        let searchBar = UISearchBar()
         searchBar.isHidden = true
         searchBar.delegate = self
+        searchBar.showsCancelButton = true
         return searchBar
     }()
     func setUpToolbar(){
@@ -99,7 +99,7 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
         }
         
         let searchBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.search, target: self, action: #selector(searchText))
-        let exportBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.redo, target: self, action: #selector(exportText))
+        let exportBarButton = UIBarButtonItem(title: "내보내기", style: .plain, target: self, action: #selector(exportText))
         let readModeBarButton = UIBarButtonItem(title: "보기 모드", style: UIBarButtonItemStyle.plain, target: self, action: #selector(viewerMode))
         toolbar.items = [
             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
@@ -120,7 +120,11 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
         
     }
     @objc func exportText(){
-        
+        DispatchQueue.main.async {
+            self.documentInteractionController.url = self.content?.fileURL
+            self.documentInteractionController.delegate = self
+            self.documentInteractionController.presentOptionsMenu(from: self.view.frame, in: self.view, animated: true)
+        }
     }
     @objc func searchText(){
         searchBar.isHidden = false
@@ -253,7 +257,7 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
 //        self.edgesForExtendedLayout = .all
 //        self.automaticallyAdjustsScrollViewInsets = false
         view.addSubview(collectionView)
-        collectionView.register(TextViewCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView.register(TextViewerCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.snp.makeConstraints { (make) in
 //            make.top.equalTo(topLayoutGuide.snp.bottom)
 //            make.bottom.equalTo(bottomLayoutGuide.snp.top)
@@ -289,12 +293,6 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
     func loadText(){
         let scrollSize = self.scrollSize
         shapeLayer.strokeEnd = 0
-//        let fileManager = FileManager.default
-//        let dirPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-//            print (content?.fileURL.relativePath)
-//        print(content?.fileURL.baseURL)
-//        let data = try! content?.fileURL.bookmarkData()
-//        print(String(data: data!, encoding:.utf8 ))
       
         if (content == nil){
             print("error")
@@ -429,7 +427,7 @@ class OtherTextViewController: UIViewController, UITextViewDelegate {
 
 }
 
-extension OtherTextViewController : UIScrollViewDelegate {
+extension TextViewerViewController : UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         /*if*/ let count = ranges.count
             //{
@@ -445,7 +443,7 @@ extension OtherTextViewController : UIScrollViewDelegate {
     }
 }
 
-extension OtherTextViewController : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
+extension TextViewerViewController : UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.ranges.count
     }
@@ -457,9 +455,9 @@ extension OtherTextViewController : UICollectionViewDelegate, UICollectionViewDe
     }
 }
 
-extension OtherTextViewController : UICollectionViewDataSource{
+extension TextViewerViewController : UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! TextViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! TextViewerCell
 //        let textView = UITextView(frame: CGRect.zero, textContainer: textContainers[indexPath.item])
 //        textView.isScrollEnabled = false
 //        cell.addSubview(textViews[indexPath.item])
@@ -485,7 +483,7 @@ extension OtherTextViewController : UICollectionViewDataSource{
         return CGSize(width: view.frame.width, height: view.frame.height)
     }
 }
-extension OtherTextViewController : UISearchBarDelegate {
+extension TextViewerViewController : UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let text = searchBar.text ?? ""
         guard let attributedString = string else {
@@ -494,12 +492,13 @@ extension OtherTextViewController : UISearchBarDelegate {
         guard let range = attributedString.string.range(of: text) else {
             return
         }
+       
         let intValue = attributedString.string.distance(from: attributedString.string.startIndex, to: range.lowerBound)
         
         
         var finalIndex : Int?
         for (index, element) in ranges.enumerated(){
-            if (element.lowerBound <= intValue){
+            if (element.lowerBound >= intValue){
                 finalIndex = index
                 break
             }
@@ -512,5 +511,46 @@ extension OtherTextViewController : UISearchBarDelegate {
         collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.bottom, animated: true)
 
     }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        searchBar.isHidden = true
+    }
+}
+extension TextViewerViewController : UIDocumentInteractionControllerDelegate {
+    func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
+        return self
+    }
+    func documentInteractionControllerViewForPreview(_ controller: UIDocumentInteractionController) -> UIView? {
+        return self.view
+    }
+    func documentInteractionControllerRectForPreview(_ controller: UIDocumentInteractionController) -> CGRect {
+        return self.view.frame
+    }
 }
 
+extension StringProtocol where Index == String.Index {
+    func index<T: StringProtocol>(of string: T, options: String.CompareOptions = []) -> Index? {
+        return range(of: string, options: options)?.lowerBound
+    }
+    func endIndex<T: StringProtocol>(of string: T, options: String.CompareOptions = []) -> Index? {
+        return range(of: string, options: options)?.upperBound
+    }
+    func indexes<T: StringProtocol>(of string: T, options: String.CompareOptions = []) -> [Index] {
+        var result: [Index] = []
+        var start = startIndex
+        while start < endIndex, let range = range(of: string, options: options, range: start..<endIndex) {
+            result.append(range.lowerBound)
+            start = range.lowerBound < range.upperBound ? range.upperBound : index(range.lowerBound, offsetBy: 1, limitedBy: endIndex) ?? endIndex
+        }
+        return result
+    }
+    func ranges<T: StringProtocol>(of string: T, options: String.CompareOptions = []) -> [Range<Index>] {
+        var result: [Range<Index>] = []
+        var start = startIndex
+        while start < endIndex, let range = range(of: string, options: options, range: start..<endIndex) {
+            result.append(range)
+            start = range.lowerBound < range.upperBound  ? range.upperBound : index(range.lowerBound, offsetBy: 1, limitedBy: endIndex) ?? endIndex
+        }
+        return result
+    }
+}

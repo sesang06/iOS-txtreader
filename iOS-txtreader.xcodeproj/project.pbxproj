@@ -18,7 +18,7 @@
 		064344C7212DBB1600EDFA2E /* iOS_txtreader.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 064344C5212DBB1600EDFA2E /* iOS_txtreader.xcdatamodeld */; };
 		064344C9212DBB1600EDFA2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 064344C8212DBB1600EDFA2E /* Assets.xcassets */; };
 		064344CC212DBB1600EDFA2E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 064344CA212DBB1600EDFA2E /* LaunchScreen.storyboard */; };
-		069A8EE82130F9FB00CB6004 /* TextViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069A8EE72130F9FB00CB6004 /* TextViewCell.swift */; };
+		069A8EE82130F9FB00CB6004 /* TextViewerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069A8EE72130F9FB00CB6004 /* TextViewerCell.swift */; };
 		069A8EEA2130FAE300CB6004 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069A8EE92130FAE300CB6004 /* Extensions.swift */; };
 		069A8EF92131031500CB6004 /* NanumGothicBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069A8EF12131031400CB6004 /* NanumGothicBold.ttf */; };
 		069A8EFA2131031500CB6004 /* NanumMyeongjoExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069A8EF22131031400CB6004 /* NanumMyeongjoExtraBold.ttf */; };
@@ -33,7 +33,7 @@
 		069A8F082131ACFD00CB6004 /* StringReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069A8F072131ACFD00CB6004 /* StringReader.swift */; };
 		06B8AFEC214D26970068A5E9 /* DocumentFileMoveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B8AFEB214D26970068A5E9 /* DocumentFileMoveViewController.swift */; };
 		06C9B30B21344A290080360C /* AnotherTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C9B30A21344A290080360C /* AnotherTextViewController.swift */; };
-		06C9B30D213583170080360C /* OtherTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C9B30C213583170080360C /* OtherTextViewController.swift */; };
+		06C9B30D213583170080360C /* TextViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C9B30C213583170080360C /* TextViewerViewController.swift */; };
 		06C9B3162136DFE10080360C /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C9B3152136DFE10080360C /* ShareViewController.swift */; };
 		06C9B3192136DFE10080360C /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06C9B3172136DFE10080360C /* MainInterface.storyboard */; };
 		06C9B31D2136DFE10080360C /* Share To App.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 06C9B3132136DFE10080360C /* Share To App.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -41,7 +41,9 @@
 		06CD079921327C24009757BC /* TextDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD079821327C24009757BC /* TextDocument.swift */; };
 		06CD079B21327C65009757BC /* DocumentBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD079A21327C65009757BC /* DocumentBrowserViewController.swift */; };
 		06CDFCCA213AB3F900E4B910 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 06CDFCCC213AB3F900E4B910 /* Localizable.strings */; };
-		06D00F082132AE09000D1935 /* DocumentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D00F072132AE09000D1935 /* DocumentTableViewCell.swift */; };
+		06CF1F54214E0AB5007E8F8D /* DeveloperInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CF1F53214E0AB5007E8F8D /* DeveloperInfoViewController.swift */; };
+		06CF1F56214E16BB007E8F8D /* ProgramInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CF1F55214E16BB007E8F8D /* ProgramInfoViewController.swift */; };
+		06D00F082132AE09000D1935 /* DocumentBrowerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D00F072132AE09000D1935 /* DocumentBrowerCell.swift */; };
 		06D00F0A21341F4C000D1935 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D00F0921341F4C000D1935 /* TestViewController.swift */; };
 		06F3155D214558A20021A188 /* DocumentOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060D8B8D2143D6680018D7EF /* DocumentOptionsViewController.swift */; };
 		06F3156121457F560021A188 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06F3156021457F560021A188 /* SWRevealViewController.m */; };
@@ -87,7 +89,7 @@
 		064344C8212DBB1600EDFA2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		064344CB212DBB1600EDFA2E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		064344CD212DBB1600EDFA2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		069A8EE72130F9FB00CB6004 /* TextViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewCell.swift; sourceTree = "<group>"; };
+		069A8EE72130F9FB00CB6004 /* TextViewerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewerCell.swift; sourceTree = "<group>"; };
 		069A8EE92130FAE300CB6004 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		069A8EF12131031400CB6004 /* NanumGothicBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumGothicBold.ttf; sourceTree = "<group>"; };
 		069A8EF22131031400CB6004 /* NanumMyeongjoExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjoExtraBold.ttf; sourceTree = "<group>"; };
@@ -102,7 +104,7 @@
 		069A8F072131ACFD00CB6004 /* StringReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringReader.swift; sourceTree = "<group>"; };
 		06B8AFEB214D26970068A5E9 /* DocumentFileMoveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentFileMoveViewController.swift; sourceTree = "<group>"; };
 		06C9B30A21344A290080360C /* AnotherTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnotherTextViewController.swift; sourceTree = "<group>"; };
-		06C9B30C213583170080360C /* OtherTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherTextViewController.swift; sourceTree = "<group>"; };
+		06C9B30C213583170080360C /* TextViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewerViewController.swift; sourceTree = "<group>"; };
 		06C9B30E2136DF600080360C /* iOS-txtreader.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "iOS-txtreader.entitlements"; sourceTree = "<group>"; };
 		06C9B3132136DFE10080360C /* Share To App.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Share To App.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		06C9B3152136DFE10080360C /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
@@ -116,7 +118,9 @@
 		06CDFCCB213AB3F900E4B910 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		06CDFCCD213AB3FC00E4B910 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		06CDFCCE213AD17C00E4B910 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
-		06D00F072132AE09000D1935 /* DocumentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentTableViewCell.swift; sourceTree = "<group>"; };
+		06CF1F53214E0AB5007E8F8D /* DeveloperInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperInfoViewController.swift; sourceTree = "<group>"; };
+		06CF1F55214E16BB007E8F8D /* ProgramInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramInfoViewController.swift; sourceTree = "<group>"; };
+		06D00F072132AE09000D1935 /* DocumentBrowerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentBrowerCell.swift; sourceTree = "<group>"; };
 		06D00F0921341F4C000D1935 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		06F3155E21457F550021A188 /* iOS-txtreader-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOS-txtreader-Bridging-Header.h"; sourceTree = "<group>"; };
 		06F3155F21457F560021A188 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
@@ -229,6 +233,8 @@
 			children = (
 				06225AAD214AC1430051C6B4 /* TextViewerSettingsViewController.swift */,
 				063536842146B46100263D62 /* OptionsViewController.swift */,
+				06CF1F53214E0AB5007E8F8D /* DeveloperInfoViewController.swift */,
+				06CF1F55214E16BB007E8F8D /* ProgramInfoViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -293,8 +299,8 @@
 			isa = PBXGroup;
 			children = (
 				06B8AFF1214D28C60068A5E9 /* Accessory */,
-				06C9B30C213583170080360C /* OtherTextViewController.swift */,
-				069A8EE72130F9FB00CB6004 /* TextViewCell.swift */,
+				06C9B30C213583170080360C /* TextViewerViewController.swift */,
+				069A8EE72130F9FB00CB6004 /* TextViewerCell.swift */,
 			);
 			path = TextViewController;
 			sourceTree = "<group>";
@@ -304,7 +310,7 @@
 			children = (
 				06B8AFF2214D28EE0068A5E9 /* Accessory */,
 				06CD079A21327C65009757BC /* DocumentBrowserViewController.swift */,
-				06D00F072132AE09000D1935 /* DocumentTableViewCell.swift */,
+				06D00F072132AE09000D1935 /* DocumentBrowerCell.swift */,
 			);
 			name = DocumentBrowserViewController;
 			path = "New Group";
@@ -494,6 +500,7 @@
 				069A8F082131ACFD00CB6004 /* StringReader.swift in Sources */,
 				06B8AFEC214D26970068A5E9 /* DocumentFileMoveViewController.swift in Sources */,
 				06F3156121457F560021A188 /* SWRevealViewController.m in Sources */,
+				06CF1F56214E16BB007E8F8D /* ProgramInfoViewController.swift in Sources */,
 				069A8F042131608C00CB6004 /* StreamReader.swift in Sources */,
 				06CD079B21327C65009757BC /* DocumentBrowserViewController.swift in Sources */,
 				069A8EEA2130FAE300CB6004 /* Extensions.swift in Sources */,
@@ -503,16 +510,17 @@
 				06F3155D214558A20021A188 /* DocumentOptionsViewController.swift in Sources */,
 				064344C1212DBB1600EDFA2E /* TextViewController.swift in Sources */,
 				063536852146B46100263D62 /* OptionsViewController.swift in Sources */,
-				06C9B30D213583170080360C /* OtherTextViewController.swift in Sources */,
+				06C9B30D213583170080360C /* TextViewerViewController.swift in Sources */,
 				061888C22144C98200A1B2E7 /* DocumentEncodingPreviewViewController.swift in Sources */,
 				063536872146C6A200263D62 /* ThirdTextViewController.swift in Sources */,
 				06CD079921327C24009757BC /* TextDocument.swift in Sources */,
-				069A8EE82130F9FB00CB6004 /* TextViewCell.swift in Sources */,
-				06D00F082132AE09000D1935 /* DocumentTableViewCell.swift in Sources */,
+				069A8EE82130F9FB00CB6004 /* TextViewerCell.swift in Sources */,
+				06D00F082132AE09000D1935 /* DocumentBrowerCell.swift in Sources */,
 				064344C7212DBB1600EDFA2E /* iOS_txtreader.xcdatamodeld in Sources */,
 				06CD0771213252D6009757BC /* BookMarkView.swift in Sources */,
 				06D00F0A21341F4C000D1935 /* TestViewController.swift in Sources */,
 				064344BF212DBB1600EDFA2E /* AppDelegate.swift in Sources */,
+				06CF1F54214E0AB5007E8F8D /* DeveloperInfoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
