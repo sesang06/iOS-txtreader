@@ -65,10 +65,13 @@ class TextViewerViewController: UIViewController, UITextViewDelegate {
             setUpText()
         }
     }
+    
+    
     let cellId = "cellId"
     let bookMarkView = BookMarkView()
     var bookMarkTopConstraint : Constraint?
-
+    let bookMarkMargin : CGFloat = 64
+    
     var ranges : [NSRange] = [NSRange]()
     var searchRange : NSRange?
     var string : NSMutableAttributedString?
@@ -127,21 +130,27 @@ class TextViewerViewController: UIViewController, UITextViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setUpSearchBar()
+        setUpToolbar()
+        
     }
    
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        self.navigationController?.setToolbarHidden(true, animated: false)
         updateTextFileData()
     }
     func setUpView(){
+        self.view.backgroundColor = .white
         setUpCollectionView()
         setUpBookMark()
         setUpNavigationBar()
-        setUpToolbar()
+        setUpTapNavigationBarSettings()
     }
     deinit{
         content?.close(completionHandler: { (sucess) in
@@ -163,12 +172,18 @@ extension TextViewerViewController {
     }
     
     func setUpToolbar(){
-        view.addSubview(toolbar)
-        toolbar.snp.makeConstraints { (make) in
-            make.bottom.trailing.leading.equalTo(view)
-        }
+        self.navigationController?.setToolbarHidden(false, animated: false)
         
-        toolbar.items = defaultToolBarItems
+        self.toolbarItems = defaultToolBarItems
+//        self.navigationController?.toolbar.items = items
+        //        self.navigationController?.setToolbarItems(defaultToolBarItems, animated: false)
+//        self.navigationController?.toolbar.items = defaultToolBarItems
+//        view.addSubview(toolbar)
+//        toolbar.snp.makeConstraints { (make) in
+//            make.bottom.trailing.leading.equalTo(view)
+//        }
+//
+//        toolbar.items = defaultToolBarItems
         
     }
     
@@ -242,37 +257,12 @@ extension TextViewerViewController {
                 
                 //                let textContainer = NSTextContainer(size: self.view.frame.size)
                 textLayout.allowsNonContiguousLayout = true
-                //                textLayout.addTextContainer(textContainer)
-                
-                
-                //                let size = CGSize(width : self.view.frame.width,  height : CGFloat.infinity)
-                //                let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-                //
-                //                let estimatedRect = attributedString.boundingRect(with: size, options: options, context: nil)
-                
-                //                self.count = Int(estimatedRect.size.height / self.scrollSize.height) + 1
                 
                 while(true){
                     let textContainer = NSTextContainer(size: scrollSize)
-                    //                    self.textContainers.append(textContainer)
                     
                     textLayout.addTextContainer(textContainer)
-                    //                    let textView = UITextView(frame: CGRect.zero, textContainer: textContainer)
-                    //            let textView = UITextView(frame: CGRect(x: view.frame.size.width * CGFloat(i), y: 0, width: view.frame.size.width, height: view.frame.size.height), textContainer: textContainer)
-                    //                    textView.tag = i
-                    //                    textView.textContainerInset = UIEdgeInsetsMake(0, 0, 0, 0)
-                    //                    textView.textContainer.lineFragmentPadding = 0
-                    //                    textView.delegate = self
-                    //                    //        textView.isScrollEnabled = false
-                    //                    textView.isEditable = false
-                    //                    textView.isPagingEnabled = true
-                    //                    textView.attributedText = textString
-                    //                    //            textView.isScrollEnabled = false
-                    //                    //
-                    //                    textViews.append(textView)
-                    //                    // scrollview.addSubview(textView)
-                    
-                    //                    let rangeThatFits = textLayout.glyphRange(forBoundingRect: .infinite, in: textContainer)
+                 
                     
                     let rangeThatFits = textLayout.glyphRange(for: textContainer)
                     print(rangeThatFits.upperBound)
@@ -286,24 +276,10 @@ extension TextViewerViewController {
                     }
                     self.ranges.append(rangeThatFits)
                     
-                    //                    self.subStrings.append(attributedString.attributedSubstring(from: rangeThatFits))
-                    
                     let percentage = CGFloat(rangeThatFits.upperBound) / CGFloat(attributedString.length)
                     self.textLoadingProgressView.percentage = percentage
-                    //                    DispatchQueue.main.async {
-                    ////                        self.textLoadingProgressView.percentage = percentage
-                    //                        self.textLoadingProgressView.percentageLabel.text = "\(Int(percentage * 100))%"
-                    //                        self.textLoadingProgressView.shapeLayer.strokeEnd = percentage
-                    //                    }
-                    //                    cell.textView.attributedText = substring
-                    //                    print(rangeThatFits)
-                    
-                }
+                  }
                 DispatchQueue.main.async {
-                    //                    self.shapeLayer.isHidden = true
-                    //                    self.pulsatingLayer.isHidden = true
-                    //                    self.trackLayer.isHidden = true
-                    //                    self.percentageLabel.isHidden = true
                     self.textLoadingProgressView.isHidden = true
                     self.collectionView.reloadData()
                     self.bookMarkProgressView.totalPage = self.ranges.count
@@ -322,12 +298,7 @@ extension TextViewerViewController {
             
             
         })
-        
-        
-        
-        //        textView.snp.makeConstraints { (make) in
-        //            make.top.bottom.leading.trailing.equalTo(view)
-        //        }
+     
     }
     
 }
@@ -338,7 +309,7 @@ extension TextViewerViewController : UIScrollViewDelegate {
         bookMarkView.snp.makeConstraints { (make) in
             make.height.equalTo(40)
             make.width.equalTo(60)
-            bookMarkTopConstraint = make.centerY.equalTo(topLayoutGuide.snp.bottom).offset(20).constraint
+            bookMarkTopConstraint = make.centerY.equalTo(view.snp.top).offset(20 + bookMarkMargin).constraint
             make.trailing.equalTo(view)
         }
         let panGestureRecognizer = UIPanGestureRecognizer(target:self, action: #selector(panGestureRecognizerAction))
@@ -352,10 +323,11 @@ extension TextViewerViewController : UIScrollViewDelegate {
         
     }
     @objc func panGestureRecognizerAction(gesture : UIPanGestureRecognizer){
+        func getRange(minimumOffset : CGFloat, maximumOffset : CGFloat, offset : CGFloat) -> CGFloat{
+            return min( max( minimumOffset, offset) , maximumOffset )
+        }
         let translation = gesture.translation(in: view)
-        //   view.frame.origin.y = translation.y
-        //        print(translation)
-        
+       
         if gesture.state == .began {
             bookMarkProgressView.isHidden = false
             bookMarkViewOriginY = bookMarkView.frame.origin.y + bookMarkView.frame.height / 2
@@ -363,30 +335,27 @@ extension TextViewerViewController : UIScrollViewDelegate {
         guard let bookMarkViewOriginY = bookMarkViewOriginY  else {
             return
         }
-        let offset = min( max(bookMarkView.frame.height / 2, translation.y + bookMarkViewOriginY ), collectionView.frame.height - bookMarkView.frame.height / 2)
-        let scrollOffset = (offset - bookMarkView.frame.height / 2) / (collectionView.frame.height - bookMarkView.frame.height)
-        //        print(scrollOffset)
-        //        print((scrollview.contentSize.height - scrollview.frame.height) * scrollOffset)
+      
+        let offset =
+            getRange(minimumOffset: bookMarkView.frame.height / 2 + bookMarkMargin, maximumOffset: view.frame.height - bookMarkView.frame.height / 2 - bookMarkMargin, offset: translation.y + bookMarkViewOriginY)
+        let scrollOffset = (offset - bookMarkView.frame.height / 2 - bookMarkMargin) / (view.frame.height - bookMarkView.frame.height - bookMarkMargin * 2)
         
-        //        bookMarkTopConstraint?.update(offset: offset)
-        collectionView.contentOffset = CGPoint(x: collectionView.contentOffset.x, y: (collectionView.contentSize.height - collectionView.frame.height) * scrollOffset)
+        collectionView.contentOffset = CGPoint(x: collectionView.contentOffset.x, y: (collectionView.contentSize.height - view.frame.height) * scrollOffset)
         if gesture.state == .ended {
             self.bookMarkViewOriginY = nil
             self.bookMarkProgressView.isHidden = true
         }
     }
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        /*if*/ let count = ranges.count
-            //{
+        let count = ranges.count
         if (count != 0 && count != 1){
-        let offset = collectionView.frame.height - bookMarkView.frame.height
-            let currentIndex = (collectionView.contentOffset.y / collectionView.frame.height)
-//            print(currentIndex)
+            let offset = view.frame.height - bookMarkView.frame.height - bookMarkMargin * 2
+            let currentIndex = (collectionView.contentOffset.y / view.frame.height)
+            
             let indexPath = IndexPath(item: Int(currentIndex), section: 0)
             bookMarkView.index = indexPath
             bookMarkProgressView.index = indexPath
-            bookMarkTopConstraint?.update(offset:  offset * CGFloat(currentIndex) / CGFloat(count-1) + bookMarkView.frame.height / 2)
-        //        }
+            bookMarkTopConstraint?.update(offset:  offset * CGFloat(currentIndex) / CGFloat(count-1) + bookMarkView.frame.height / 2 + bookMarkMargin)
         }
     }
 }
@@ -417,7 +386,24 @@ extension TextViewerViewController : UICollectionViewDelegate, UICollectionViewD
         return 0
     }
 }
-
+extension TextViewerViewController {
+    func setUpTapNavigationBarSettings(){
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(collectionBarTapped))
+        collectionView.addGestureRecognizer(tapGestureRecognizer)
+    }
+    @objc func collectionBarTapped(_ sender : Any){
+        guard let nc = self.navigationController else {
+            return
+        }
+     
+        UIView.animate(withDuration: 0.5) {
+            nc.setNavigationBarHidden(!nc.isNavigationBarHidden, animated: false)
+            nc.setToolbarHidden(!nc.isToolbarHidden, animated: false)
+            self.bookMarkView.alpha = 1 - self.bookMarkView.alpha
+            self.view.layoutIfNeeded()
+        }
+    }
+}
 extension TextViewerViewController : UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! TextViewerCell

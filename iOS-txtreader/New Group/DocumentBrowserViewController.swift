@@ -95,31 +95,25 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
             }
         }
     }
-    func setUpViews(){
-        view.addSubview(tableView)
-        tableView.snp.makeConstraints { (make) in
-            make.top.equalTo(topLayoutGuide.snp.bottom)
-            make.bottom.equalTo(bottomLayoutGuide.snp.top)
-            make.trailing.leading.equalTo(view)
-        }
-        tableView.register(DocumentBrowerCell.self, forCellReuseIdentifier: cellId)
+    func setUpSearchBar(){
         tableView.tableHeaderView = searchController.searchBar
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = true
+        searchController.hidesNavigationBarDuringPresentation = false
         definesPresentationContext = true
         
-        //searchController.obscuresBackgroundDuringPresentation = true
+        if #available(iOS 9.1, *) {
+            searchController.obscuresBackgroundDuringPresentation = false
+        } else {
+            // Fallback on earlier versions
+        }
         
-        let footerView = UIView()
-        footerView.backgroundColor = .clear
-        tableView.tableFooterView = footerView
-        self.navigationItem.rightBarButtonItems = [createBrowserBarButtonItem, editBrowserBarButtonItem]
         
-//        self.navigationItem.title = dirPath?.lastPathComponent
     }
-    func tableView(_ tableView: UITableView,
-                   shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool{
-        return true
+    func setUpViews(){
+        self.navigationItem.rightBarButtonItems = [createBrowserBarButtonItem, editBrowserBarButtonItem]
+        setUpTableView()
+        setUpSearchBar()
     }
     func setUpEditToolbar(){
         view.addSubview(editToolbar)
@@ -404,16 +398,35 @@ extension DocumentBrowserViewController {
     }
 }
 extension DocumentBrowserViewController : UITableViewDelegate {
+    func setUpTableView(){
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints { (make) in
+            make.top.equalTo(topLayoutGuide.snp.bottom)
+            make.bottom.equalTo(bottomLayoutGuide.snp.top)
+            make.trailing.leading.equalTo(view)
+        }
+        tableView.register(DocumentBrowerCell.self, forCellReuseIdentifier: cellId)
+        let footerView = UIView()
+        footerView.backgroundColor = .clear
+        tableView.tableFooterView = footerView
+        
+    }
+    func tableView(_ tableView: UITableView,
+                   shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool{
+        return true
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let content = isFiltering() ? filteredContents?[indexPath.item] : contents?[indexPath.item]
         if (!tableView.isEditing){
-            if (contents?[indexPath.item].isFolder == true){
+            
+            if (content?.isFolder == true){
                 let vc = DocumentBrowserViewController()
-                vc.dirPath = contents?[indexPath.item].fileURL
+                vc.dirPath = content?.fileURL
                 self.navigationController?.pushViewController(vc, animated: true)
             }else{
-//                let textViewController = ThirdTextViewController(collectionViewLayout: UICollectionViewFlowLayout())
                 let textViewController = TextViewerViewController()
-                textViewController.content = contents?[indexPath.item]
+                textViewController.content = content
                 self.navigationController?.pushViewController(textViewController, animated: true)
             }
             self.tableView.deselectRow(at: indexPath, animated: false)
