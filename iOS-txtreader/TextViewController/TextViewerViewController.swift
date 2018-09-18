@@ -41,22 +41,19 @@ class TextViewerViewController: UIViewController, UITextViewDelegate {
     lazy var attributes :  [NSAttributedStringKey : Any] = {
         let style = NSMutableParagraphStyle()
         style.lineSpacing = 5
+        var attributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.paragraphStyle : style, NSAttributedStringKey.font : UIFont(name: "NanumGothic", size: 20)!, NSAttributedStringKey.foregroundColor : UIColor.black
+        ]
         
         switch (UserDefaultsManager.default.viewType){
         case .darcula?:
-            let attributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.paragraphStyle : style, NSAttributedStringKey.font : UIFont(name: "NanumGothic", size: 20)!, NSAttributedStringKey.foregroundColor : UIColor.white
-            ]
-            return attributes
+            attributes[NSAttributedStringKey.foregroundColor] = UIColor.white
         case .normal?:
-            let attributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.paragraphStyle : style, NSAttributedStringKey.font : UIFont(name: "NanumGothic", size: 20)!, NSAttributedStringKey.foregroundColor : UIColor.black
-            ]
-            return attributes
-        default:
+            attributes[NSAttributedStringKey.foregroundColor] = UIColor.black
+        case .none:
             break
         }
-        let attributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.paragraphStyle : style, NSAttributedStringKey.font : UIFont(name: "NanumGothic", size: 20)!, NSAttributedStringKey.foregroundColor : UIColor.black
-        ]
         return attributes
+        
         
     }()
     weak var content : TextDocument? {
@@ -161,7 +158,22 @@ class TextViewerViewController: UIViewController, UITextViewDelegate {
 
 extension TextViewerViewController {
     @objc func viewerMode(){
-        
+        switch (UserDefaultsManager.default.viewType){
+        case .darcula?:
+            UserDefaultsManager.default.viewType = .normal
+            attributes[NSAttributedStringKey.foregroundColor] = UIColor.black
+        case .normal?:
+            UserDefaultsManager.default.viewType = .darcula
+            attributes[NSAttributedStringKey.foregroundColor] = UIColor.white
+        case .none:
+            break
+        }
+        if let attributedString = string {
+            let range = NSRange.init(location: 0, length: attributedString.length)
+            attributedString.setAttributes(attributes, range: range)
+        }
+       
+        self.collectionView.reloadData()
     }
     @objc func exportText(){
         DispatchQueue.main.async {
@@ -420,15 +432,26 @@ extension TextViewerViewController : UICollectionViewDataSource{
             let substring = string.attributedSubstring(from: NSRange)
             cell.textView.attributedText = substring
         }
-//        cell.textView.attributedText = subStrings[indexPath.item]
+        switch (UserDefaultsManager.default.viewType){
+        case .darcula?:
+            cell.backgroundColor = UIColor.black
+            cell.textView.backgroundColor = UIColor.black
+            break
+        case .normal?:
+            cell.backgroundColor = UIColor.white
+            cell.textView.backgroundColor = UIColor.white
+            break
+        default:
+            break
+            
+        }
         cell.index = indexPath
         return cell
     }
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        print(view.frame.height)
-//        print(collectionView.frame.height)
+
         return CGSize(width: view.frame.width, height: view.frame.height)
     }
 }
