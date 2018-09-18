@@ -15,10 +15,10 @@ enum ViewType : String {
     case darcula
     case normal
 }
-enum FontSize : Int {
-    case small = 12
-    case middle = 13
-    case large = 14
+enum TextSize : Int {
+    case small = 15
+    case middle = 20
+    case large = 25
 }
 class UserDefaultsManager {
     static let `default` : UserDefaultsManager =  UserDefaultsManager()
@@ -34,10 +34,10 @@ class UserDefaultsManager {
             UserDefaults.standard.set(v?.rawValue, forKey: UserInfoKey.viewType)
         }
     }
-    var fontSize : FontSize? {
+    var textSize : TextSize? {
         get {
             let viewType = UserDefaults.standard.integer(forKey: UserInfoKey.fontSize) 
-            return FontSize(rawValue: viewType)
+            return TextSize(rawValue: viewType)
         }
         set(v){
             UserDefaults.standard.set(v?.rawValue, forKey: UserInfoKey.fontSize)

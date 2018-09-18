@@ -108,12 +108,16 @@ class TextViewerSettingsViewController : UIViewController {
             case .darcula:
                 attributes[NSAttributedStringKey.foregroundColor] = UIColor.white
                 textSampleTextView.backgroundColor = .black
-                textSampleTextView.attributedText = NSAttributedString(string: "로렘 입숨!!", attributes: attributes)
+               
             case .normal:
                 attributes[NSAttributedStringKey.foregroundColor] = UIColor.black
                 textSampleTextView.backgroundColor = .white
                 textSampleTextView.attributedText = NSAttributedString(string: "로렘 입숨!!", attributes: attributes)
             }
+            let textSize =  UserDefaultsManager.default.textSize ?? .middle
+            let font = UIFont(name: "NanumGothic", size: CGFloat(textSize.rawValue))!
+            attributes[NSAttributedStringKey.font] = font
+            textSampleTextView.attributedText = NSAttributedString(string: "로렘 입숨!!", attributes: attributes)
         }
         if (animated){
             UIView.animate(withDuration: 0.5) {
@@ -129,7 +133,8 @@ class TextViewerSettingsViewController : UIViewController {
         view.backgroundColor = .white
         view.addSubview(textSampleTextView)
         textSampleTextView.snp.makeConstraints { (make) in
-            make.top.leading.trailing.equalTo(view)
+            make.top.equalTo(topLayoutGuide.snp.bottom)
+            make.leading.trailing.equalTo(view)
             make.height.equalTo(100)
         }
         view.addSubview(textFontSettingLabel)
@@ -191,8 +196,9 @@ class TextViewerSettingsViewController : UIViewController {
             make.top.equalTo(textSizeSettingLabel.snp.bottom)
             make.leading.trailing.equalTo(view)
         }
-        textSizeSilder.minimumValue = 12
-        textSizeSilder.maximumValue = 15
+        textSizeSilder.minimumValue = 0
+        textSizeSilder.maximumValue = 2
+        textSizeSilder.isContinuous = false
         textSizeSilder.addTarget(self, action: #selector(textSizeChange), for: UIControlEvents.valueChanged)
         
 //
@@ -221,8 +227,27 @@ class TextViewerSettingsViewController : UIViewController {
         setUpTextView(true)
     }
     @objc func textSizeChange(_ sender : UISlider){
-        let textSize = Int(sender.value)
         
+        switch ( Int(sender.value)){
+            case 0:
+            textSize = TextSize.small
+            case 1:
+            textSize = TextSize.middle
+            case 2:
+            textSize = TextSize.large
+            default:
+            textSize = TextSize.middle
+        }
+//        textSize = TextSize(rawValue: Int(sender.value)) ?? TextSize.small
+    }
+    var textSize : TextSize? {
+        didSet(oldVal){
+            if (oldVal != textSize){
+                UserDefaultsManager.default.textSize = textSize
+                setUpTextView(true)
+                
+            }
+        }
     }
     @objc func settingChange(_ sender : UISwitch){
         if (sender.isOn){
