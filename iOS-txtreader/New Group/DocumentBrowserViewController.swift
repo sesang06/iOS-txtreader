@@ -72,7 +72,8 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
             btn.action = #selector(revealVC.revealToggle(_:))
             self.navigationItem.leftBarButtonItem = btn
             self.view.addGestureRecognizer(revealVC.panGestureRecognizer())
-            
+            self.view.addGestureRecognizer(revealVC.tapGestureRecognizer())
+
         }
         
     }
@@ -85,7 +86,8 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         vc.modalPresentationStyle = .popover
         let popOver = vc.popoverPresentationController
         popOver?.sourceView = self.navigationItem.titleView
-        popOver?.sourceRect = self.navigationItem.titleView!.frame
+        popOver?.sourceRect = self.navigationItem.titleView!.bounds
+        
         popOver?.permittedArrowDirections = [.up]
         popOver?.delegate = self
         vc.delegate = self
@@ -351,6 +353,7 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
             label.text = dirPath.lastPathComponent
             label.font = UIFont.systemFont(ofSize: 20)
             self.navigationItem.titleView = label
+            label.sizeToFit()
             break
         case .Recent:
             let textDatas = TextFileDAO.default.fetchRecent()
@@ -372,6 +375,7 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
             label.text = "recent".localized
             label.font = UIFont.systemFont(ofSize: 20)
             self.navigationItem.titleView = label
+            label.sizeToFit()
             break
         default:
             break
@@ -399,10 +403,12 @@ extension DocumentBrowserViewController {
 }
 extension DocumentBrowserViewController : UITableViewDelegate {
     func setUpTableView(){
+        self.extendedLayoutIncludesOpaqueBars = true
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
-            make.top.equalTo(topLayoutGuide.snp.bottom)
-            make.bottom.equalTo(bottomLayoutGuide.snp.top)
+//            make.top.equalTo(topLayoutGuide.snp.bottom)
+//            make.bottom.equalTo(bottomLayoutGuide.snp.top)
+            make.top.bottom.equalTo(view)
             make.trailing.leading.equalTo(view)
         }
         tableView.register(DocumentBrowerCell.self, forCellReuseIdentifier: cellId)

@@ -12,7 +12,11 @@ import Foundation
 import SnapKit
 
 
-class TextViewerViewController: UIViewController, UITextViewDelegate {
+class TextViewerViewController: UIViewController, UITextViewDelegate{
+    func updateSearchResults(for searchController: UISearchController) {
+        
+    }
+    
     lazy var collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
 //        layout.scrollDirection = .horizontal
@@ -20,7 +24,7 @@ class TextViewerViewController: UIViewController, UITextViewDelegate {
         cv.backgroundColor = UIColor.white
         cv.dataSource = self
         cv.delegate = self
-        
+        cv.showsVerticalScrollIndicator = false
         return cv
     }()
     
@@ -60,6 +64,7 @@ class TextViewerViewController: UIViewController, UITextViewDelegate {
         didSet{
             fetchTextFileData()
             setUpText()
+            self.setHidesSearchBar(true, animated: false)
         }
     }
     
@@ -79,10 +84,6 @@ class TextViewerViewController: UIViewController, UITextViewDelegate {
     
     var bookMarkViewOriginY : CGFloat?
     
-    lazy var toolbar : UIToolbar = {
-       let toolbar = UIToolbar()
-        return toolbar
-    }()
     lazy var defaultToolBarItems : [UIBarButtonItem] = {
         let searchBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.search, target: self, action: #selector(searchText))
         let exportBarButton = UIBarButtonItem(title: "내보내기", style: .plain, target: self, action: #selector(exportText))
@@ -110,25 +111,27 @@ class TextViewerViewController: UIViewController, UITextViewDelegate {
     }()
     
     lazy var searchBar : UISearchBar = {
-       let searchBar = UISearchBar()
-        searchBar.isHidden = true
+       var searchBar = UISearchBar()
+//        searchBar.isHidden = true
         searchBar.delegate = self
         searchBar.showsCancelButton = true
+        searchBar.barStyle = .blackTranslucent
+//        searchBar.barPosition = .top
         return searchBar
     }()
-   
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUpView()
         
+        
         // Do any additional setup after loading the view, typically from a nib.
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setUpSearchBar()
-        setUpToolbar()
+        self.navigationController?.setToolbarHidden(false, animated: false)
         
+//
     }
    
     
@@ -148,6 +151,8 @@ class TextViewerViewController: UIViewController, UITextViewDelegate {
         setUpBookMark()
         setUpNavigationBar()
         setUpTapNavigationBarSettings()
+        setUpToolbar()
+        
     }
     deinit{
         content?.close(completionHandler: { (sucess) in
@@ -184,18 +189,8 @@ extension TextViewerViewController {
     }
     
     func setUpToolbar(){
-        self.navigationController?.setToolbarHidden(false, animated: false)
         
         self.toolbarItems = defaultToolBarItems
-//        self.navigationController?.toolbar.items = items
-        //        self.navigationController?.setToolbarItems(defaultToolBarItems, animated: false)
-//        self.navigationController?.toolbar.items = defaultToolBarItems
-//        view.addSubview(toolbar)
-//        toolbar.snp.makeConstraints { (make) in
-//            make.bottom.trailing.leading.equalTo(view)
-//        }
-//
-//        toolbar.items = defaultToolBarItems
         
     }
     
@@ -203,7 +198,8 @@ extension TextViewerViewController {
 
 extension TextViewerViewController {
     func setUpNavigationBar(){
-        self.navigationItem.title = content?.fileName
+        
+//        self.navigationItem.title = content?.fileName
     }
     override var prefersStatusBarHidden: Bool {
         return navigationController?.isNavigationBarHidden == true
@@ -301,7 +297,7 @@ extension TextViewerViewController {
                 DispatchQueue.main.async {
                     if let item = self.textFileData?.bookmark{
                         let indexPath = IndexPath(item: Int(item), section: 0)
-                        self.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.bottom, animated: false)
+                        self.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.top, animated: false)
                         
                     }
                     
@@ -412,6 +408,7 @@ extension TextViewerViewController {
             nc.setNavigationBarHidden(!nc.isNavigationBarHidden, animated: false)
             nc.setToolbarHidden(!nc.isToolbarHidden, animated: false)
             self.bookMarkView.alpha = 1 - self.bookMarkView.alpha
+            self.collectionView.showsVerticalScrollIndicator = !self.collectionView.showsVerticalScrollIndicator
             self.view.layoutIfNeeded()
         }
     }
@@ -458,7 +455,8 @@ extension TextViewerViewController : UICollectionViewDataSource{
 extension TextViewerViewController : UISearchBarDelegate {
     @objc func searchText(){
 //        toolbar.items = searchToolBarItems
-        searchBar.isHidden = false
+       setHidesSearchBar(false, animated: true)
+        
         searchBar.becomeFirstResponder()
     }
     @objc func searchPrevious(_ sender : Any){
@@ -469,12 +467,30 @@ extension TextViewerViewController : UISearchBarDelegate {
         let text = searchBar.text ?? ""
         searchTextInRange(text: text, isNext: true)
     }
-    func setUpSearchBar(){
-        self.navigationController?.navigationBar.addSubview(searchBar)
-        searchBar.snp.makeConstraints { (make) in
-            make.top.trailing.leading.bottom.equalTo((self.navigationController?.navigationBar)!)
+    
+    private func searchBarDidBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        searchBar.setShowsCancelButton(true, animated: true)
+        return true
+    }
+    func setHidesSearchBar(_ hidesSearchBar : Bool, animated : Bool){
+        if hidesSearchBar {
+            let label = UILabel()
+            label.text = content?.fileName
+            self.navigationItem.titleView = label
+            label.sizeToFit()
+            self.navigationItem.setRightBarButton(nil, animated: animated)
+            
+        }else {
+            self.navigationItem.titleView = searchBar
+            let hideSearchBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(hideSearchBar))
+            self.navigationItem.setRightBarButton(hideSearchBarButton, animated: animated)
+            
         }
-
+        self.navigationItem.setHidesBackButton(!hidesSearchBar, animated: animated)
+        
+    }
+    @objc func hideSearchBar(_ sender : Any){
+        self.setHidesSearchBar(true, animated: true)
     }
     func searchTextInRange(text : String, isNext : Bool){
         guard let previousRange = searchRange, let attributedString = string else {
@@ -515,14 +531,14 @@ extension TextViewerViewController : UISearchBarDelegate {
         DispatchQueue.main.async {
             //            self.collectionView.reloadItems(at: [indexPath])
             self.collectionView.reloadData()
-            self.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.bottom, animated: true)
+            self.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.top, animated: true)
             
         }
         
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-       
+        searchBar.resignFirstResponder()
         let text = searchBar.text ?? ""
         
         guard let attributedString = string else {
@@ -539,7 +555,7 @@ extension TextViewerViewController : UISearchBarDelegate {
             print("TODO : NOT FOUND!!")
             return
         }
-         toolbar.items = searchToolBarItems
+        self.toolbarItems = searchToolBarItems
 //        let intValue = attributedString.string.distance(from: attributedString.string.startIndex, to: range.lowerBound)
         
         
@@ -561,14 +577,14 @@ extension TextViewerViewController : UISearchBarDelegate {
         DispatchQueue.main.async {
 //            self.collectionView.reloadItems(at: [indexPath])
             self.collectionView.reloadData()
-            self.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.bottom, animated: true)
+            self.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.top, animated: true)
 
         }
     }
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         searchBar.isHidden = true
-        toolbar.items = defaultToolBarItems
+        self.toolbarItems = defaultToolBarItems
     }
     
 }

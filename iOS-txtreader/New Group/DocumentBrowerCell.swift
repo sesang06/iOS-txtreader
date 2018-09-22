@@ -56,27 +56,27 @@ class DocumentBrowerCell: BaseTableCell {
 //
 //    }
     override func setupViews() {
-        
-        contentView.addSubview(fileNameLabel)
-        contentView.addSubview(fileInfoLabel)
-        contentView.addSubview(thumbnailImageView)
-        thumbnailImageView.snp.makeConstraints { (make) in
-            make.top.equalTo(self.contentView).offset(10)
-            make.leading.equalTo(self.contentView).offset(10)
-            make.bottom.equalTo(self.contentView).offset(-10)
-            make.width.equalTo(thumbnailImageView.snp.height)
-        }
-        fileNameLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.contentView).offset(10)
-            make.leading.equalTo(self.contentView).offset(10)
-            make.trailing.equalTo(self.contentView).offset(-10)
-            make.height.equalTo(30)
-        }
-        fileInfoLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(fileNameLabel.snp.bottom).offset(0)
-            make.leading.equalTo(self.contentView).offset(10)
-            make.trailing.equalTo(self.contentView).offset(-10)
-            make.bottom.equalTo(self.contentView).offset(-10)
-        }
+//        
+//        contentView.addSubview(fileNameLabel)
+//        contentView.addSubview(fileInfoLabel)
+//        contentView.addSubview(thumbnailImageView)
+//        thumbnailImageView.snp.makeConstraints { (make) in
+//            make.top.equalTo(self.contentView).offset(10)
+//            make.leading.equalTo(self.contentView).offset(10)
+//            make.bottom.equalTo(self.contentView).offset(-10)
+//            make.width.equalTo(thumbnailImageView.snp.height)
+//        }
+//        fileNameLabel.snp.makeConstraints { (make) in
+//            make.top.equalTo(self.contentView).offset(10)
+//            make.leading.equalTo(self.contentView).offset(10)
+//            make.trailing.equalTo(self.contentView).offset(-10)
+//            make.height.equalTo(30)
+//        }
+//        fileInfoLabel.snp.makeConstraints { (make) in
+//            make.top.equalTo(fileNameLabel.snp.bottom).offset(0)
+//            make.leading.equalTo(self.contentView).offset(10)
+//            make.trailing.equalTo(self.contentView).offset(-10)
+//            make.bottom.equalTo(self.contentView).offset(-10)
+//        }
     }
 }
