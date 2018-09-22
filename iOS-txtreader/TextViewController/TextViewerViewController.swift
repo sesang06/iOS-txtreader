@@ -75,8 +75,12 @@ class TextViewerViewController: UIViewController, UITextViewDelegate{
     let bookMarkMargin : CGFloat = 64
     
     var ranges : [NSRange] = [NSRange]()
+    // MARK: 검색할 때 필요
     var searchRange : NSRange?
+    var searchString : String?
+    
     var string : NSMutableAttributedString?
+    
     
     var textFileData : TextFileData?
     
@@ -460,12 +464,10 @@ extension TextViewerViewController : UISearchBarDelegate {
         searchBar.becomeFirstResponder()
     }
     @objc func searchPrevious(_ sender : Any){
-        let text = searchBar.text ?? ""
-        searchTextInRange(text: text, isNext: false)
+        searchTextInRange(isNext: false)
     }
     @objc func searchNext(_ sender : Any){
-        let text = searchBar.text ?? ""
-        searchTextInRange(text: text, isNext: true)
+        searchTextInRange(isNext: true)
     }
     
     private func searchBarDidBeginEditing(_ searchBar: UISearchBar) -> Bool {
@@ -479,6 +481,13 @@ extension TextViewerViewController : UISearchBarDelegate {
             self.navigationItem.titleView = label
             label.sizeToFit()
             self.navigationItem.setRightBarButton(nil, animated: animated)
+            self.toolbarItems = defaultToolBarItems
+            self.searchString = nil
+            if let searchRange = self.searchRange {
+                string?.removeAttribute(NSAttributedStringKey.backgroundColor, range: searchRange)
+                collectionView.reloadData()
+                self.searchRange = nil
+            }
             
         }else {
             self.navigationItem.titleView = searchBar
@@ -492,7 +501,11 @@ extension TextViewerViewController : UISearchBarDelegate {
     @objc func hideSearchBar(_ sender : Any){
         self.setHidesSearchBar(true, animated: true)
     }
-    func searchTextInRange(text : String, isNext : Bool){
+    func searchTextInRange(isNext : Bool){
+        guard let text = searchString else {
+            return
+        }
+        
         guard let previousRange = searchRange, let attributedString = string else {
             return
         }
@@ -500,16 +513,19 @@ extension TextViewerViewController : UISearchBarDelegate {
         let range : NSRange
         if (isNext){
             nextRange = NSRange.init(location: previousRange.location + 1, length: attributedString.length - previousRange.location - 1)
-            range = attributedString.mutableString.range(of: text, options: [], range: nextRange)
+            range = attributedString.mutableString.range(of: text, options: [NSString.CompareOptions.caseInsensitive], range: nextRange)
             
         }else{
             nextRange = NSRange.init(location: 0, length: previousRange.location)
-            range = attributedString.mutableString.range(of: text, options: [NSString.CompareOptions.backwards], range: nextRange)
+            range = attributedString.mutableString.range(of: text, options: [NSString.CompareOptions.backwards, NSString.CompareOptions.caseInsensitive], range: nextRange)
             
         }
        
         guard range != NSRange(location: NSNotFound, length: 0)  else {
             print("TODO : NOT FOUND!!")
+            self.showAlert(title: "찾기", message: "\(text)는 찾을 수 없습니다.") {
+                
+            }
             return
         }
         var finalIndex : Int?
@@ -537,49 +553,26 @@ extension TextViewerViewController : UISearchBarDelegate {
         
     }
     
+    /**
+     서치바 검색을 함
+     이전 검색 저장함
+     툴바를 바꿈
+     **/
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         let text = searchBar.text ?? ""
-        
-        guard let attributedString = string else {
-            return
+        if let searchRange = self.searchRange {
+            string?.removeAttribute(NSAttributedStringKey.backgroundColor, range: searchRange)
+            collectionView.reloadData()
+            self.searchRange = nil
         }
-//        guard let range = attributedString.string.range(of: text) else {
-//            return
-//        }
-
-        let range = attributedString.mutableString.range(of: text)
+        
+        searchString = text
+        searchRange = NSRange.init(location: -1, length: 0)
         
         
-        guard range != NSRange(location: NSNotFound, length: 0)  else {
-            print("TODO : NOT FOUND!!")
-            return
-        }
         self.toolbarItems = searchToolBarItems
-//        let intValue = attributedString.string.distance(from: attributedString.string.startIndex, to: range.lowerBound)
-        
-        
-        var finalIndex : Int?
-        for (index, element) in ranges.enumerated(){
-            if NSLocationInRange(range.lowerBound, element)    {
-                finalIndex = index
-                break
-            }
-        }
-        guard let index = finalIndex else {
-            return
-        }
-       
-       searchRange = range
-        string?.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.red, range: range)
-//        string?.addAttribute(NSAttributedStringKey.backgroundColor : UIColor.red, range: range)
-        let indexPath = IndexPath(item: index, section: 0)
-        DispatchQueue.main.async {
-//            self.collectionView.reloadItems(at: [indexPath])
-            self.collectionView.reloadData()
-            self.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.top, animated: true)
-
-        }
+        searchTextInRange(isNext: true)
     }
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()

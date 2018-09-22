@@ -31,10 +31,6 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         tv.dataSource = self
         return tv
     }()
-    lazy var editToolbar : UIToolbar = {
-        let tb = UIToolbar()
-        return tb
-    }()
     lazy var editBrowserBarButtonItem : UIBarButtonItem = {
         let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: #selector(editBrowser))
         return button
@@ -118,9 +114,8 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         setUpSearchBar()
     }
     func setUpEditToolbar(){
-        view.addSubview(editToolbar)
-
-        editToolbar.items = [
+     
+        toolbarItems = [
             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
             ,
             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.trash, target: self, action: #selector(deleteDocument))
@@ -141,16 +136,9 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
            , UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
             
         ]
-        editToolbar.snp.makeConstraints { (make) in
-            editToolBarConstraint = make.bottom.equalTo(view).constraint
-            make.top.equalTo(view.snp.bottom).priority(.low)
-            make.leading.trailing.equalTo(view)
-        }
-        editToolBarConstraint?.deactivate()
-        enableToolbarButtons()
+         enableToolbarButtons()
     }
     let exportBarButton =  UIBarButtonItem(image : UIImage(named: "export_file"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(importDocument))
-    var editToolBarConstraint : Constraint?
     @objc func changeDocumentName(){
         guard let indexPath = tableView.indexPathForSelectedRow else {
             return
@@ -212,7 +200,7 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.setEditing(true, animated: true)
     self.navigationItem.setRightBarButtonItems([createBrowserBarButtonItem,cancelEditBrowserBarButtoonItem], animated: true)
-        editToolBarConstraint?.activate()
+        navigationController?.setToolbarHidden(false, animated: true)
         UIView.animate(withDuration: 0.1) {
             self.view.layoutIfNeeded()
         }
@@ -221,7 +209,7 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         
         tableView.setEditing(false, animated: true)
     self.navigationItem.setRightBarButtonItems([createBrowserBarButtonItem,editBrowserBarButtonItem], animated: true)
-         self.editToolBarConstraint?.deactivate()
+        navigationController?.setToolbarHidden(true, animated: true)
         UIView.animate(withDuration: 0.1) {
             self.view.layoutIfNeeded()
         }
@@ -393,11 +381,11 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
 extension DocumentBrowserViewController {
     func enableToolbarButtons(){
         let count = tableView.indexPathsForSelectedRows?.count ?? 0
-        editToolbar.items?[1].isEnabled = (count > 0) ? true : false
-        editToolbar.items?[3].isEnabled = (count == 1) ? true : false
-        editToolbar.items?[5].isEnabled = (count > 0) ? true : false
-        editToolbar.items?[7].isEnabled = (count > 0) ? true : false
-        editToolbar.items?[9].isEnabled = (count == 1) ? true : false
+        toolbarItems?[1].isEnabled = (count > 0) ? true : false
+        toolbarItems?[3].isEnabled = (count == 1) ? true : false
+        toolbarItems?[5].isEnabled = (count > 0) ? true : false
+        toolbarItems?[7].isEnabled = (count > 0) ? true : false
+        toolbarItems?[9].isEnabled = (count == 1) ? true : false
 
     }
 }
