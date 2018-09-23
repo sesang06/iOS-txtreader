@@ -227,39 +227,50 @@ extension DocumentBrowserViewController {
     
     // MARK: 생성
     @objc func createBrowser(){
+        guard let dirPath = dirPath else {
+            return
+        }
+        
         self.showInputDialog(title: "createBroswerMessage".localized) { (input) in
-            if let input = input {
-                if input.count != 0, let fileURL = self.dirPath?.appendingPathComponent(input) {
-                    if FileManager.default.fileExists(atPath: fileURL.path){
-                        
-                    }else{
-                        do {  try FileManager.default.createDirectory(at: fileURL, withIntermediateDirectories: true, attributes: nil)
-                            let document = TextDocument(fileURL: fileURL)
-                            self.contents?.insert(document, at: 0)
-                            let indexPath = IndexPath(item: 0, section: 0)
-                            DispatchQueue.main.async {
-                                self.tableView.beginUpdates()
-                                self.tableView.insertRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
-                                self.tableView.endUpdates()
-                            }
-                            
-                            
-                        } catch {
-                            
-                        }
-                    }
+           
+            guard let input = input else {
+                return
+            }
+            guard !input.isEmpty else {
+                return
+            }
+            let newURL = dirPath.appendingPathComponent(input)
+            guard !FileManager.default.fileExists(atPath: newURL.path) else {
+                self.showAlert(title: "오류", message: "\(input) 폴더가 이미 있습니다.", completion: {
+                    
+                })
+                return
+            }
+            do {
+                try FileManager.default.createDirectory(at: newURL, withIntermediateDirectories: true, attributes: nil)
+                let document = TextDocument(fileURL: newURL)
+                self.contents?.insert(document, at: 0)
+                let indexPath = IndexPath(item: 0, section: 0)
+                DispatchQueue.main.async {
+                    self.tableView.beginUpdates()
+                    self.tableView.insertRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+                    self.tableView.endUpdates()
                 }
+                
+                
+            } catch {
+                
             }
         }
     }
     // MARK: 이름 변경
     @objc func changeDocumentName(){
-        guard let indexPath = tableView.indexPathForSelectedRow else {
+        guard let indexPath = tableView.indexPathForSelectedRow, var contents = contents, let dirPath = dirPath else {
             return
         }
-        guard let selectedContent = contents?[indexPath.item] else {
-            return
-        }
+        
+        
+        let selectedContent = contents[indexPath.item]
         self.showInputDialog(title: "changeDocumentNameMessage".localized,  defaultText: selectedContent.fileName , confirm : { (input) in
             guard let input = input else {
                 return
@@ -267,18 +278,19 @@ extension DocumentBrowserViewController {
             guard !input.isEmpty else {
                 return
             }
-            guard let newURL = self.dirPath?.appendingPathComponent(input) else{
-                return
-            }
+            let newURL = dirPath.appendingPathComponent(input)
             
             guard !FileManager.default.fileExists(atPath: newURL.path) else {
+                self.showAlert(title: "오류", message: "\(input) 파일이 이미 있습니다.", completion: {
+                    
+                })
                 return
             }
             do {
                 try FileManager.default.moveItem(at: selectedContent.fileURL, to: newURL)
                 let document = TextDocument(fileURL: newURL)
-                self.contents?[indexPath.item] = document
-                
+                contents[indexPath.item] = document
+                self.contents = contents
                 DispatchQueue.main.async {
                     self.tableView.beginUpdates()
                     self.tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
@@ -328,7 +340,7 @@ extension DocumentBrowserViewController {
         //let items = Array(0..<newContents.count).map{ IndexPath(row: $0, section: 0) }
         
         DispatchQueue.main.async {
-            self.tableView.setEditing(false, animated: true)
+            self.cancelEditBrowser()
             self.tableView.beginUpdates()
             self.tableView.insertRows(at: items, with: UITableViewRowAnimation.automatic)
             self.tableView.endUpdates()
@@ -336,23 +348,35 @@ extension DocumentBrowserViewController {
     }
     // MARK: 제거
     @objc func deleteDocument(){
-      //      self.showAlert(title: "삭제", message: "", completion: <#T##((Bool) -> Void)?##((Bool) -> Void)?##(Bool) -> Void#>)
-        tableView.indexPathsForSelectedRows?.forEach {
-            if let url = contents?[$0.item].fileURL {
-                do {
-                    try FileManager.default.removeItem(at: url )
-                    
-                } catch let error as NSError {
-                    print(error.localizedDescription)
+        self.showAlert(title: "삭제", message: "정말 선택하신 파일들을 삭제하시겠습니까?") { (success) in
+            if success {
+                guard let indexPaths = self.tableView.indexPathsForSelectedRows, var contents = self.contents else {
+                    return
+                }
+                
+                let deletedIndexPaths = indexPaths.compactMap { (indexPath) -> IndexPath? in
+                    let url = contents[indexPath.item].fileURL
+                    do {
+                        try FileManager.default.removeItem(at: url)
+                        return indexPath
+                    } catch let error as NSError {
+                        print(error.localizedDescription)
+                        return nil
+                    }
+                }
+                
+                contents.remove(at: deletedIndexPaths.map{$0.item})
+                self.contents = contents
+                DispatchQueue.main.async {
+                    self.cancelEditBrowser()
+                    self.tableView.beginUpdates()
+                    self.tableView.deleteRows(at: deletedIndexPaths, with: UITableViewRowAnimation.automatic)
+                    self.tableView.endUpdates()
                 }
             }
         }
-        contents?.remove(at: tableView.indexPathsForSelectedRows?.map{$0.item} ?? [])
-        DispatchQueue.main.async {
-            self.tableView.beginUpdates()
-            self.tableView.deleteRows(at: self.tableView.indexPathsForSelectedRows ?? [], with: UITableViewRowAnimation.automatic)
-            self.tableView.endUpdates()
-        }
+        
+       
         
     }
 }
