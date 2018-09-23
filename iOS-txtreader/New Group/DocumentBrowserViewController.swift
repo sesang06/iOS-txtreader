@@ -64,287 +64,23 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
             }
         }
     }
-    func setUpOptionsView(){
-        if let revealVC = self.revealViewController() {
-            let btn = UIBarButtonItem()
-            btn.image = UIImage(named: "baseline_menu_black_24pt")
-            btn.target = revealVC
-            btn.action = #selector(revealVC.revealToggle(_:))
-            self.navigationItem.leftBarButtonItem = btn
-            self.view.addGestureRecognizer(revealVC.panGestureRecognizer())
-            self.view.addGestureRecognizer(revealVC.tapGestureRecognizer())
-
-        }
-        
-    }
+    let exportBarButton =  UIBarButtonItem(image : UIImage(named: "export_file"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(importDocument))
+    
+    
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none
     }
     
-    @objc func navBarTapped(){
-        let vc = DocumentOptionsViewController()
-        vc.modalPresentationStyle = .popover
-        let popOver = vc.popoverPresentationController
-        popOver?.sourceView = self.navigationItem.titleView
-        popOver?.sourceRect = self.navigationItem.titleView!.bounds
-        
-        popOver?.permittedArrowDirections = [.up]
-        popOver?.delegate = self
-        vc.delegate = self
-        DispatchQueue.main.async {
-            self.present(vc, animated: true) {
-                
-            }
-        }
-    }
-    func setUpSearchBar(){
-        tableView.tableHeaderView = searchController.searchBar
-        searchController.searchResultsUpdater = self
-        searchController.dimsBackgroundDuringPresentation = true
-        searchController.hidesNavigationBarDuringPresentation = false
-        definesPresentationContext = true
-        
-        if #available(iOS 9.1, *) {
-            searchController.obscuresBackgroundDuringPresentation = false
-        } else {
-            // Fallback on earlier versions
-        }
-        
-        
-    }
+   
+    
     func setUpViews(){
         self.navigationItem.rightBarButtonItems = [createBrowserBarButtonItem, editBrowserBarButtonItem]
         setUpTableView()
         setUpSearchBar()
     }
-    func setUpEditToolbar(){
-     
-        toolbarItems = [
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-            ,
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.trash, target: self, action: #selector(deleteDocument))
-            ,
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-            ,
-            UIBarButtonItem(image : UIImage(named: "rename_file"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(changeDocumentName)),
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-            ,
-            UIBarButtonItem(image : UIImage(named: "copy_file"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(copyDocument)),
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-            ,
-            UIBarButtonItem(title: "파일 이동", style: UIBarButtonItemStyle.plain, target: self, action: #selector(moveDocument)),
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-            ,
-            
-            exportBarButton
-           , UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-            
-        ]
-         enableToolbarButtons()
-    }
-    let exportBarButton =  UIBarButtonItem(image : UIImage(named: "export_file"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(importDocument))
-    @objc func changeDocumentName(){
-        guard let indexPath = tableView.indexPathForSelectedRow else {
-            return
-        }
-        guard let selectedContent = contents?[indexPath.item] else {
-            return
-        }
-        self.showInputDialog(title: "changeDocumentNameMessage".localized,  defaultText: selectedContent.fileName , confirm : { (input) in
-            guard let input = input else {
-                return
-            }
-            guard !input.isEmpty else {
-                return
-            }
-            guard let newURL = self.dirPath?.appendingPathComponent(input) else{
-                return
-            }
-            
-            guard !FileManager.default.fileExists(atPath: newURL.path) else {
-                return
-            }
-            do {
-                try FileManager.default.moveItem(at: selectedContent.fileURL, to: newURL)
-                let document = TextDocument(fileURL: newURL)
-                self.contents?[indexPath.item] = document
-                DispatchQueue.main.async {
-                    self.tableView.beginUpdates()
-                    self.tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
-                    self.tableView.endUpdates()
-                }
-            } catch {
-                
-            }
-        })
-    }
-    @objc func deleteDocument(){
-        tableView.indexPathsForSelectedRows?.forEach {
-            if let url = contents?[$0.item].fileURL {
-                do {
-                    try FileManager.default.removeItem(at: url )
-
-                } catch let error as NSError {
-                    print(error.localizedDescription)
-                }
-            }
-        }
-        contents?.remove(at: tableView.indexPathsForSelectedRows?.map{$0.item} ?? [])
-        DispatchQueue.main.async {
-            self.tableView.beginUpdates()
-            self.tableView.deleteRows(at: self.tableView.indexPathsForSelectedRows ?? [], with: UITableViewRowAnimation.automatic)
-            self.tableView.endUpdates()
-        }
-      
-    }
+   
     
-    func setEnableSearchBar(_ enabled: Bool){
-        if (enabled){
-            searchController.searchBar.isUserInteractionEnabled = true
-            searchController.searchBar.isTranslucent = true
-            searchController.searchBar.searchBarStyle = UISearchBarStyle.default
-            searchController.searchBar.backgroundColor = .clear
-        }else {
-            searchController.searchBar.isUserInteractionEnabled = false
-            searchController.searchBar.isTranslucent = false
-            searchController.searchBar.searchBarStyle = UISearchBarStyle.minimal
-            searchController.searchBar.backgroundColor = .lightGray
-        }
-    }
-
-    @objc func editBrowser(){
-        
-        tableView.allowsMultipleSelectionDuringEditing = true
-        tableView.setEditing(true, animated: true)
-    self.navigationItem.setRightBarButtonItems([createBrowserBarButtonItem,cancelEditBrowserBarButtoonItem], animated: true)
-        navigationController?.setToolbarHidden(false, animated: true)
-        setEnableSearchBar(false)
-        UIView.animate(withDuration: 0.1) {
-            self.view.layoutIfNeeded()
-        }
-    }
-    @objc func cancelEditBrowser(){
-        
-        tableView.setEditing(false, animated: true)
-    self.navigationItem.setRightBarButtonItems([createBrowserBarButtonItem,editBrowserBarButtonItem], animated: true)
-        navigationController?.setToolbarHidden(true, animated: true)
-        setEnableSearchBar(true)
-        UIView.animate(withDuration: 0.1) {
-            self.view.layoutIfNeeded()
-        }
-        
-        enableToolbarButtons()
-    }
-    //TODO :
-    @objc func createBrowser(){
-        self.showInputDialog(title: "createBroswerMessage".localized) { (input) in
-            if let input = input {
-                if input.count != 0, let fileURL = self.dirPath?.appendingPathComponent(input) {
-                    if FileManager.default.fileExists(atPath: fileURL.path){
-                        
-                    }else{
-                        do {  try FileManager.default.createDirectory(at: fileURL, withIntermediateDirectories: true, attributes: nil)
-                            let document = TextDocument(fileURL: fileURL)
-                            self.contents?.insert(document, at: 0)
-                            let indexPath = IndexPath(item: 0, section: 0)
-                            DispatchQueue.main.async {
-                                self.tableView.beginUpdates()
-                                self.tableView.insertRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
-                                self.tableView.endUpdates()
-                            }
-                           
-                            
-                        } catch {
-                            
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    // copy document
-    //TODO : appropriate animation!!
-    @objc func copyDocument(){
-        guard let indexPaths = tableView.indexPathsForSelectedRows else {
-            return
-        }
-        for indexPath in indexPaths {
-            guard let content = contents?[indexPath.item] else {
-                break
-            }
-            guard let newPath = content.fileURL.newFileURL else {
-                break
-            }
-            do {
-                try FileManager.default.copyItem(at: content.fileURL, to: newPath)
-             }catch let error as NSError {
-                print(error.localizedDescription)
-            }
-        }
-     
-        let newContents = indexPaths.compactMap { (indexPath) -> TextDocument? in
-          
-            guard let content = contents?[indexPath.item] else {
-                return nil
-            }
-            guard let newPath = content.fileURL.newFileURL else {
-                return nil
-            }
-            do {
-                try FileManager.default.copyItem(at: content.fileURL, to: newPath)
-                let newContent = TextDocument(fileURL: newPath)
-                return newContent
-            }catch let error as NSError {
-                print(error.localizedDescription)
-                return nil
-            }
-            
-        }
-        contents?.insert(contentsOf: newContents, at: 0)
-        let items = Array(0..<newContents.count).map{ IndexPath(row: $0, section: 0) }
-
-        DispatchQueue.main.async {
-            self.tableView.setEditing(false, animated: true)
-            self.tableView.beginUpdates()
-            self.tableView.insertRows(at: items, with: UITableViewRowAnimation.automatic)
-            self.tableView.endUpdates()
-        }
-    }
-    @objc func moveDocument(){
-        let vc = DocumentFileMoveViewController()
-        vc.delegate = self
-        let nc = UINavigationController(rootViewController: vc)
-        nc.modalPresentationStyle = .popover
-        let popOver = nc.popoverPresentationController
-        popOver?.sourceView = self.view
-        popOver?.sourceRect = self.view.frame
-        popOver?.delegate = self
-        popOver?.permittedArrowDirections = UIPopoverArrowDirection(rawValue: 0)
-//        print(popOver?.permittedArrowDirections)
-        
-        nc.preferredContentSize = CGSize(width:300, height: 300)
-        DispatchQueue.main.async {
-            self.present(nc, animated: true) {
-                
-            }
-        }
-    }
-
-    @objc func importDocument(){
-        guard let indexPath = tableView.indexPathForSelectedRow else {
-            return
-        }
-        guard let selectedContent = contents?[indexPath.item] else {
-            return
-        }
-        DispatchQueue.main.async {
-            self.documentInteractionController.url = selectedContent.fileURL
-            self.documentInteractionController.delegate = self
-            self.documentInteractionController.presentOpenInMenu(from: self.exportBarButton, animated: true)
-        }
-        
-    }
+   
     func setUpDocuments(){
         switch documentType {
         case .Local:
@@ -400,6 +136,262 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         }
     }
     
+}
+extension DocumentBrowserViewController {
+    // MARK: 드로워뷰 설정
+    func setUpOptionsView(){
+        if let revealVC = self.revealViewController() {
+            let btn = UIBarButtonItem()
+            btn.image = UIImage(named: "baseline_menu_black_24pt")
+            btn.target = revealVC
+            btn.action = #selector(revealVC.revealToggle(_:))
+            self.navigationItem.leftBarButtonItem = btn
+            self.view.addGestureRecognizer(revealVC.panGestureRecognizer())
+            self.view.addGestureRecognizer(revealVC.tapGestureRecognizer())
+        }
+    }
+}
+extension DocumentBrowserViewController {
+    // MARK: 네비게이션 타이틀바 설정
+    @objc func navBarTapped(){
+        let vc = DocumentOptionsViewController()
+        vc.modalPresentationStyle = .popover
+        let popOver = vc.popoverPresentationController
+        popOver?.sourceView = self.navigationItem.titleView
+        popOver?.sourceRect = self.navigationItem.titleView!.bounds
+        
+        popOver?.permittedArrowDirections = [.up]
+        popOver?.delegate = self
+        vc.delegate = self
+        DispatchQueue.main.async {
+            self.present(vc, animated: true) {
+                
+            }
+        }
+    }
+}
+extension DocumentBrowserViewController {
+    // MARK: 툴바의 움직임 조정
+    func setUpEditToolbar(){
+        
+        toolbarItems = [
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+            ,
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.trash, target: self, action: #selector(deleteDocument))
+            ,
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+            ,
+            UIBarButtonItem(image : UIImage(named: "rename_file"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(changeDocumentName)),
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+            ,
+            UIBarButtonItem(image : UIImage(named: "copy_file"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(copyDocument)),
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+            ,
+            UIBarButtonItem(title: "파일 이동", style: UIBarButtonItemStyle.plain, target: self, action: #selector(moveDocument)),
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+            ,
+            
+            exportBarButton
+            , UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+            
+        ]
+        enableToolbarButtons()
+    }
+    @objc func editBrowser(){
+        tableView.allowsMultipleSelectionDuringEditing = true
+        tableView.setEditing(true, animated: true)
+        self.navigationItem.setRightBarButtonItems([createBrowserBarButtonItem,cancelEditBrowserBarButtoonItem], animated: true)
+        navigationController?.setToolbarHidden(false, animated: true)
+        setEnableSearchBar(false)
+        UIView.animate(withDuration: 0.1) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    @objc func cancelEditBrowser(){
+        
+        tableView.setEditing(false, animated: true)
+        self.navigationItem.setRightBarButtonItems([createBrowserBarButtonItem,editBrowserBarButtonItem], animated: true)
+        navigationController?.setToolbarHidden(true, animated: true)
+        setEnableSearchBar(true)
+        UIView.animate(withDuration: 0.1) {
+            self.view.layoutIfNeeded()
+        }
+        
+        enableToolbarButtons()
+    }
+}
+
+extension DocumentBrowserViewController {
+    // MARK: 수정, 삭제 등등
+    
+    
+    // MARK: 생성
+    @objc func createBrowser(){
+        self.showInputDialog(title: "createBroswerMessage".localized) { (input) in
+            if let input = input {
+                if input.count != 0, let fileURL = self.dirPath?.appendingPathComponent(input) {
+                    if FileManager.default.fileExists(atPath: fileURL.path){
+                        
+                    }else{
+                        do {  try FileManager.default.createDirectory(at: fileURL, withIntermediateDirectories: true, attributes: nil)
+                            let document = TextDocument(fileURL: fileURL)
+                            self.contents?.insert(document, at: 0)
+                            let indexPath = IndexPath(item: 0, section: 0)
+                            DispatchQueue.main.async {
+                                self.tableView.beginUpdates()
+                                self.tableView.insertRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+                                self.tableView.endUpdates()
+                            }
+                            
+                            
+                        } catch {
+                            
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // MARK: 이름 변경
+    @objc func changeDocumentName(){
+        guard let indexPath = tableView.indexPathForSelectedRow else {
+            return
+        }
+        guard let selectedContent = contents?[indexPath.item] else {
+            return
+        }
+        self.showInputDialog(title: "changeDocumentNameMessage".localized,  defaultText: selectedContent.fileName , confirm : { (input) in
+            guard let input = input else {
+                return
+            }
+            guard !input.isEmpty else {
+                return
+            }
+            guard let newURL = self.dirPath?.appendingPathComponent(input) else{
+                return
+            }
+            
+            guard !FileManager.default.fileExists(atPath: newURL.path) else {
+                return
+            }
+            do {
+                try FileManager.default.moveItem(at: selectedContent.fileURL, to: newURL)
+                let document = TextDocument(fileURL: newURL)
+                self.contents?[indexPath.item] = document
+                
+                DispatchQueue.main.async {
+                    self.tableView.beginUpdates()
+                    self.tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+                    self.tableView.endUpdates()
+                }
+            } catch {
+                
+            }
+        })
+    }
+    // TODO: appropriate animation!!
+    // MARK: 복사
+    @objc func copyDocument(){
+        guard let indexPaths = tableView.indexPathsForSelectedRows, var contents = contents else {
+            return
+        }
+        
+        let newContents = indexPaths.compactMap { (indexPath) -> TextDocument? in
+            
+            let content = contents[indexPath.item]
+            guard let newPath = content.fileURL.newFileURL else {
+                return nil
+            }
+            do {
+                try FileManager.default.copyItem(at: content.fileURL, to: newPath)
+                let newContent = TextDocument(fileURL: newPath)
+                return newContent
+            }catch let error as NSError {
+                print(error.localizedDescription)
+                return nil
+            }
+            
+        }
+        
+        contents.insert(contentsOf: newContents, at: 0)
+        contents.sort(by: { x, y in
+            return x.fileURL.lastPathComponent.localizedStandardCompare(y.fileURL.lastPathComponent) == ComparisonResult.orderedAscending
+        })
+        let items = newContents.compactMap { (content) -> IndexPath? in
+            guard let item = contents.firstIndex(of: content) else {
+                return nil
+            }
+            return IndexPath(item:  item, section: 0)
+        }
+        
+        self.contents = contents
+        //let items = Array(0..<newContents.count).map{ IndexPath(row: $0, section: 0) }
+        
+        DispatchQueue.main.async {
+            self.tableView.setEditing(false, animated: true)
+            self.tableView.beginUpdates()
+            self.tableView.insertRows(at: items, with: UITableViewRowAnimation.automatic)
+            self.tableView.endUpdates()
+        }
+    }
+    // MARK: 제거
+    @objc func deleteDocument(){
+      //      self.showAlert(title: "삭제", message: "", completion: <#T##((Bool) -> Void)?##((Bool) -> Void)?##(Bool) -> Void#>)
+        tableView.indexPathsForSelectedRows?.forEach {
+            if let url = contents?[$0.item].fileURL {
+                do {
+                    try FileManager.default.removeItem(at: url )
+                    
+                } catch let error as NSError {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        contents?.remove(at: tableView.indexPathsForSelectedRows?.map{$0.item} ?? [])
+        DispatchQueue.main.async {
+            self.tableView.beginUpdates()
+            self.tableView.deleteRows(at: self.tableView.indexPathsForSelectedRows ?? [], with: UITableViewRowAnimation.automatic)
+            self.tableView.endUpdates()
+        }
+        
+    }
+}
+extension DocumentBrowserViewController {
+    // MARK:  파일 이동, 임포트
+    @objc func moveDocument(){
+        let vc = DocumentFileMoveViewController()
+        vc.delegate = self
+        let nc = UINavigationController(rootViewController: vc)
+        nc.modalPresentationStyle = .popover
+        let popOver = nc.popoverPresentationController
+        popOver?.sourceView = self.view
+        popOver?.sourceRect = self.view.frame
+        popOver?.delegate = self
+        popOver?.permittedArrowDirections = UIPopoverArrowDirection(rawValue: 0)
+        //        print(popOver?.permittedArrowDirections)
+        
+        nc.preferredContentSize = CGSize(width:300, height: 300)
+        DispatchQueue.main.async {
+            self.present(nc, animated: true) {
+                
+            }
+        }
+    }
+    
+    @objc func importDocument(){
+        guard let indexPath = tableView.indexPathForSelectedRow else {
+            return
+        }
+        guard let selectedContent = contents?[indexPath.item] else {
+            return
+        }
+        DispatchQueue.main.async {
+            self.documentInteractionController.url = selectedContent.fileURL
+            self.documentInteractionController.delegate = self
+            self.documentInteractionController.presentOpenInMenu(from: self.exportBarButton, animated: true)
+        }
+        
+    }
 }
 extension DocumentBrowserViewController {
     func enableToolbarButtons(){
@@ -486,8 +478,37 @@ extension DocumentBrowserViewController : UITableViewDataSource {
         return cell
     }
 }
-//북마크, 검색, 내보내기, 주/야간 설정
 
+
+extension DocumentBrowserViewController {
+    // MARK: 검색창 설정
+    func setUpSearchBar(){
+        tableView.tableHeaderView = searchController.searchBar
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = true
+        searchController.hidesNavigationBarDuringPresentation = false
+        definesPresentationContext = true
+        
+        if #available(iOS 9.1, *) {
+            searchController.obscuresBackgroundDuringPresentation = false
+        } else {
+            // Fallback on earlier versions
+        }
+    }
+    func setEnableSearchBar(_ enabled: Bool){
+        if (enabled){
+            searchController.searchBar.isUserInteractionEnabled = true
+            searchController.searchBar.isTranslucent = true
+            searchController.searchBar.searchBarStyle = UISearchBarStyle.default
+            searchController.searchBar.backgroundColor = .clear
+        }else {
+            searchController.searchBar.isUserInteractionEnabled = false
+            searchController.searchBar.isTranslucent = false
+            searchController.searchBar.searchBarStyle = UISearchBarStyle.minimal
+            searchController.searchBar.backgroundColor = .lightGray
+        }
+    }
+}
 extension DocumentBrowserViewController : UISearchResultsUpdating {
     func isFiltering() -> Bool {
         return searchController.isActive && !searchBarIsEmpty()
