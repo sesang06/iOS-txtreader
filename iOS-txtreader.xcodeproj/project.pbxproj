@@ -18,6 +18,7 @@
 		064344C7212DBB1600EDFA2E /* iOS_txtreader.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 064344C5212DBB1600EDFA2E /* iOS_txtreader.xcdatamodeld */; };
 		064344C9212DBB1600EDFA2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 064344C8212DBB1600EDFA2E /* Assets.xcassets */; };
 		064344CC212DBB1600EDFA2E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 064344CA212DBB1600EDFA2E /* LaunchScreen.storyboard */; };
+		065180C72157612600B842E9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065180C62157612600B842E9 /* GoogleService-Info.plist */; };
 		069A8EE82130F9FB00CB6004 /* TextViewerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069A8EE72130F9FB00CB6004 /* TextViewerCell.swift */; };
 		069A8EEA2130FAE300CB6004 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069A8EE92130FAE300CB6004 /* Extensions.swift */; };
 		069A8EF92131031500CB6004 /* NanumGothicBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069A8EF12131031400CB6004 /* NanumGothicBold.ttf */; };
@@ -91,6 +92,7 @@
 		064344C8212DBB1600EDFA2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		064344CB212DBB1600EDFA2E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		064344CD212DBB1600EDFA2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		065180C62157612600B842E9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		069A8EE72130F9FB00CB6004 /* TextViewerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewerCell.swift; sourceTree = "<group>"; };
 		069A8EE92130FAE300CB6004 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		069A8EF12131031400CB6004 /* NanumGothicBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumGothicBold.ttf; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 		064344BD212DBB1600EDFA2E /* iOS-txtreader */ = {
 			isa = PBXGroup;
 			children = (
+				065180C62157612600B842E9 /* GoogleService-Info.plist */,
 				06B8AFF0214D27EA0068A5E9 /* CoreData */,
 				06B8AFEE214D27960068A5E9 /* SWRevealViewController */,
 				06B8AFED214D273A0068A5E9 /* Settings */,
@@ -352,6 +355,7 @@
 				064344B9212DBB1600EDFA2E /* Resources */,
 				9C9956B3DD280181E69E11C5 /* [CP] Embed Pods Frameworks */,
 				06C9B3212136DFE10080360C /* Embed App Extensions */,
+				065180C82157642900B842E9 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -429,6 +433,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				065180C72157612600B842E9 /* GoogleService-Info.plist in Resources */,
 				069A8EFC2131031500CB6004 /* NanumGothic.ttf in Resources */,
 				069A8EF92131031500CB6004 /* NanumGothicBold.ttf in Resources */,
 				069A8F06213161DF00CB6004 /* text.txt in Resources */,
@@ -455,6 +460,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		065180C82157642900B842E9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/Fabric/run\"\n";
+		};
 		9C9956B3DD280181E69E11C5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -463,14 +486,18 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-iOS-txtreader/Pods-iOS-txtreader-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -634,7 +661,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -689,7 +716,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -713,7 +740,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "sesang06.iOS-txtreader";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sesang06.iOS-txtreader";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "iOS-txtreader/iOS-txtreader-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -737,7 +764,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "sesang06.iOS-txtreader";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sesang06.iOS-txtreader";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "iOS-txtreader/iOS-txtreader-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
@@ -756,7 +783,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "sesang06.iOS-txtreader.Share-To-App";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sesang06.iOS-txtreader.Share-To-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
@@ -775,7 +802,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "sesang06.iOS-txtreader.Share-To-App";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sesang06.iOS-txtreader.Share-To-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;

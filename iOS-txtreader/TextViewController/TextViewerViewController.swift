@@ -13,9 +13,7 @@ import SnapKit
 
 
 class TextViewerViewController: UIViewController, UITextViewDelegate{
-    func updateSearchResults(for searchController: UISearchController) {
-        
-    }
+   
     
     lazy var collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -34,32 +32,16 @@ class TextViewerViewController: UIViewController, UITextViewDelegate{
         return bmp
     }()
     
-    lazy var scrollSize : CGSize = {
-       let size = CGSize(width: view.frame.width, height: view.frame.height - 40 - 64)
+    // MARK: 텍스트뷰의 사이즈를 미리 계산함
+    lazy var textViewSize : CGSize = {
+       let size = CGSize(width: view.frame.width - 60, height: view.frame.height - 40 - 30)
         return size
     }()
     lazy var textLoadingProgressView : TextLoadingProgressView = {
        let tlpv = TextLoadingProgressView(frame: view.frame)
         return tlpv
     }()
-    lazy var attributes :  [NSAttributedStringKey : Any] = {
-        let style = NSMutableParagraphStyle()
-        style.lineSpacing = 5
-        var attributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.paragraphStyle : style, NSAttributedStringKey.font : UIFont(name: "NanumGothic", size: 20)!, NSAttributedStringKey.foregroundColor : UIColor.black
-        ]
-        
-        switch (UserDefaultsManager.default.viewType){
-        case .darcula?:
-            attributes[NSAttributedStringKey.foregroundColor] = UIColor.white
-        case .normal?:
-            attributes[NSAttributedStringKey.foregroundColor] = UIColor.black
-        case .none:
-            break
-        }
-        return attributes
-        
-        
-    }()
+   
     weak var content : TextDocument? {
         didSet{
             fetchTextFileData()
@@ -116,11 +98,8 @@ class TextViewerViewController: UIViewController, UITextViewDelegate{
     
     lazy var searchBar : UISearchBar = {
        var searchBar = UISearchBar()
-//        searchBar.isHidden = true
         searchBar.delegate = self
-        searchBar.showsCancelButton = true
         searchBar.barStyle = .blackTranslucent
-//        searchBar.barPosition = .top
         return searchBar
     }()
     override func viewDidLoad() {
@@ -167,21 +146,17 @@ class TextViewerViewController: UIViewController, UITextViewDelegate{
 
 extension TextViewerViewController {
     @objc func viewerMode(){
-        switch (UserDefaultsManager.default.viewType){
-        case .darcula?:
+        switch (UserDefaultsManager.default.viewType ?? .normal){
+        case .darcula:
             UserDefaultsManager.default.viewType = .normal
-            attributes[NSAttributedStringKey.foregroundColor] = UIColor.black
-        case .normal?:
+        case .normal:
             UserDefaultsManager.default.viewType = .darcula
-            attributes[NSAttributedStringKey.foregroundColor] = UIColor.white
-        case .none:
-            break
         }
         if let attributedString = string {
             let range = NSRange.init(location: 0, length: attributedString.length)
-            attributedString.setAttributes(attributes, range: range)
+            attributedString.setAttributes(UserDefaultsManager.default.attributes, range: range)
         }
-       
+        
         self.collectionView.reloadData()
     }
     @objc func exportText(){
@@ -246,7 +221,7 @@ extension TextViewerViewController {
         }
     }
     func setUpText(){
-        let scrollSize = self.scrollSize
+        let scrollSize = self.textViewSize
         //        shapeLayer.strokeEnd = 0
         
         if (content == nil){
@@ -261,7 +236,7 @@ extension TextViewerViewController {
             }
             
             DispatchQueue.global(qos: .userInteractive).async {
-                let attributedString = NSMutableAttributedString(string: text , attributes: self.attributes)
+                let attributedString = NSMutableAttributedString(string: text , attributes: UserDefaultsManager.default.attributes)
                 self.string = attributedString
                 let textStorage = NSTextStorage(attributedString: attributedString)
                 let textLayout = NSLayoutManager()
@@ -433,18 +408,15 @@ extension TextViewerViewController : UICollectionViewDataSource{
             let substring = string.attributedSubstring(from: NSRange)
             cell.textView.attributedText = substring
         }
-        switch (UserDefaultsManager.default.viewType){
-        case .darcula?:
-            cell.backgroundColor = UIColor.black
-            cell.textView.backgroundColor = UIColor.black
+        switch (UserDefaultsManager.default.viewType ?? .normal){
+        case .darcula:
+            cell.pageView.backgroundColor = UIColor.black
+//            cell.textView.backgroundColor = UIColor.black
             break
-        case .normal?:
-            cell.backgroundColor = UIColor.white
-            cell.textView.backgroundColor = UIColor.white
+        case .normal:
+            cell.pageView.backgroundColor = UIColor.white
+//            cell.textView.backgroundColor = UIColor.white
             break
-        default:
-            break
-            
         }
         cell.index = indexPath
         return cell
@@ -452,7 +424,7 @@ extension TextViewerViewController : UICollectionViewDataSource{
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-
+        
         return CGSize(width: view.frame.width, height: view.frame.height)
     }
 }

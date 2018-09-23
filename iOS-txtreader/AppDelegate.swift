@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 import Alamofire
-
+import Firebase
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
        
-        
+        FirebaseApp.configure()
         
         // Override point for customization after application launch.
         window = UIWindow(frame : UIScreen.main.bounds)
@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let vc = DocumentBrowserViewController()
         vc.dirPath = dirPath
        let nav = UINavigationController(rootViewController: vc)
-        nav.navigationBar.isTranslucent = false
+//        nav.navigationBar.isTranslucent = false
         
         
         let revealController = SWRevealViewController()

@@ -9,12 +9,7 @@
 import UIKit
 import SnapKit
 class TextViewerCell: BaseCell {
-    lazy var attributes :  [NSAttributedStringKey : Any] = {
-        let style = NSMutableParagraphStyle()
-        style.lineSpacing = 5
-        let attributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.paragraphStyle : style, NSAttributedStringKey.font : UIFont(name: "NanumGothic", size: 20)!]
-        return attributes
-    }()
+   
     var index : IndexPath? {
         didSet{
             if let item = index?.item{
@@ -27,32 +22,41 @@ class TextViewerCell: BaseCell {
         tv.textContainerInset = UIEdgeInsetsMake(0, 0, 0, 0)
         tv.textContainer.lineFragmentPadding = 0
         tv.isUserInteractionEnabled = false
-//        tv.isSelectable = false
         tv.isScrollEnabled = false
         tv.isEditable = false
+        tv.backgroundColor = .clear
         return tv
     }()
     let pageLabel : UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "NanumGothic", size: 17)
         label.textAlignment = NSTextAlignment.center
-//        label.text = "목차"
         return label
     }()
-    func displayText(string : String ){
-        textView.attributedText = NSAttributedString(string: string, attributes: attributes)
-    }
+    
+    let pageView = UIView()
     override func setupViews() {
-        self.addSubview(textView)
-        self.addSubview(pageLabel)
+        self.backgroundColor = .gray
+        self.addSubview(pageView)
+        pageView.snp.makeConstraints { (make) in
+            make.top.equalTo(self).offset(5)
+            make.leading.equalTo(self).offset(10)
+            make.trailing.equalTo(self).offset(-10)
+            make.bottom.equalTo(self).offset(-5)
+        }
+        
+        pageView.addSubview(textView)
+        pageView.addSubview(pageLabel)
         
         textView.snp.makeConstraints { (make) in
-            make.top.leading.trailing.equalTo(self)
-            make.bottom.equalTo(self).offset(-40)
+            make.top.leading.equalTo(pageView).offset(20)
+            make.trailing.equalTo(pageView).offset(-20)
         }
         pageLabel.snp.makeConstraints { (make) in
             make.top.equalTo(textView.snp.bottom)
-            make.trailing.leading.bottom.equalTo(self)
+            make.height.equalTo(40)
+            make.trailing.leading.bottom.equalTo(pageView)
+            
         }
     }
 }

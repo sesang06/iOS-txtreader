@@ -331,8 +331,11 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
             guard let dirPath = dirPath else {
                 return
             }
-            let directoryContents = try! FileManager.default.contentsOfDirectory(at: dirPath, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles, .skipsPackageDescendants, .skipsSubdirectoryDescendants])
-            contents  = directoryContents.map { (url) -> TextDocument in
+            let directoryContents = try! FileManager.default.contentsOfDirectory(at: dirPath, includingPropertiesForKeys: [], options: [.skipsHiddenFiles, .skipsPackageDescendants, .skipsSubdirectoryDescendants])
+            
+            contents  = directoryContents.sorted(by: { x, y in
+                return x.lastPathComponent.localizedStandardCompare(y.lastPathComponent) == ComparisonResult.orderedAscending
+            }).map { (url) -> TextDocument in
                 
                 let document = TextDocument(fileURL: url)
                 return document

@@ -133,7 +133,7 @@ extension TextViewController : UICollectionViewDataSource{
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! TextViewerCell
         cell.index = indexPath
         if let str = stringReader?.pageContent(index: indexPath.item) {
-             cell.displayText(string: str)
+          //   cell.tex
         }
         return cell
     }
