@@ -25,6 +25,8 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
     var filteredContents : [TextDocument]?
     var documentType : DocumentBrowserViewType = .Local
     let documentInteractionController = UIDocumentInteractionController()
+    // MARK: 새로고침을 위한..
+    var shouldRefresh : Bool = false
     lazy var tableView : UITableView = {
         let tv = UITableView()
         tv.delegate = self
@@ -258,8 +260,10 @@ extension DocumentBrowserViewController {
                 }
                 
                 
-            } catch {
-                
+            } catch let error as NSError {
+                print(error.localizedDescription)
+                self.showAlert(title: "오류", message: error.localizedDescription, completion: {
+                })
             }
         }
     }
@@ -292,12 +296,15 @@ extension DocumentBrowserViewController {
                 contents[indexPath.item] = document
                 self.contents = contents
                 DispatchQueue.main.async {
+                    self.cancelEditBrowser()
                     self.tableView.beginUpdates()
                     self.tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
                     self.tableView.endUpdates()
                 }
-            } catch {
-                
+            } catch let error as NSError {
+                print(error.localizedDescription)
+                self.showAlert(title: "오류", message: error.localizedDescription, completion: {
+                })
             }
         })
     }
@@ -320,6 +327,8 @@ extension DocumentBrowserViewController {
                 return newContent
             }catch let error as NSError {
                 print(error.localizedDescription)
+                self.showAlert(title: "오류", message: error.localizedDescription, completion: {
+                })
                 return nil
             }
             
@@ -379,7 +388,76 @@ extension DocumentBrowserViewController {
        
         
     }
+    // MARK: 파일 경로 이동
+    func moveDocuments(url : URL){
+        guard let indexPaths = tableView.indexPathsForSelectedRows, var contents = contents else {
+            return
+        }
+        let movedIndexPaths = indexPaths.compactMap { (indexPath) -> IndexPath? in
+            let at = contents[indexPath.item].fileURL
+            do {
+                try FileManager.default.moveItem(at: at, to: url.appendingPathComponent(at.lastPathComponent))
+                return indexPath
+            } catch let error as NSError {
+                self.showAlert(title: "오류", message: error.localizedDescription, completion: {
+                    
+                })
+//                print(error.localizedDescription)
+                return nil
+            }
+        }
+       
+        contents.remove(at: movedIndexPaths.map{$0.item})
+        self.contents = contents
+        
+        DispatchQueue.main.async {
+            self.cancelEditBrowser()
+            self.tableView.beginUpdates()
+            self.tableView.deleteRows(at: movedIndexPaths, with: .automatic)
+            self.tableView.endUpdates()
+        }
+        reload()
+    }
 }
+extension DocumentBrowserViewController {
+    // MARK: 새로고침을 할 필요가 있을 때..
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reloadDocument()
+    }
+    func reloadDocument(){
+        if (shouldRefresh){
+            shouldRefresh = false
+            setUpDocuments()
+        }
+    }
+    
+    func reload(){
+        guard let nc = self.navigationController else {
+            return
+        }
+        for viewController in nc.viewControllers {
+            switch viewController {
+            case let documentBrowserViewController as DocumentBrowserViewController :
+                documentBrowserViewController.shouldRefresh = true
+                break
+            default:
+                break
+            }
+        }
+    }
+    
+}
+extension DocumentBrowserViewController : DocumentFileMoveViewControllerDelegate {
+    // MARK: 이동
+    func documentFileMoveViewDidClicked(documentFileMoveViewController: DocumentFileMoveViewController, url: URL) {
+        documentFileMoveViewController.dismiss(animated: true) {
+           self.moveDocuments(url: url)
+        }
+    }
+    
+}
+
 extension DocumentBrowserViewController {
     // MARK:  파일 이동, 임포트
     @objc func moveDocument(){
@@ -565,33 +643,6 @@ extension DocumentBrowserViewController : UIDocumentInteractionControllerDelegat
     }
 }
 
-extension DocumentBrowserViewController : DocumentFileMoveViewControllerDelegate {
-    func documentFileMoveViewDidClicked(documentFileMoveViewController: DocumentFileMoveViewController, url: URL) {
-       
-        documentFileMoveViewController.dismiss(animated: true) {
-            self.tableView.indexPathsForSelectedRows?.forEach {
-                if let at = self.contents?[$0.item].fileURL {
-                    do {
-                        try FileManager.default.moveItem(at: at, to: url.appendingPathComponent(at.lastPathComponent))
-                        
-                    } catch let error as NSError {
-                        print(error.localizedDescription)
-                    }
-                }
-            }
-            self.contents?.remove(at: self.tableView.indexPathsForSelectedRows?.map{$0.item} ?? [])
-            
-            DispatchQueue.main.async {
-                self.tableView.beginUpdates()
-                self.tableView.deleteRows(at: self.tableView.indexPathsForSelectedRows ?? [], with: UITableViewRowAnimation.automatic)
-                self.tableView.endUpdates()
-            }
-        }
-       
-    }
-    
-    
-}
 
 extension DocumentBrowserViewController : UISearchControllerDelegate {
     func willPresentSearchController(_ searchController: UISearchController) {

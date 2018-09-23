@@ -53,6 +53,7 @@ class DocumentFileMoveViewController : UITableViewController {
             }
             return Folder(url: fileURL, level: enumerator.level)
         }
+        contents?.insert(Folder(url: rootDirectory, level: 0), at: 0)
         tableView.reloadData()
     }
     override func tableView(_ tableView: UITableView, indentationLevelForRowAt indexPath: IndexPath) -> Int {
