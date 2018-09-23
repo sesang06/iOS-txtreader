@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iOS-txtreader/TextViewController/TextViewerViewController.swift"
-            timestampString = "559381165.738578"
+            timestampString = "559385457.30194"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "505"
-            endingLineNumber = "505"
+            startingLineNumber = "500"
+            endingLineNumber = "500"
             landmarkName = "searchTextInRange(isNext:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iOS-txtreader/TextViewController/TextViewerViewController.swift"
-            timestampString = "559381165.738632"
+            timestampString = "559385457.302353"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "516"
-            endingLineNumber = "516"
+            startingLineNumber = "511"
+            endingLineNumber = "511"
             landmarkName = "searchTextInRange(isNext:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iOS-txtreader/TextViewController/TextViewerViewController.swift"
-            timestampString = "559381165.7386709"
+            timestampString = "559385457.302618"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "343"
-            endingLineNumber = "343"
+            startingLineNumber = "339"
+            endingLineNumber = "339"
             landmarkName = "scrollViewDidScroll(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iOS-txtreader/TextViewController/TextViewerViewController.swift"
-            timestampString = "559381165.7387069"
+            timestampString = "559385457.302869"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "339"
-            endingLineNumber = "339"
+            startingLineNumber = "335"
+            endingLineNumber = "335"
             landmarkName = "scrollViewDidScroll(_:)"
             landmarkType = "7">
          </BreakpointContent>

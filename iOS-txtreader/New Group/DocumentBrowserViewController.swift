@@ -44,7 +44,11 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         return button
     }()
     let cellId = "cellId"
-    let searchController = UISearchController(searchResultsController: nil)
+    lazy var searchController : UISearchController = {
+        let sc = UISearchController(searchResultsController: nil)
+        sc.delegate = self
+        return sc
+    }()
     override func viewDidLoad() {
         super.viewDidLoad()
        
@@ -194,6 +198,19 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
       
     }
     
+    func setEnableSearchBar(_ enabled: Bool){
+        if (enabled){
+            searchController.searchBar.isUserInteractionEnabled = true
+            searchController.searchBar.isTranslucent = true
+            searchController.searchBar.searchBarStyle = UISearchBarStyle.default
+            searchController.searchBar.backgroundColor = .clear
+        }else {
+            searchController.searchBar.isUserInteractionEnabled = false
+            searchController.searchBar.isTranslucent = false
+            searchController.searchBar.searchBarStyle = UISearchBarStyle.minimal
+            searchController.searchBar.backgroundColor = .lightGray
+        }
+    }
 
     @objc func editBrowser(){
         
@@ -201,6 +218,7 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         tableView.setEditing(true, animated: true)
     self.navigationItem.setRightBarButtonItems([createBrowserBarButtonItem,cancelEditBrowserBarButtoonItem], animated: true)
         navigationController?.setToolbarHidden(false, animated: true)
+        setEnableSearchBar(false)
         UIView.animate(withDuration: 0.1) {
             self.view.layoutIfNeeded()
         }
@@ -210,9 +228,11 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         tableView.setEditing(false, animated: true)
     self.navigationItem.setRightBarButtonItems([createBrowserBarButtonItem,editBrowserBarButtonItem], animated: true)
         navigationController?.setToolbarHidden(true, animated: true)
+        setEnableSearchBar(true)
         UIView.animate(withDuration: 0.1) {
             self.view.layoutIfNeeded()
         }
+        
         enableToolbarButtons()
     }
     //TODO :
@@ -440,9 +460,20 @@ extension DocumentBrowserViewController : UITableViewDelegate {
 extension DocumentBrowserViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering(){
+            if filteredContents?.count == 0 {
+                self.tableView.setEmptyMessage("검색 결과 없음")
+            } else {
+                self.tableView.restore()
+            }
+            
             return filteredContents?.count ?? 0
         }
         
+        if contents?.count == 0 {
+            self.tableView.setEmptyMessage("파일 없음")
+        } else {
+            self.tableView.restore()
+        }
         return contents?.count ?? 0
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -515,4 +546,36 @@ extension DocumentBrowserViewController : DocumentFileMoveViewControllerDelegate
     }
     
     
+}
+
+extension DocumentBrowserViewController : UISearchControllerDelegate {
+    func willPresentSearchController(_ searchController: UISearchController) {
+        self.navigationItem.setRightBarButtonItems(nil, animated: true)
+    }
+    func willDismissSearchController(_ searchController: UISearchController) {
+    self.navigationItem.setRightBarButtonItems([createBrowserBarButtonItem,editBrowserBarButtonItem], animated: true)
+        
+    }
+}
+
+
+extension UITableView {
+    
+    func setEmptyMessage(_ message: String) {
+        let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height))
+        messageLabel.text = message
+        messageLabel.textColor = .black
+        messageLabel.numberOfLines = 0;
+        messageLabel.textAlignment = .center;
+        messageLabel.font = UIFont(name: "TrebuchetMS", size: 15)
+        messageLabel.sizeToFit()
+        
+        self.backgroundView = messageLabel;
+        self.separatorStyle = .none;
+    }
+    
+    func restore() {
+        self.backgroundView = nil
+        self.separatorStyle = .singleLine
+    }
 }

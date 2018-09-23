@@ -6,6 +6,7 @@
 //  Copyright © 2018년 조세상. All rights reserved.
 //
 // 텍스트뷰를 통으로 집어넣는 것은 실패!
+// TODO : navigation bar slide!!
 
 import UIKit
 import Foundation
@@ -14,34 +15,49 @@ import SnapKit
 
 class TextViewerViewController: UIViewController, UITextViewDelegate{
    
+    // MARK: 콜렉션 뷰
+    let cellId = "cellId"
     
     lazy var collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
 //        layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.backgroundColor = UIColor.white
+        cv.backgroundColor = UIColor.gray
         cv.dataSource = self
         cv.delegate = self
         cv.showsVerticalScrollIndicator = false
         return cv
     }()
     
-    lazy var bookMarkProgressView : BookMarkProgressView = {
-        let bmp = BookMarkProgressView()
-        bmp.isHidden = true
-        return bmp
-    }()
     
     // MARK: 텍스트뷰의 사이즈를 미리 계산함
     lazy var textViewSize : CGSize = {
        let size = CGSize(width: view.frame.width - 60, height: view.frame.height - 40 - 30)
         return size
     }()
+    
+    // MARK: 텍스트 로딩 중 인디케이터.
     lazy var textLoadingProgressView : TextLoadingProgressView = {
        let tlpv = TextLoadingProgressView(frame: view.frame)
         return tlpv
     }()
    
+    
+    // MARK: 북마크
+    let bookMarkView = BookMarkView()
+    var bookMarkViewOriginY : CGFloat?
+    var bookMarkTopConstraint : Constraint?
+    let bookMarkMargin : CGFloat = 64
+    lazy var bookMarkProgressView : BookMarkProgressView = {
+        let bmp = BookMarkProgressView()
+        bmp.isHidden = true
+        return bmp
+    }()
+    
+    // MARK: 텍스트 저장정보
+    var string : NSMutableAttributedString?
+    var ranges : [NSRange] = [NSRange]()
+    var textFileData : TextFileData?
     weak var content : TextDocument? {
         didSet{
             fetchTextFileData()
@@ -50,25 +66,21 @@ class TextViewerViewController: UIViewController, UITextViewDelegate{
         }
     }
     
-    
-    let cellId = "cellId"
-    let bookMarkView = BookMarkView()
-    var bookMarkTopConstraint : Constraint?
-    let bookMarkMargin : CGFloat = 64
-    
-    var ranges : [NSRange] = [NSRange]()
     // MARK: 검색할 때 필요
     var searchRange : NSRange?
     var searchString : String?
     
-    var string : NSMutableAttributedString?
+    lazy var searchBar : UISearchBar = {
+        var searchBar = UISearchBar()
+        searchBar.delegate = self
+        searchBar.barStyle = .blackTranslucent
+        return searchBar
+    }()
     
     
-    var textFileData : TextFileData?
     
     let documentInteractionController = UIDocumentInteractionController()
     
-    var bookMarkViewOriginY : CGFloat?
     
     lazy var defaultToolBarItems : [UIBarButtonItem] = {
         let searchBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.search, target: self, action: #selector(searchText))
@@ -96,25 +108,16 @@ class TextViewerViewController: UIViewController, UITextViewDelegate{
         ]
     }()
     
-    lazy var searchBar : UISearchBar = {
-       var searchBar = UISearchBar()
-        searchBar.delegate = self
-        searchBar.barStyle = .blackTranslucent
-        return searchBar
-    }()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setUpView()
-        
         
         // Do any additional setup after loading the view, typically from a nib.
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setToolbarHidden(false, animated: false)
-        
-//
+     
     }
    
     
@@ -129,10 +132,9 @@ class TextViewerViewController: UIViewController, UITextViewDelegate{
         updateTextFileData()
     }
     func setUpView(){
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .gray
         setUpCollectionView()
         setUpBookMark()
-        setUpNavigationBar()
         setUpTapNavigationBarSettings()
         setUpToolbar()
         
@@ -176,10 +178,7 @@ extension TextViewerViewController {
 }
 
 extension TextViewerViewController {
-    func setUpNavigationBar(){
-        
-//        self.navigationItem.title = content?.fileName
-    }
+    
     override var prefersStatusBarHidden: Bool {
         return navigationController?.isNavigationBarHidden == true
     }
@@ -188,9 +187,6 @@ extension TextViewerViewController {
         return UIStatusBarAnimation.slide
     }
     
-    @objc func toggle() {
-        navigationController?.setNavigationBarHidden(navigationController?.isNavigationBarHidden == false, animated: true)
-    }
     
 }
 extension TextViewerViewController {
@@ -382,14 +378,15 @@ extension TextViewerViewController {
         guard let nc = self.navigationController else {
             return
         }
-     
+        
         UIView.animate(withDuration: 0.5) {
-            nc.setNavigationBarHidden(!nc.isNavigationBarHidden, animated: false)
-            nc.setToolbarHidden(!nc.isToolbarHidden, animated: false)
             self.bookMarkView.alpha = 1 - self.bookMarkView.alpha
             self.collectionView.showsVerticalScrollIndicator = !self.collectionView.showsVerticalScrollIndicator
             self.view.layoutIfNeeded()
         }
+        nc.setNavigationBarHidden(!nc.isNavigationBarHidden, animated: true)
+        nc.setToolbarHidden(!nc.isToolbarHidden, animated: true)
+        
     }
 }
 extension TextViewerViewController : UICollectionViewDataSource{
@@ -403,19 +400,17 @@ extension TextViewerViewController : UICollectionViewDataSource{
 //        }
         if let string = string {
             let NSRange = ranges[indexPath.item]
-            print(NSRange)
-            print(string.length)
             let substring = string.attributedSubstring(from: NSRange)
             cell.textView.attributedText = substring
         }
         switch (UserDefaultsManager.default.viewType ?? .normal){
         case .darcula:
             cell.pageView.backgroundColor = UIColor.black
-//            cell.textView.backgroundColor = UIColor.black
+            cell.pageLabel.textColor = UIColor.white
             break
         case .normal:
             cell.pageView.backgroundColor = UIColor.white
-//            cell.textView.backgroundColor = UIColor.white
+            cell.pageLabel.textColor = UIColor.black
             break
         }
         cell.index = indexPath
