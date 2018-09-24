@@ -30,6 +30,10 @@ class DocumentBrowerCell: BaseTableCell {
         return label
     }()
     
+    let bookmarkLabel : UILabel = {
+        let label = UILabel()
+        return label
+    }()
     weak var content : TextDocument? {
         didSet{
             textLabel?.text = content?.fileURL.fileName

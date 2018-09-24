@@ -14,7 +14,7 @@ import SnapKit
 
 
 class TextViewerViewController: UIViewController, UITextViewDelegate{
-   
+  
     // MARK: 콜렉션 뷰
     let cellId = "cellId"
     
@@ -140,6 +140,7 @@ class TextViewerViewController: UIViewController, UITextViewDelegate{
         
     }
     deinit{
+        print("deinit")
         content?.close(completionHandler: { (sucess) in
         })
     }
@@ -232,8 +233,10 @@ extension TextViewerViewController {
             }
             
             DispatchQueue.global(qos: .userInteractive).async {
+                [weak self] in
+                
                 let attributedString = NSMutableAttributedString(string: text , attributes: UserDefaultsManager.default.attributes)
-                self.string = attributedString
+                self?.string = attributedString
                 let textStorage = NSTextStorage(attributedString: attributedString)
                 let textLayout = NSLayoutManager()
                 textStorage.addLayoutManager(textLayout)
@@ -242,6 +245,9 @@ extension TextViewerViewController {
                 textLayout.allowsNonContiguousLayout = true
                 
                 while(true){
+                    if (self == nil) {
+                        break
+                    }
                     let textContainer = NSTextContainer(size: scrollSize)
                     
                     textLayout.addTextContainer(textContainer)
@@ -249,30 +255,31 @@ extension TextViewerViewController {
                     
                     let rangeThatFits = textLayout.glyphRange(for: textContainer)
                     print(rangeThatFits.upperBound)
-                    print(self.string?.length)
+                    print(self?.string?.length)
                     //                    print(rangeThatFits.location)
                     if (rangeThatFits.upperBound >= attributedString.length){
                         let finalRange = NSMakeRange(rangeThatFits.location, attributedString.length - rangeThatFits.location)
-                        self.ranges.append(finalRange)
+                        self?.ranges.append(finalRange)
                         
                         break
                     }
-                    self.ranges.append(rangeThatFits)
+                    self?.ranges.append(rangeThatFits)
                     
                     let percentage = CGFloat(rangeThatFits.upperBound) / CGFloat(attributedString.length)
-                    self.textLoadingProgressView.percentage = percentage
+                    self?.textLoadingProgressView.percentage = percentage
                   }
                 DispatchQueue.main.async {
-                    self.textLoadingProgressView.isHidden = true
-                    self.collectionView.reloadData()
-                    self.bookMarkProgressView.totalPage = self.ranges.count
-                    self.scrollViewDidScroll(self.collectionView)
-                    
+                    self?.textLoadingProgressView.isHidden = true
+                    self?.collectionView.reloadData()
+                    self?.bookMarkProgressView.totalPage = self?.ranges.count
+                    if let collectionView = self?.collectionView{
+                        self?.scrollViewDidScroll(collectionView)
+                    }
                 }
                 DispatchQueue.main.async {
-                    if let item = self.textFileData?.bookmark{
+                    if let item = self?.textFileData?.bookmark{
                         let indexPath = IndexPath(item: Int(item), section: 0)
-                        self.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.top, animated: false)
+                        self?.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.top, animated: false)
                         
                     }
                     
