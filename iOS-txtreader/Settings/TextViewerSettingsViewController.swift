@@ -4,7 +4,7 @@
 //
 //  Created by 조세상 on 2018. 9. 14..
 //  Copyright © 2018년 조세상. All rights reserved.
-//
+// 텍스트 뷰어를 설정함
 
 import Foundation
 import UIKit

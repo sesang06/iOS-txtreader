@@ -57,9 +57,10 @@ class DocumentBrowerCell: BaseTableCell {
             }else {
                 thumbnailImageView.image = nil
             }
-            
-            if let pages = content?.textFileData?.pages, let bookmark = content?.textFileData?.bookmark  {
-                bookmarkLabel.text = "\(Int(bookmark)) / \(Int(pages))"
+            if let bookmark = content?.textFileData?.bookmark, let pages = content?.textFileData?.pages  {
+                bookmarkLabel.text = "\(Int(bookmark)) \(Int(pages))"
+            }else {
+                bookmarkLabel.text = ""
             }
         }
     }
@@ -90,6 +91,7 @@ class DocumentBrowerCell: BaseTableCell {
             make.top.equalTo(self.contentView).offset(5)
             make.bottom.equalTo(self.contentView).offset(-5)
             make.trailing.equalTo(self.contentView).offset(-5)
+            make.width.equalTo(100)
         }
     }
 }

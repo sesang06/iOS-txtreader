@@ -55,7 +55,6 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         super.viewDidLoad()
        
         setUpViews()
-        setUpDocuments()
         setUpEditToolbar()
         
     }
@@ -423,7 +422,9 @@ extension DocumentBrowserViewController {
     // MARK: 새로고침을 할 필요가 있을 때..
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        reloadDocument()
+        setUpDocuments()
+        
+        //        reloadDocument()
     }
     func reloadDocument(){
         if (shouldRefresh){

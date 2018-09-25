@@ -197,7 +197,6 @@
 				06B8AFED214D273A0068A5E9 /* Settings */,
 				0613577D213ED3B4000E3AEE /* Unused */,
 				06CDFCCC213AB3F900E4B910 /* Localizable.strings */,
-				0658D96521384076007C7669 /* New Group1 */,
 				06C9B30E2136DF600080360C /* iOS-txtreader.entitlements */,
 				06D00F062132AD8B000D1935 /* DocumentBrowserViewController */,
 				06CD077521327A75009757BC /* TextViewController */,
@@ -211,13 +210,6 @@
 				06F3155E21457F550021A188 /* iOS-txtreader-Bridging-Header.h */,
 			);
 			path = "iOS-txtreader";
-			sourceTree = "<group>";
-		};
-		0658D96521384076007C7669 /* New Group1 */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group1";
 			sourceTree = "<group>";
 		};
 		069A8F022131031D00CB6004 /* Fonts */ = {

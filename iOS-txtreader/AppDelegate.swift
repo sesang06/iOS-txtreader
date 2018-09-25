@@ -35,7 +35,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let revealController = SWRevealViewController()
         
         let frontNavigationController =  nav
-        let rearNavigationController = OptionsViewController()
+        let rearNavigationController =
+            UINavigationController(rootViewController: OptionsViewController())
+        
         
         revealController.frontViewController = frontNavigationController
         revealController.rearViewController = rearNavigationController
