@@ -102,7 +102,17 @@ class TextViewerSettingsViewController : SampleTextViewerViewController {
                 attributedString.setAttributes(UserDefaultsManager.default.attributes, range: range)
             }
            self.collectionView.reloadData()
-            
+            switch (UserDefaultsManager.default.viewType ?? .normal){
+            case .darcula:
+                darcularCircle.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+                normalCircle.transform = CGAffineTransform.identity
+            break
+            case .normal:
+                normalCircle.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+                darcularCircle.transform = CGAffineTransform.identity
+                break
+                
+            }
         }
         if (animated){
             UIView.animate(withDuration: 0.5) {
@@ -237,13 +247,6 @@ class TextViewerSettingsViewController : SampleTextViewerViewController {
        
     }
    
-    @objc func settingChange(_ sender : UISwitch){
-        if (sender.isOn){
-            UserDefaultsManager.default.viewType = ViewType.darcula
-        }else {
-            UserDefaultsManager.default.viewType = ViewType.normal
-        }
-    }
     @objc func close(_sender : Any){
         self.presentingViewController?.dismiss(animated: true, completion: nil)
     }

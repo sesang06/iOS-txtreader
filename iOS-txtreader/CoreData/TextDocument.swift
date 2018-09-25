@@ -17,9 +17,11 @@ class TextDocument: UIDocument {
         print(self.encoding)
     }
     
-    lazy var textFileData : TextFileData? = {
-        return  TextFileDAO.default.fetch(fileURL: self.fileURL)
-    }()
+    var textFileData : TextFileData? {
+        get {
+            return  TextFileDAO.default.fetch(fileURL: self.fileURL)
+        }
+    }
     
 //    func fetch() -> [NSManagedObject] {
 //        var context : NSManagedObjectContext!

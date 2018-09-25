@@ -34,16 +34,21 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         tv.dataSource = self
         return tv
     }()
+    // MARK: 우상단에 있는 버튼들..
     lazy var editBrowserBarButtonItem : UIBarButtonItem = {
         let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: #selector(editBrowser))
         return button
     }()
-    lazy var cancelEditBrowserBarButtoonItem : UIBarButtonItem = {
+    lazy var cancelEditBrowserBarButtonItem : UIBarButtonItem = {
         let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(self.cancelEditBrowser))
         return button
     }()
     lazy var createBrowserBarButtonItem : UIBarButtonItem = {
         let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(self.createBrowser))
+        return button
+    }()
+    lazy var deleteRecentDocumentsBarButtonItem : UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "최신 도큐먼트 제거", style: UIBarButtonItemStyle.plain, target: self, action: #selector(deleteRecentDocuments))
         return button
     }()
     let cellId = "cellId"
@@ -214,7 +219,7 @@ extension DocumentBrowserViewController {
     @objc func editBrowser(){
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.setEditing(true, animated: true)
-        self.navigationItem.setRightBarButtonItems([createBrowserBarButtonItem,cancelEditBrowserBarButtoonItem], animated: true)
+        self.navigationItem.setRightBarButtonItems([createBrowserBarButtonItem,cancelEditBrowserBarButtonItem], animated: true)
         navigationController?.setToolbarHidden(false, animated: true)
         setEnableSearchBar(false)
         UIView.animate(withDuration: 0.1) {
@@ -429,6 +434,14 @@ extension DocumentBrowserViewController {
             self.tableView.endUpdates()
         }
         reload()
+    }
+    // MARK: 최근 도큐먼트 제거
+    @objc func deleteRecentDocuments(){
+        self.showAlert(title: "최신 도큐먼트 삭제", message: "최신 도큐먼트를 삭제하시겠습니까?") { (success) in
+            guard success == true else {
+                return
+            }
+        }
     }
 }
 extension DocumentBrowserViewController {

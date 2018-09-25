@@ -58,7 +58,6 @@ class TextViewerViewController: UIViewController, UITextViewDelegate{
     // MARK: 텍스트 저장정보
     var string : NSMutableAttributedString?
     var ranges : [NSRange] = [NSRange]()
-    var textFileData : TextFileData?
     weak var content : TextDocument? {
         didSet{
             fetchTextFileData()
@@ -193,34 +192,39 @@ extension TextViewerViewController {
 }
 extension TextViewerViewController {
     func fetchTextFileData(){
-        let data = TextFileDAO.default.fetch(fileURL: content?.fileURL)
-        if data == nil {
-            let data = TextFileData()
-            data.bookmark = 0
-            data.fileURL = content?.fileURL.path
-            data.openDate = Date()
-            TextFileDAO.default.insert(data)
-            self.textFileData = TextFileDAO.default.fetch(fileURL: content?.fileURL)
-        }else {
-            self.textFileData = data
-            content?.encoding = self.textFileData?.encoding
+        guard let content = content else {
+            return
         }
+        guard (content.textFileData == nil) else {
+            return
+        }
+        let data = TextFileData()
+        data.bookmark = 0
+        data.pages = 0
+        data.fileURL = content.fileURL.path
+        data.openDate = Date()
+        TextFileDAO.default.insert(data)
+        
     }
     func updateTextFileData(){
-        let currentIndex = (collectionView.contentOffset.y / collectionView.frame.height)
-        //            print(currentIndex)
-        let indexPath = IndexPath(item: Int(currentIndex), section: 0)
-        print(content?.encoding)
-        self.textFileData?.encoding = content?.encoding
-        self.textFileData?.bookmark = Int64(indexPath.item)
-        self.textFileData?.pages = Int64(ranges.count)
-        if let data = self.textFileData {
+        guard let cell = collectionView.visibleCells.first else {
+            return
             
-            TextFileDAO.default.update(data)
         }
+        guard let indexPath = collectionView.indexPath(for: cell) else {
+            return
+        }
+        guard let data = self.content?.textFileData else {
+            return
+        }
+        data.encoding = content?.encoding
+        data.bookmark = Int64(indexPath.item)
+        data.pages = Int64(ranges.count)
+        TextFileDAO.default.update(data)
+        
     }
     func loadBookmarkInfo(){
-        if let item = self.textFileData?.bookmark{
+        if let item = self.content?.textFileData?.bookmark{
             let indexPath = IndexPath(item: Int(item), section: 0)
             
             if indexPath.item < self.ranges.count && indexPath.item >= 0{
