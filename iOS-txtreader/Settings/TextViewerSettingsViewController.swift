@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import SnapKit
+import TGPControls
 class TextViewerSettingsViewController : SampleTextViewerViewController {
     
     
@@ -59,7 +60,20 @@ class TextViewerSettingsViewController : SampleTextViewerViewController {
         return us
     }()
     
-    
+    lazy var textSizeDiscreteSlider : TGPDiscreteSlider = {
+        let slider = TGPDiscreteSlider()
+        slider.tickCount = 3
+        slider.backgroundColor = UIColor.clear
+        slider.minimumValue = 0
+        slider.addTarget(self, action: #selector(textSizeChange), for: UIControlEvents.valueChanged)
+        slider.ticksListener = textSizeLabels
+        return slider
+    }()
+    let textSizeLabels : TGPCamelLabels = {
+        let labels = TGPCamelLabels()
+        labels.names = [15, 20, 25].map{"\($0)"}
+        return labels
+    }()
     let textSettingLabel : UILabel = {
         let label = UILabel()
         label.text = "보기 모드"
@@ -67,11 +81,6 @@ class TextViewerSettingsViewController : SampleTextViewerViewController {
         return label
     }()
     
-    let textSettingsSwitch : UISwitch = {
-       let uswitch = UISwitch()
-        
-        return uswitch
-    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,36 +114,42 @@ class TextViewerSettingsViewController : SampleTextViewerViewController {
         }
         
     }
+    let horizontalMargin = 20
+    let verticalMargin = 20
     func setUpViews(){
         view.backgroundColor = .white
         view.addSubview(textFontSettingLabel)
         textFontSettingLabel.snp.makeConstraints { (make) in
-            make.leading.trailing.equalTo(view)
-            make.top.equalTo(collectionView.snp.bottom).offset(10)
+            make.leading.equalTo(view).offset(horizontalMargin)
+            make.trailing.equalTo(view).offset(-horizontalMargin)
+            make.top.equalTo(collectionView.snp.bottom).offset(verticalMargin)
         }
         view.addSubview(textFontLabel)
         textFontLabel.snp.makeConstraints { (make) in
-            make.leading.trailing.equalTo(view)
-            make.top.equalTo(textFontSettingLabel.snp.bottom)
+            make.leading.equalTo(view).offset(horizontalMargin)
+            make.trailing.equalTo(view).offset(-horizontalMargin)
+            make.top.equalTo(textFontSettingLabel.snp.bottom).offset(verticalMargin)
         }
         view.addSubview(textColorSettingLabel)
         textColorSettingLabel.snp.makeConstraints { (make) in
-            make.trailing.leading.equalTo(view)
-            make.top.equalTo(textFontLabel.snp.bottom)
+            make.leading.equalTo(view).offset(horizontalMargin)
+            make.trailing.equalTo(view).offset(-horizontalMargin)
+            make.top.equalTo(textFontLabel.snp.bottom).offset(verticalMargin)
         }
         view.addSubview(darcularCircle)
         view.addSubview(normalCircle)
         
        
         darcularCircle.snp.makeConstraints { (make) in
-            make.width.height.equalTo(100)
-            make.top.equalTo(textColorSettingLabel.snp.bottom)
-            make.leading.equalTo(view)
+            make.width.height.equalTo(50)
+            make.top.equalTo(textColorSettingLabel.snp.bottom).offset(verticalMargin)
+            make.leading.equalTo(view).offset(horizontalMargin)
+            
         }
         normalCircle.snp.makeConstraints { (make) in
-            make.width.height.equalTo(100)
-            make.top.equalTo(textColorSettingLabel.snp.bottom)
-            make.trailing.equalTo(view)
+            make.width.height.equalTo(50)
+            make.top.equalTo(textColorSettingLabel.snp.bottom).offset(verticalMargin)
+            make.trailing.equalTo(view).offset(-horizontalMargin)
         }
         darcularCircle.addSubview(darcularButton)
         normalCircle.addSubview(normalButton)
@@ -147,45 +162,37 @@ class TextViewerSettingsViewController : SampleTextViewerViewController {
         
         for button in [darcularButton, normalButton] {
             button.clipsToBounds = true
-            button.layer.cornerRadius = 50
+            button.layer.cornerRadius = 25
             button.addTarget(self, action: #selector(textColorChange), for: UIControlEvents.touchUpInside)
         }
         for circle in [normalCircle, darcularCircle] {
             circle.layer.shadowColor = UIColor.black.cgColor
-            circle.layer.shadowOpacity = 1
+            circle.layer.shadowOpacity = 0.5
             circle.layer.shadowOffset = CGSize.zero
-            circle.layer.shadowRadius = 10
+            circle.layer.shadowRadius = 5
         }
         view.addSubview(textSizeSettingLabel)
         textSizeSettingLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(darcularButton.snp.bottom)
-            make.leading.trailing.equalTo(view)
+            make.top.equalTo(darcularButton.snp.bottom).offset(verticalMargin)
+            make.leading.equalTo(view).offset(horizontalMargin)
+            make.trailing.equalTo(view).offset(-horizontalMargin)
         }
-        view.addSubview(textSizeSilder)
-        textSizeSilder.snp.makeConstraints { (make) in
-            make.top.equalTo(textSizeSettingLabel.snp.bottom)
-            make.leading.trailing.equalTo(view)
+        view.addSubview(textSizeLabels)
+        view.addSubview(textSizeDiscreteSlider)
+        textSizeLabels.snp.makeConstraints { (make) in
+            make.leading.equalTo(view).offset(horizontalMargin)
+            make.trailing.equalTo(view).offset(-horizontalMargin)
+            make.top.equalTo(textSizeSettingLabel.snp.bottom).offset(verticalMargin)
+            make.height.equalTo(10)
         }
-        textSizeSilder.minimumValue = 0
-        textSizeSilder.maximumValue = 2
-        textSizeSilder.isContinuous = false
-        textSizeSilder.addTarget(self, action: #selector(textSizeChange), for: UIControlEvents.valueChanged)
+        textSizeDiscreteSlider.snp.makeConstraints { (make) in
+            make.leading.equalTo(view).offset(horizontalMargin)
+            make.trailing.equalTo(view).offset(-horizontalMargin)
+            make.height.equalTo(20)
+            make.top.equalTo(textSizeLabels.snp.bottom).offset(verticalMargin)
+        }
+        setUpTextSize()
         
-//
-//        self.view.addSubview(textSettingLabel)
-//        textSettingLabel.snp.makeConstraints { (make) in
-//            make.leading.trailing.equalTo(view)
-//            make.top.equalTo(topLayoutGuide.snp.bottom)
-//            make.height.equalTo(50)
-//        }
-//        self.view.addSubview(textSettingsSwitch)
-//        textSettingsSwitch.snp.makeConstraints { (make) in
-//            make.leading.trailing.equalTo(view)
-//            make.top.equalTo(topLayoutGuide.snp.bottom)
-//            make.height.equalTo(50)
-//
-//        }
-//        textSettingsSwitch.addTarget(self, action: #selector(settingChange), for: UIControlEvents.valueChanged)
         setUpTextView(false)
     }
     @objc func textColorChange(_ sender : UIButton){
@@ -196,9 +203,12 @@ class TextViewerSettingsViewController : SampleTextViewerViewController {
         }
         setUpTextView(true)
     }
-    @objc func textSizeChange(_ sender : UISlider){
+    @objc func textSizeChange(_ sender: TGPDiscreteSlider, event:UIEvent) {
         let textSize : TextSize
+        print(sender.value)
+    
         switch ( Int(sender.value)){
+         
             case 0:
             textSize = TextSize.small
             case 1:
@@ -210,6 +220,21 @@ class TextViewerSettingsViewController : SampleTextViewerViewController {
         }
         UserDefaultsManager.default.textSize = textSize
         setUpTextView(true)
+    }
+    func setUpTextSize(){
+        switch (UserDefaultsManager.default.textSize ?? .middle){
+        case .small:
+            textSizeDiscreteSlider.value = 0
+            textSizeLabels.value = 0
+        case .middle:
+            textSizeDiscreteSlider.value = 1
+            textSizeLabels.value = 1
+        case .large :
+            textSizeDiscreteSlider.value = 2
+            textSizeLabels.value = 2
+        }
+        
+       
     }
    
     @objc func settingChange(_ sender : UISwitch){
