@@ -58,8 +58,12 @@ class TextViewerViewController: UIViewController, UITextViewDelegate{
     var string : NSMutableAttributedString?
     var ranges : [NSRange] = [NSRange]()
     var textFileData : TextFileData?
+    
+    var textStorage : NSTextStorage?
+    var textLayoutManager : NSLayoutManager?
     weak var content : TextDocument? {
         didSet{
+            
             fetchTextFileData()
             setUpText()
             self.setHidesSearchBar(true, animated: false)
@@ -217,6 +221,8 @@ extension TextViewerViewController {
             TextFileDAO.default.update(data)
         }
     }
+    func setUpOldText(){
+    }
     func setUpText(){
         let scrollSize = self.textViewSize
         //        shapeLayer.strokeEnd = 0
@@ -232,58 +238,92 @@ extension TextViewerViewController {
                 return
             }
             
-            DispatchQueue.global(qos: .userInteractive).async {
-                [weak self] in
+            DispatchQueue.global(qos: DispatchQoS.QoSClass.background).async {
+               
                 
                 let attributedString = NSMutableAttributedString(string: text , attributes: UserDefaultsManager.default.attributes)
-                self?.string = attributedString
+                
+                
+                self.string = attributedString
                 let textStorage = NSTextStorage(attributedString: attributedString)
+                self.textStorage = textStorage
                 let textLayout = NSLayoutManager()
                 textStorage.addLayoutManager(textLayout)
                 
                 //                let textContainer = NSTextContainer(size: self.view.frame.size)
                 textLayout.allowsNonContiguousLayout = true
                 
-                while(true){
-                    if (self == nil) {
-                        break
-                    }
+                let constraintRect = CGSize(width: scrollSize.width, height: .greatestFiniteMagnitude)
+                
+                let boundingBox = attributedString.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, context: nil)
+                print(boundingBox)
+                
+                let totalPage = Int( boundingBox.height / scrollSize.height ) + 1
+                
+//                var lastRenderedGlyph = 0
+//
+//                while lastRenderedGlyph < textLayout.numberOfGlyphs {
+//
+//                    let textContainer = NSTextContainer(size: scrollSize)
+//                    textLayout.addTextContainer(textContainer)
+//                    lastRenderedGlyph = NSMaxRange(textLayout.glyphRange(for: textContainer))
+////                    self.textViewContainers.append(textContainer)
+//                }
+                for i in 0..<totalPage {
+                    print(i)
                     let textContainer = NSTextContainer(size: scrollSize)
-                    
                     textLayout.addTextContainer(textContainer)
-                 
-                    
-                    let rangeThatFits = textLayout.glyphRange(for: textContainer)
-                    print(rangeThatFits.upperBound)
-                    print(self?.string?.length)
-                    //                    print(rangeThatFits.location)
-                    if (rangeThatFits.upperBound >= attributedString.length){
-                        let finalRange = NSMakeRange(rangeThatFits.location, attributedString.length - rangeThatFits.location)
-                        self?.ranges.append(finalRange)
-                        
-                        break
-                    }
-                    self?.ranges.append(rangeThatFits)
-                    
-                    let percentage = CGFloat(rangeThatFits.upperBound) / CGFloat(attributedString.length)
-                    self?.textLoadingProgressView.percentage = percentage
-                  }
-                DispatchQueue.main.async {
-                    self?.textLoadingProgressView.isHidden = true
-                    self?.collectionView.reloadData()
-                    self?.bookMarkProgressView.totalPage = self?.ranges.count
-                    if let collectionView = self?.collectionView{
-                        self?.scrollViewDidScroll(collectionView)
-                    }
+//                    self.textViewContainers.append(textContainer)
                 }
+                self.textLayoutManager = textLayout
+                //
                 DispatchQueue.main.async {
-                    if let item = self?.textFileData?.bookmark{
-                        let indexPath = IndexPath(item: Int(item), section: 0)
-                        self?.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.top, animated: false)
-                        
-                    }
+                    self.textLoadingProgressView.isHidden = true
                     
+                    self.collectionView.reloadData()
                 }
+               
+//                while(true){
+//                    if (self == nil) {
+//                        break
+//                    }
+//
+//
+//
+//                    let textContainer = NSTextContainer(size: scrollSize)
+//
+//                    textLayout.addTextContainer(textContainer)
+//
+//
+//                    let rangeThatFits = textLayout.glyphRange(for: textContainer)
+//
+//                    if (rangeThatFits.upperBound >= attributedString.length){
+//                        let finalRange = NSMakeRange(rangeThatFits.location, attributedString.length - rangeThatFits.location)
+//                        self?.ranges.append(finalRange)
+//
+//                        break
+//                    }
+//                    self?.ranges.append(rangeThatFits)
+//
+//                    let percentage = CGFloat(rangeThatFits.upperBound) / CGFloat(attributedString.length)
+//                    self?.textLoadingProgressView.percentage = percentage
+//                  }
+//                DispatchQueue.main.async {
+//                    self?.textLoadingProgressView.isHidden = true
+//                    self?.collectionView.reloadData()
+//                    self?.bookMarkProgressView.totalPage = self?.ranges.count
+//                    if let collectionView = self?.collectionView{
+//                        self?.scrollViewDidScroll(collectionView)
+//                    }
+//                }
+//                DispatchQueue.main.async {
+//                    if let item = self?.textFileData?.bookmark{
+//                        let indexPath = IndexPath(item: Int(item), section: 0)
+//                        self?.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.top, animated: false)
+//
+//                    }
+//
+//                }
             }
             
             
@@ -367,7 +407,8 @@ extension TextViewerViewController : UICollectionViewDelegate, UICollectionViewD
         }
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.ranges.count
+        return self.textLayoutManager?.textContainers.count ?? 0
+//        return self.ranges.count
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
@@ -405,11 +446,24 @@ extension TextViewerViewController : UICollectionViewDataSource{
 //        textViews[indexPath.item].snp.makeConstraints { (make) in
 //            make.top.bottom.leading.trailing.equalTo(cell)
 //        }
-        if let string = string {
-            let NSRange = ranges[indexPath.item]
-            let substring = string.attributedSubstring(from: NSRange)
-            cell.textView.attributedText = substring
+//        if let string = string {
+//            let NSRange = ranges[indexPath.item]
+//            let substring = string.attributedSubstring(from: NSRange)
+//            cell.textView.attributedText = substring
+//        }
+    
+        if let view = cell.viewWithTag(1) {
+            print("view?")
+            view.removeFromSuperview()
         }
+        
+
+        let textView = UITextView(frame: CGRect(origin: CGPoint.zero, size: textViewSize), textContainer: textLayoutManager?.textContainers[indexPath.item] )
+        textView.tag = 1
+//        print(    textLayoutManager?.textContainers[indexPath.item])
+        cell.addSubview(textView)
+        
+//        print(textView.attributedText)
         switch (UserDefaultsManager.default.viewType ?? .normal){
         case .darcula:
             cell.pageView.backgroundColor = UIColor.black
