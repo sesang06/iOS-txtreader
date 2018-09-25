@@ -9,33 +9,13 @@
 import Foundation
 import UIKit
 import SnapKit
-class TextViewerSettingsViewController : UIViewController {
-    lazy var attributes :  [NSAttributedStringKey : Any] = {
-        let style = NSMutableParagraphStyle()
-        style.lineSpacing = 5
-        let attributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.paragraphStyle : style, NSAttributedStringKey.font : UIFont(name: "NanumGothic", size: 20)!]
-        return attributes
-    }()
+class TextViewerSettingsViewController : SampleTextViewerViewController {
     
     
-    let scrollView : UIScrollView = {
-       let scrollView = UIScrollView()
-        return scrollView
-    }()
-    lazy var textSampleTextView : UITextView = {
-        let tv = UITextView()
-        let attributedString = NSAttributedString(string: "로렘 입숨!!", attributes: attributes)
-        tv.attributedText = attributedString
-        tv.textContainerInset = UIEdgeInsetsMake(0, 0, 0, 0)
-        tv.textContainer.lineFragmentPadding = 0
-        tv.isUserInteractionEnabled = false
-        tv.isScrollEnabled = false
-        tv.isEditable = false
-        return tv
-    }()
     let textFontSettingLabel : UILabel = {
         let label = UILabel()
         label.text = "글씨체"
+        label.font = UIFont.systemFont(ofSize: 20)
         return label
     }()
     let textFontLabel : UILabel = {
@@ -47,6 +27,7 @@ class TextViewerSettingsViewController : UIViewController {
     let textColorSettingLabel : UILabel = {
         let label = UILabel()
         label.text = "색상"
+        label.font = UIFont.systemFont(ofSize: 20)
         return label
     }()
     
@@ -69,6 +50,7 @@ class TextViewerSettingsViewController : UIViewController {
     let textSizeSettingLabel : UILabel = {
         let label = UILabel()
         label.text = "크기"
+        label.font = UIFont.systemFont(ofSize: 20)
         return label
     }()
 
@@ -81,6 +63,7 @@ class TextViewerSettingsViewController : UIViewController {
     let textSettingLabel : UILabel = {
         let label = UILabel()
         label.text = "보기 모드"
+        label.font = UIFont.systemFont(ofSize: 20)
         return label
     }()
     
@@ -91,6 +74,7 @@ class TextViewerSettingsViewController : UIViewController {
     }()
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         setUpNavigaionBar()
         setUpViews()
     }
@@ -104,20 +88,12 @@ class TextViewerSettingsViewController : UIViewController {
     
     func setUpTextView(_ animated: Bool ){
         func setUp(){
-            switch UserDefaultsManager.default.viewType ?? .normal {
-            case .darcula:
-                attributes[NSAttributedStringKey.foregroundColor] = UIColor.white
-                textSampleTextView.backgroundColor = .black
-               
-            case .normal:
-                attributes[NSAttributedStringKey.foregroundColor] = UIColor.black
-                textSampleTextView.backgroundColor = .white
-                textSampleTextView.attributedText = NSAttributedString(string: "로렘 입숨!!", attributes: attributes)
+            if let attributedString = string {
+                let range = NSRange.init(location: 0, length: attributedString.length)
+                attributedString.setAttributes(UserDefaultsManager.default.attributes, range: range)
             }
-            let textSize =  UserDefaultsManager.default.textSize ?? .middle
-            let font = UIFont(name: "NanumGothic", size: CGFloat(textSize.rawValue))!
-            attributes[NSAttributedStringKey.font] = font
-            textSampleTextView.attributedText = NSAttributedString(string: "로렘 입숨!!", attributes: attributes)
+           self.collectionView.reloadData()
+            
         }
         if (animated){
             UIView.animate(withDuration: 0.5) {
@@ -131,16 +107,10 @@ class TextViewerSettingsViewController : UIViewController {
     }
     func setUpViews(){
         view.backgroundColor = .white
-        view.addSubview(textSampleTextView)
-        textSampleTextView.snp.makeConstraints { (make) in
-            make.top.equalTo(topLayoutGuide.snp.bottom)
-            make.leading.trailing.equalTo(view)
-            make.height.equalTo(100)
-        }
         view.addSubview(textFontSettingLabel)
         textFontSettingLabel.snp.makeConstraints { (make) in
             make.leading.trailing.equalTo(view)
-            make.top.equalTo(textSampleTextView.snp.bottom)
+            make.top.equalTo(collectionView.snp.bottom).offset(10)
         }
         view.addSubview(textFontLabel)
         textFontLabel.snp.makeConstraints { (make) in
@@ -227,7 +197,7 @@ class TextViewerSettingsViewController : UIViewController {
         setUpTextView(true)
     }
     @objc func textSizeChange(_ sender : UISlider){
-        
+        let textSize : TextSize
         switch ( Int(sender.value)){
             case 0:
             textSize = TextSize.small
@@ -238,17 +208,10 @@ class TextViewerSettingsViewController : UIViewController {
             default:
             textSize = TextSize.middle
         }
-//        textSize = TextSize(rawValue: Int(sender.value)) ?? TextSize.small
+        UserDefaultsManager.default.textSize = textSize
+        setUpTextView(true)
     }
-    var textSize : TextSize? {
-        didSet(oldVal){
-            if (oldVal != textSize){
-                UserDefaultsManager.default.textSize = textSize
-                setUpTextView(true)
-                
-            }
-        }
-    }
+   
     @objc func settingChange(_ sender : UISwitch){
         if (sender.isOn){
             UserDefaultsManager.default.viewType = ViewType.darcula

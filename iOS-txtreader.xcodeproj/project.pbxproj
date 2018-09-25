@@ -19,6 +19,8 @@
 		064344C9212DBB1600EDFA2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 064344C8212DBB1600EDFA2E /* Assets.xcassets */; };
 		064344CC212DBB1600EDFA2E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 064344CA212DBB1600EDFA2E /* LaunchScreen.storyboard */; };
 		065180C72157612600B842E9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 065180C62157612600B842E9 /* GoogleService-Info.plist */; };
+		065180CA215A20D700B842E9 /* SampleTextViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065180C9215A20D700B842E9 /* SampleTextViewerViewController.swift */; };
+		065180CC215A255000B842E9 /* lolem.txt in Resources */ = {isa = PBXBuildFile; fileRef = 065180CB215A255000B842E9 /* lolem.txt */; };
 		069A8EE82130F9FB00CB6004 /* TextViewerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069A8EE72130F9FB00CB6004 /* TextViewerCell.swift */; };
 		069A8EEA2130FAE300CB6004 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069A8EE92130FAE300CB6004 /* Extensions.swift */; };
 		069A8EF92131031500CB6004 /* NanumGothicBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069A8EF12131031400CB6004 /* NanumGothicBold.ttf */; };
@@ -93,6 +95,8 @@
 		064344CB212DBB1600EDFA2E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		064344CD212DBB1600EDFA2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		065180C62157612600B842E9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		065180C9215A20D700B842E9 /* SampleTextViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleTextViewerViewController.swift; sourceTree = "<group>"; };
+		065180CB215A255000B842E9 /* lolem.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = lolem.txt; sourceTree = "<group>"; };
 		069A8EE72130F9FB00CB6004 /* TextViewerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewerCell.swift; sourceTree = "<group>"; };
 		069A8EE92130FAE300CB6004 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		069A8EF12131031400CB6004 /* NanumGothicBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumGothicBold.ttf; sourceTree = "<group>"; };
@@ -201,6 +205,7 @@
 				06D00F062132AD8B000D1935 /* DocumentBrowserViewController */,
 				06CD077521327A75009757BC /* TextViewController */,
 				069A8F05213161DF00CB6004 /* text.txt */,
+				065180CB215A255000B842E9 /* lolem.txt */,
 				069A8F022131031D00CB6004 /* Fonts */,
 				064344BE212DBB1600EDFA2E /* AppDelegate.swift */,
 				064344C8212DBB1600EDFA2E /* Assets.xcassets */,
@@ -234,6 +239,7 @@
 				063536842146B46100263D62 /* OptionsViewController.swift */,
 				06CF1F53214E0AB5007E8F8D /* DeveloperInfoViewController.swift */,
 				06CF1F55214E16BB007E8F8D /* ProgramInfoViewController.swift */,
+				065180C9215A20D700B842E9 /* SampleTextViewerViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -431,6 +437,7 @@
 				069A8F06213161DF00CB6004 /* text.txt in Resources */,
 				069A8EFD2131031500CB6004 /* NanumMyeongjoBold.ttf in Resources */,
 				064344CC212DBB1600EDFA2E /* LaunchScreen.storyboard in Resources */,
+				065180CC215A255000B842E9 /* lolem.txt in Resources */,
 				06CDFCCA213AB3F900E4B910 /* Localizable.strings in Resources */,
 				069A8EFA2131031500CB6004 /* NanumMyeongjoExtraBold.ttf in Resources */,
 				069A8EFE2131031500CB6004 /* NanumBrush.ttf in Resources */,
@@ -524,6 +531,7 @@
 				06225AAC214ABE060051C6B4 /* UserInfoManager.swift in Sources */,
 				069A8F082131ACFD00CB6004 /* StringReader.swift in Sources */,
 				06B8AFEC214D26970068A5E9 /* DocumentFileMoveViewController.swift in Sources */,
+				065180CA215A20D700B842E9 /* SampleTextViewerViewController.swift in Sources */,
 				06F3156121457F560021A188 /* SWRevealViewController.m in Sources */,
 				06CF1F56214E16BB007E8F8D /* ProgramInfoViewController.swift in Sources */,
 				069A8F042131608C00CB6004 /* StreamReader.swift in Sources */,

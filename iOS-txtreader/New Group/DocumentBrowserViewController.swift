@@ -13,6 +13,7 @@ extension DocumentBrowserViewController : DocumentOptionsViewControllerDelegate 
         documentOptionsViewController.dismiss(animated: true) {
             self.documentType = type
             self.setUpDocuments()
+            self.setUpTitle()
         }
     }
     
@@ -78,10 +79,33 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         self.navigationItem.rightBarButtonItems = [createBrowserBarButtonItem, editBrowserBarButtonItem]
         setUpTableView()
         setUpSearchBar()
+        setUpTitle()
     }
    
     
-   
+    func setUpTitle(){
+        switch documentType {
+        case .Local:
+            let label = UILabel()
+            label.text = dirPath?.lastPathComponent
+            label.font = UIFont.systemFont(ofSize: 20)
+            label.sizeToFit()
+            self.navigationItem.titleView = label
+            break
+        case .Recent:
+            let label = UILabel()
+            label.text = "recent".localized
+            label.font = UIFont.systemFont(ofSize: 20)
+            label.sizeToFit()
+            self.navigationItem.titleView = label
+            break
+        default:
+            break
+        }
+        self.navigationItem.titleView?.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target:self, action: #selector(navBarTapped))
+        self.navigationItem.titleView?.addGestureRecognizer(tap)
+    }
     func setUpDocuments(){
         switch documentType {
         case .Local:
@@ -97,11 +121,7 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
                 let document = TextDocument(fileURL: url)
                 return document
             }
-            let label = UILabel()
-            label.text = dirPath.lastPathComponent
-            label.font = UIFont.systemFont(ofSize: 20)
-            self.navigationItem.titleView = label
-            label.sizeToFit()
+           
             break
         case .Recent:
             let textDatas = TextFileDAO.default.fetchRecent()
@@ -119,19 +139,12 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
                 return document
                
             }
-            let label = UILabel()
-            label.text = "recent".localized
-            label.font = UIFont.systemFont(ofSize: 20)
-            self.navigationItem.titleView = label
-            label.sizeToFit()
+           
             break
         default:
             break
         }
         
-        self.navigationItem.titleView?.isUserInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target:self, action: #selector(navBarTapped))
-        self.navigationItem.titleView?.addGestureRecognizer(tap)
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }

@@ -48,7 +48,7 @@ class UserDefaultsManager {
         get {
             let style = NSMutableParagraphStyle()
             style.lineSpacing = 5
-            var attributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.paragraphStyle : style, NSAttributedStringKey.font : UIFont(name: "NanumGothic", size: 20)!, NSAttributedStringKey.foregroundColor : UIColor.black
+            var attributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.paragraphStyle : style, NSAttributedStringKey.foregroundColor : UIColor.black
             ]
             
             switch (UserDefaultsManager.default.viewType ?? .normal){
@@ -57,6 +57,11 @@ class UserDefaultsManager {
             case .normal:
                 attributes[NSAttributedStringKey.foregroundColor] = UIColor.black
             }
+            
+            
+            let textSize =  UserDefaultsManager.default.textSize ?? .middle
+            let font = UIFont(name: "NanumGothic", size: CGFloat(textSize.rawValue))!
+            attributes[NSAttributedStringKey.font] = font
             return attributes
         }
         
