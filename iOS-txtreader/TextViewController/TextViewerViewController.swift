@@ -25,6 +25,7 @@ class TextViewerViewController: UIViewController, UITextViewDelegate{
         cv.backgroundColor = UIColor.gray
         cv.dataSource = self
         cv.delegate = self
+        cv.isPagingEnabled = true
         cv.showsVerticalScrollIndicator = false
         return cv
     }()
@@ -212,9 +213,19 @@ extension TextViewerViewController {
         print(content?.encoding)
         self.textFileData?.encoding = content?.encoding
         self.textFileData?.bookmark = Int64(indexPath.item)
+        self.textFileData?.pages = Int64(ranges.count)
         if let data = self.textFileData {
             
             TextFileDAO.default.update(data)
+        }
+    }
+    func loadBookmarkInfo(){
+        if let item = self.textFileData?.bookmark{
+            let indexPath = IndexPath(item: Int(item), section: 0)
+            
+            if indexPath.item < self.ranges.count && indexPath.item >= 0{
+                self.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.top, animated: false)
+            }
         }
     }
     func setUpText(){
@@ -275,14 +286,7 @@ extension TextViewerViewController {
                     if let collectionView = self?.collectionView{
                         self?.scrollViewDidScroll(collectionView)
                     }
-                }
-                DispatchQueue.main.async {
-                    if let item = self?.textFileData?.bookmark{
-                        let indexPath = IndexPath(item: Int(item), section: 0)
-                        self?.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.top, animated: false)
-                        
-                    }
-                    
+                    self?.loadBookmarkInfo()
                 }
             }
             

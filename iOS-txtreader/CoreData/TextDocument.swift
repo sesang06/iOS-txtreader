@@ -83,7 +83,9 @@ class TextDocument: UIDocument {
         var convertedString: NSString?
         let gussedEncoding = NSString.stringEncoding(for: userContent, encodingOptions: [.likelyLanguageKey:"ko", StringEncodingDetectionOptionsKey.suggestedEncodingsKey : [String.Encoding.utf8.rawValue, dosKorean.rawValue]], convertedString: &convertedString, usedLossyConversion: nil)
         print(gussedEncoding)
-        text = String(convertedString!)
+        if let convertedString = convertedString {
+            text = String(convertedString)
+        }
         self.encoding = gussedEncoding
     }
     lazy var createdDate: Date = {

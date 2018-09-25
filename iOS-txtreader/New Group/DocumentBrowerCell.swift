@@ -9,10 +9,7 @@
 import UIKit
 
 class DocumentBrowerCell: BaseTableCell {
-    let bookMarkProgressView : UIView = {
-        let v = UIView()
-        return v
-    }()
+   
     let thumbnailImageView : UIImageView = {
         let iv = UIImageView()
         iv.clipsToBounds = true
@@ -21,22 +18,29 @@ class DocumentBrowerCell: BaseTableCell {
     }()
     let fileNameLabel : UILabel = {
         let label = UILabel()
-//        label.text = "aaa"
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.textAlignment = NSTextAlignment.natural
+        label.textColor = UIColor.black
         return label
     }()
     let fileInfoLabel : UILabel = {
         let label = UILabel()
-//        label.text = "asdfgsazxcv"
+        label.font = UIFont.systemFont(ofSize: 10)
+        label.textAlignment = NSTextAlignment.natural
+        label.textColor = UIColor.gray
         return label
     }()
     
     let bookmarkLabel : UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.textAlignment = NSTextAlignment.right
+        label.textColor = UIColor.gray
         return label
     }()
     weak var content : TextDocument? {
         didSet{
-            textLabel?.text = content?.fileURL.fileName
+            fileNameLabel.text = content?.fileURL.fileName
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy. MM. dd."
             let dateText : String
@@ -46,41 +50,46 @@ class DocumentBrowerCell: BaseTableCell {
                 dateText = ""
             }
             let fileSizeText = content?.fileSizeString ?? ""
-            detailTextLabel?.text = "\(dateText) \(fileSizeText)"
+            fileInfoLabel.text = "\(dateText) \(fileSizeText)"
             
             if content?.isFolder == true{
-                imageView?.image = UIImage(named: "outline_folder_black_48pt")
+                thumbnailImageView.image = UIImage(named: "outline_folder_black_48pt")
             }else {
-                imageView?.image = nil
+                thumbnailImageView.image = nil
+            }
+            
+            if let pages = content?.textFileData?.pages, let bookmark = content?.textFileData?.bookmark  {
+                bookmarkLabel.text = "\(Int(bookmark)) / \(Int(pages))"
             }
         }
     }
-//    override func setEditing(_ editing: Bool, animated: Bool) {
-//        super.setEditing(editing, animated: animated)
-//
-//    }
     override func setupViews() {
-//        
-//        contentView.addSubview(fileNameLabel)
-//        contentView.addSubview(fileInfoLabel)
-//        contentView.addSubview(thumbnailImageView)
-//        thumbnailImageView.snp.makeConstraints { (make) in
-//            make.top.equalTo(self.contentView).offset(10)
-//            make.leading.equalTo(self.contentView).offset(10)
-//            make.bottom.equalTo(self.contentView).offset(-10)
-//            make.width.equalTo(thumbnailImageView.snp.height)
-//        }
-//        fileNameLabel.snp.makeConstraints { (make) in
-//            make.top.equalTo(self.contentView).offset(10)
-//            make.leading.equalTo(self.contentView).offset(10)
-//            make.trailing.equalTo(self.contentView).offset(-10)
-//            make.height.equalTo(30)
-//        }
-//        fileInfoLabel.snp.makeConstraints { (make) in
-//            make.top.equalTo(fileNameLabel.snp.bottom).offset(0)
-//            make.leading.equalTo(self.contentView).offset(10)
-//            make.trailing.equalTo(self.contentView).offset(-10)
-//            make.bottom.equalTo(self.contentView).offset(-10)
-//        }
+        
+        contentView.addSubview(fileNameLabel)
+        contentView.addSubview(fileInfoLabel)
+        contentView.addSubview(thumbnailImageView)
+        contentView.addSubview(bookmarkLabel)
+        thumbnailImageView.snp.makeConstraints { (make) in
+            make.top.equalTo(self.contentView).offset(5)
+            make.leading.equalTo(self.contentView).offset(20)
+            make.bottom.equalTo(self.contentView).offset(-5)
+            make.width.equalTo(thumbnailImageView.snp.height)
+        }
+        fileNameLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(self.contentView).offset(5)
+            make.leading.equalTo(self.thumbnailImageView.snp.trailing).offset(5)
+            make.trailing.equalTo(self.contentView).offset(-5)
+        }
+        fileInfoLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(fileNameLabel.snp.bottom).offset(5)
+            make.leading.equalTo(self.thumbnailImageView.snp.trailing).offset(5)
+            make.trailing.equalTo(self.contentView).offset(-5)
+            make.bottom.equalTo(self.contentView).offset(-5)
+        }
+        bookmarkLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(self.contentView).offset(5)
+            make.bottom.equalTo(self.contentView).offset(-5)
+            make.trailing.equalTo(self.contentView).offset(-5)
+        }
     }
 }

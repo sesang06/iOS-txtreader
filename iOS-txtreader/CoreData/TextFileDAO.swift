@@ -36,8 +36,6 @@ class TextFileDAO{
         }
     }()
     
-    
-    
     func fetch(fileURL : URL? = nil) -> TextFileData?{
         if let url = fileURL {
             let format = NSPredicate(format: "fileURL == %@", url.path)
@@ -98,6 +96,29 @@ class TextFileDAO{
             try self.context.save()
         } catch let e as NSError {
             NSLog("An error has occrued : %s", e.localizedDescription)
+        }
+    }
+    
+    
+    /**
+      옛날 데이터를 없애 버림
+     **/
+    func deleteOldRecords(){
+        let deleteContext = self.context
+        
+    }
+    
+    func deleteAll()-> Bool{
+        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "TextFile")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+        do
+        {
+            try context.execute(deleteRequest)
+            try context.save()
+            return true
+        } catch let e as NSError {
+            NSLog("An error has occrued : %s", e.localizedDescription)
+            return false
         }
     }
     
