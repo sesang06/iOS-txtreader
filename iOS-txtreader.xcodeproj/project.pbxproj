@@ -35,6 +35,7 @@
 		06C9B3162136DFE10080360C /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C9B3152136DFE10080360C /* ShareViewController.swift */; };
 		06C9B3192136DFE10080360C /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06C9B3172136DFE10080360C /* MainInterface.storyboard */; };
 		06C9B31D2136DFE10080360C /* Share To App.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 06C9B3132136DFE10080360C /* Share To App.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		06CCFB11215BE5D600898CA8 /* DocumentFileMoveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CCFB10215BE5D600898CA8 /* DocumentFileMoveCell.swift */; };
 		06CD0771213252D6009757BC /* BookMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD0770213252D6009757BC /* BookMarkView.swift */; };
 		06CD079921327C24009757BC /* TextDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD079821327C24009757BC /* TextDocument.swift */; };
 		06CD079B21327C65009757BC /* DocumentBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD079A21327C65009757BC /* DocumentBrowserViewController.swift */; };
@@ -107,6 +108,7 @@
 		06C9B3152136DFE10080360C /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		06C9B3182136DFE10080360C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		06C9B31A2136DFE10080360C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		06CCFB10215BE5D600898CA8 /* DocumentFileMoveCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentFileMoveCell.swift; sourceTree = "<group>"; };
 		06CD0770213252D6009757BC /* BookMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkView.swift; sourceTree = "<group>"; };
 		06CD079821327C24009757BC /* TextDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDocument.swift; sourceTree = "<group>"; };
 		06CD079A21327C65009757BC /* DocumentBrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentBrowserViewController.swift; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 			children = (
 				060D8B8D2143D6680018D7EF /* DocumentOptionsViewController.swift */,
 				06B8AFEB214D26970068A5E9 /* DocumentFileMoveViewController.swift */,
+				06CCFB10215BE5D600898CA8 /* DocumentFileMoveCell.swift */,
 			);
 			path = Accessory;
 			sourceTree = "<group>";
@@ -507,6 +510,7 @@
 				06225AAC214ABE060051C6B4 /* UserInfoManager.swift in Sources */,
 				06B8AFEC214D26970068A5E9 /* DocumentFileMoveViewController.swift in Sources */,
 				065180CA215A20D700B842E9 /* SampleTextViewerViewController.swift in Sources */,
+				06CCFB11215BE5D600898CA8 /* DocumentFileMoveCell.swift in Sources */,
 				06F3156121457F560021A188 /* SWRevealViewController.m in Sources */,
 				06CF1F56214E16BB007E8F8D /* ProgramInfoViewController.swift in Sources */,
 				06CD079B21327C65009757BC /* DocumentBrowserViewController.swift in Sources */,

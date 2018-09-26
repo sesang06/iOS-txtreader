@@ -23,10 +23,11 @@ class DocumentFileMoveViewController : UITableViewController {
     weak var delegate : DocumentFileMoveViewControllerDelegate?
     var contents : [Folder]?
     override func viewDidLoad() {
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
+        tableView.register(DocumentFileMoveCell.self, forCellReuseIdentifier: cellId)
         let tableFooterView = UIView()
         tableFooterView.backgroundColor = .clear
         tableView.tableFooterView = tableFooterView
+        
         self.navigationItem.title = "파일 이동"
         setUpFolders()
     }
@@ -67,9 +68,9 @@ class DocumentFileMoveViewController : UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
-        cell.imageView?.image = UIImage(named: "outline_folder_black_48pt")
-        cell.textLabel?.text = contents?[indexPath.item].url.lastPathComponent
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! DocumentFileMoveCell
+//        cell.imageView?.image = UIImage(named: "outline_folder_black_48pt")
+        cell.fileNameLabel.text = contents?[indexPath.item].url.lastPathComponent
         return cell
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

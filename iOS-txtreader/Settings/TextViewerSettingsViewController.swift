@@ -47,7 +47,12 @@ class TextViewerSettingsViewController : SampleTextViewerViewController, UIPicke
         
         return pv
     }()
-    let textFontPickerData = [TextFont(fontName: "NanumGothic", displayFontName: "나눔 고딕"), TextFont(fontName: "NanumMyeongjo", displayFontName: "나눔 명조")]
+    let textFontPickerData = [
+        TextFont(fontName: "NanumGothic", displayFontName: "나눔 고딕"),
+        TextFont(fontName: "NanumMyeongjo", displayFontName: "나눔 명조"),
+        TextFont(fontName: "NanumBrush", displayFontName: "나눔 브러시"),
+        TextFont(fontName: "NanumPen", displayFontName: "나눔 펜글씨"),
+    ]
     lazy var textFontLabel : UILabel = {
         let label = UILabel()
         label.text = "나눔 고딕"
@@ -187,17 +192,23 @@ class TextViewerSettingsViewController : SampleTextViewerViewController, UIPicke
             make.trailing.equalTo(view).offset(-horizontalMargin)
             make.top.equalTo(collectionView.snp.bottom).offset(verticalMargin)
         }
-        view.addSubview(textFontLabel)
-        textFontLabel.snp.makeConstraints { (make) in
-            make.leading.equalTo(view).offset(horizontalMargin)
-            make.trailing.equalTo(view).offset(-horizontalMargin)
-            make.top.equalTo(textFontSettingLabel.snp.bottom).offset(verticalMargin)
+//        view.addSubview(textFontLabel)
+//        textFontLabel.snp.makeConstraints { (make) in
+//            make.leading.equalTo(view).offset(horizontalMargin)
+//            make.trailing.equalTo(view).offset(-horizontalMargin)
+//            make.top.equalTo(textFontSettingLabel.snp.bottom).offset(verticalMargin)
+//        }
+        view.addSubview(textFontPickerView)
+        textFontPickerView.snp.makeConstraints { (make) in
+            make.top.equalTo(textFontSettingLabel.snp.bottom)
+            make.leading.trailing.equalTo(view)
+            make.height.equalTo(100)
         }
         view.addSubview(textColorSettingLabel)
         textColorSettingLabel.snp.makeConstraints { (make) in
             make.leading.equalTo(view).offset(horizontalMargin)
             make.trailing.equalTo(view).offset(-horizontalMargin)
-            make.top.equalTo(textFontLabel.snp.bottom).offset(verticalMargin)
+            make.top.equalTo(textFontPickerView.snp.bottom)
         }
         view.addSubview(darcularCircle)
         view.addSubview(normalCircle)
@@ -257,11 +268,6 @@ class TextViewerSettingsViewController : SampleTextViewerViewController, UIPicke
         setUpTextSize()
         
         setUpTextView(false)
-//        view.addSubview(textFontPickerView)
-//        textFontPickerView.snp.makeConstraints { (make) in
-//            make.bottom.leading.trailing.equalTo(view)
-//            make.height.equalTo(view).dividedBy(3)
-//        }
         let selectedRow = textFontPickerData.firstIndex(where: { (textFont) -> Bool in
             return textFont == UserDefaultsManager.default.textFont
         })

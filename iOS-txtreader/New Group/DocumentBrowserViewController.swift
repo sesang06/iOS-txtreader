@@ -685,6 +685,7 @@ extension DocumentBrowserViewController {
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = true
         searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.searchBarStyle = UISearchBarStyle.minimal
         definesPresentationContext = true
         
         if #available(iOS 9.1, *) {
@@ -694,16 +695,16 @@ extension DocumentBrowserViewController {
         }
     }
     func setEnableSearchBar(_ enabled: Bool){
+       
         if (enabled){
             searchController.searchBar.isUserInteractionEnabled = true
-            searchController.searchBar.isTranslucent = true
-            searchController.searchBar.searchBarStyle = UISearchBarStyle.default
-            searchController.searchBar.backgroundColor = .clear
+//            searchController.searchBar.searchBarStyle = UISearchBarStyle.default
+//            searchController.searchBar.backgroundColor = .clear
+            searchController.searchBar.alpha = 1
         }else {
             searchController.searchBar.isUserInteractionEnabled = false
-            searchController.searchBar.isTranslucent = false
-            searchController.searchBar.searchBarStyle = UISearchBarStyle.minimal
-            searchController.searchBar.backgroundColor = .lightGray
+//            searchController.searchBar.searchBarStyle = UISearchBarStyle.minimal
+            searchController.searchBar.alpha = 0.5
         }
     }
 }

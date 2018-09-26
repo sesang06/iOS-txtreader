@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import MessageUI
 class OptionsViewController : UITableViewController , MFMailComposeViewControllerDelegate {
-    let options : [String] = ["저장 공간 관리" , "텍스트 뷰어 설정" , "도움말" , "문의하기", "제작자 정보" , "프로그램 정보" ]
+    let options : [String] = [ "텍스트 뷰어 설정" , "도움말" , "문의하기", "제작자 정보" /* , "프로그램 정보"*/ ]
    
     let settings : [String] = ["자동 정렬", "빈칸 삽입", "워드랩", "텍스트 인코딩", "줄 간격", "글자" ,"배경 색" , "마지막 페이지 이어보기", "상태바 표시", "안티앨리어스 사용", "여백", "글꼴", "숨김 파일 표시", ""]
     let cellId = "cellId"
@@ -31,34 +31,34 @@ class OptionsViewController : UITableViewController , MFMailComposeViewControlle
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
-        case 0: //저장 공간 관리
-            break
-        case 1: //텍스트 뷰어 설정
+//        case 0: //저장 공간 관리
+//            break
+        case 0: //텍스트 뷰어 설정
             let textViewer = TextViewerSettingsViewController()
             let uv = UINavigationController(rootViewController: textViewer)
             self.present(uv, animated: true) {
                 self.revealViewController().revealToggle(self)
             }
             break
-        case 2: //도움말
+        case 1: //도움말
             break
-        case 3: //문의하기
+        case 2: //문의하기
             sendMail()
             break
-        case 4: // 제작자 정보
+        case 3: // 제작자 정보
             let vc = DeveloperInfoViewController()
             let uv = UINavigationController(rootViewController: vc)
             self.present(uv, animated: true) {
                 self.revealViewController().revealToggle(self)
             }
             break
-        case 5: //프로그램 정보
-            let vc = ProgramInfoViewController()
-            let uv = UINavigationController(rootViewController: vc)
-            self.present(uv, animated: true) {
-                self.revealViewController().revealToggle(self)
-            }
-            break
+//        case 5: //프로그램 정보
+//            let vc = ProgramInfoViewController()
+//            let uv = UINavigationController(rootViewController: vc)
+//            self.present(uv, animated: true) {
+//                self.revealViewController().revealToggle(self)
+//            }
+//            break
         default:
             break
         }

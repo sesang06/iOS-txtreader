@@ -37,7 +37,7 @@ class BaseCell : UICollectionViewCell {
 
 class BaseTableCell : UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: UITableViewCellStyle.subtitle, reuseIdentifier: reuseIdentifier)
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
     }
     required init?(coder aDecoder: NSCoder) {
@@ -284,7 +284,7 @@ extension UIColor {
     }
     
     static let backgroundColor = UIColor.rgb(r: 21, g: 22, b: 33)
-    static let outlineStrokeColor = UIColor.rgb(r: 234, g: 46, b: 111)
+    static let outlineStrokeColor = UIColor.rgb(r: 0, g: 122, b: 255)
     static let trackStrokeColor = UIColor.rgb(r: 56, g: 25, b: 49)
     static let pulsatingFillColor = UIColor.rgb(r: 86, g: 30, b: 63)
 }

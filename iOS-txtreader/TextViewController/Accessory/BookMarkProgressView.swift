@@ -28,13 +28,13 @@ class BookMarkProgressView : UIView {
     }
     let pageLabel : UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "NanumGothic", size: 25)
-        label.textAlignment = NSTextAlignment.center
+        label.font = UIFont.systemFont(ofSize: 25)
+        label.textAlignment = .center
         return label
     }()
     let totalPageLabel : UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "NanumGothic", size: 17)
+        label.font = UIFont.systemFont(ofSize: 17)
         label.textAlignment = .center
         return label
     }()
@@ -48,21 +48,30 @@ class BookMarkProgressView : UIView {
         fatalError("init(coder:) has not been implemented")
     }
     func setUpViews(){
-        
-        self.backgroundColor = .gray
+        self.alpha = 0.8
+        self.backgroundColor = .white
         self.clipsToBounds = true
         self.layer.cornerRadius = 10
-        self.layer.borderColor = UIColor.black.cgColor
+        self.layer.borderColor = UIColor.lightGray.cgColor
         self.layer.borderWidth = 1
         addSubview(pageLabel)
         addSubview(totalPageLabel)
-        
+        let lineView = UIView()
+        lineView.backgroundColor = UIColor.lightGray
+        addSubview(lineView)
         pageLabel.snp.makeConstraints { (make) in
             make.top.leading.trailing.equalTo(self)
         }
-        totalPageLabel.snp.makeConstraints { (make) in
-            make.bottom.leading.trailing.equalTo(self)
+        lineView.snp.makeConstraints { (make) in
+            make.leading.equalTo(self).offset(15)
+            make.trailing.equalTo(self).offset(-15)
+            make.height.equalTo(1)
             make.top.equalTo(pageLabel.snp.bottom)
+        }
+        totalPageLabel.snp.makeConstraints { (make) in
+            make.leading.trailing.equalTo(self)
+            make.top.equalTo(lineView.snp.bottom).offset(5)
+            make.bottom.equalTo(self).offset(-5)
         }
     }
 }

@@ -31,8 +31,10 @@ class BookMarkView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     func setUpViews(){
-        backgroundColor = UIColor.red
+        backgroundColor = UIColor.white
         addSubview(pageLabel)
+        pageLabel.layer.borderColor = UIColor.lightGray.cgColor
+        pageLabel.layer.borderWidth = 1
         pageLabel.snp.makeConstraints { (make) in
             make.top.bottom.leading.trailing.equalTo(self)
         }
