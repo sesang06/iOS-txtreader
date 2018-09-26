@@ -277,7 +277,7 @@ class TextViewerSettingsViewController : SampleTextViewerViewController, UIPicke
     }
     @objc func textSizeChange(_ sender: TGPDiscreteSlider, event:UIEvent) {
         let textSize : TextSize
-        print(sender.value)
+//        print(sender.value)
     
         switch ( Int(sender.value)){
          

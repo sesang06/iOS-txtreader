@@ -12,9 +12,7 @@
 		06225AAC214ABE060051C6B4 /* UserInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06225AAB214ABE060051C6B4 /* UserInfoManager.swift */; };
 		06225AAE214AC1430051C6B4 /* TextViewerSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06225AAD214AC1430051C6B4 /* TextViewerSettingsViewController.swift */; };
 		063536852146B46100263D62 /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063536842146B46100263D62 /* OptionsViewController.swift */; };
-		063536872146C6A200263D62 /* ThirdTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063536862146C6A200263D62 /* ThirdTextViewController.swift */; };
 		064344BF212DBB1600EDFA2E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064344BE212DBB1600EDFA2E /* AppDelegate.swift */; };
-		064344C1212DBB1600EDFA2E /* TextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064344C0212DBB1600EDFA2E /* TextViewController.swift */; };
 		064344C7212DBB1600EDFA2E /* iOS_txtreader.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 064344C5212DBB1600EDFA2E /* iOS_txtreader.xcdatamodeld */; };
 		064344C9212DBB1600EDFA2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 064344C8212DBB1600EDFA2E /* Assets.xcassets */; };
 		064344CC212DBB1600EDFA2E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 064344CA212DBB1600EDFA2E /* LaunchScreen.storyboard */; };
@@ -31,11 +29,8 @@
 		069A8EFE2131031500CB6004 /* NanumBrush.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069A8EF62131031500CB6004 /* NanumBrush.ttf */; };
 		069A8EFF2131031500CB6004 /* NanumPen.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069A8EF72131031500CB6004 /* NanumPen.ttf */; };
 		069A8F002131031500CB6004 /* NanumMyeongjo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069A8EF82131031500CB6004 /* NanumMyeongjo.ttf */; };
-		069A8F042131608C00CB6004 /* StreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069A8F032131608C00CB6004 /* StreamReader.swift */; };
 		069A8F06213161DF00CB6004 /* text.txt in Resources */ = {isa = PBXBuildFile; fileRef = 069A8F05213161DF00CB6004 /* text.txt */; };
-		069A8F082131ACFD00CB6004 /* StringReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069A8F072131ACFD00CB6004 /* StringReader.swift */; };
 		06B8AFEC214D26970068A5E9 /* DocumentFileMoveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B8AFEB214D26970068A5E9 /* DocumentFileMoveViewController.swift */; };
-		06C9B30B21344A290080360C /* AnotherTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C9B30A21344A290080360C /* AnotherTextViewController.swift */; };
 		06C9B30D213583170080360C /* TextViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C9B30C213583170080360C /* TextViewerViewController.swift */; };
 		06C9B3162136DFE10080360C /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C9B3152136DFE10080360C /* ShareViewController.swift */; };
 		06C9B3192136DFE10080360C /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06C9B3172136DFE10080360C /* MainInterface.storyboard */; };
@@ -48,7 +43,6 @@
 		06CF1F56214E16BB007E8F8D /* ProgramInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CF1F55214E16BB007E8F8D /* ProgramInfoViewController.swift */; };
 		06CF1F58214E72E1007E8F8D /* BookMarkProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CF1F57214E72E1007E8F8D /* BookMarkProgressView.swift */; };
 		06D00F082132AE09000D1935 /* DocumentBrowerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D00F072132AE09000D1935 /* DocumentBrowerCell.swift */; };
-		06D00F0A21341F4C000D1935 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D00F0921341F4C000D1935 /* TestViewController.swift */; };
 		06DF1AC6214E8AED00D7FE22 /* TextLoadingProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06DF1AC5214E8AED00D7FE22 /* TextLoadingProgressView.swift */; };
 		06F3155D214558A20021A188 /* DocumentOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060D8B8D2143D6680018D7EF /* DocumentOptionsViewController.swift */; };
 		06F3156121457F560021A188 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06F3156021457F560021A188 /* SWRevealViewController.m */; };
@@ -86,10 +80,8 @@
 		06225AAB214ABE060051C6B4 /* UserInfoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoManager.swift; sourceTree = "<group>"; };
 		06225AAD214AC1430051C6B4 /* TextViewerSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewerSettingsViewController.swift; sourceTree = "<group>"; };
 		063536842146B46100263D62 /* OptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
-		063536862146C6A200263D62 /* ThirdTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdTextViewController.swift; sourceTree = "<group>"; };
 		064344BB212DBB1600EDFA2E /* iOS-txtreader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-txtreader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		064344BE212DBB1600EDFA2E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		064344C0212DBB1600EDFA2E /* TextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewController.swift; sourceTree = "<group>"; };
 		064344C6212DBB1600EDFA2E /* iOS_txtreader.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iOS_txtreader.xcdatamodel; sourceTree = "<group>"; };
 		064344C8212DBB1600EDFA2E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		064344CB212DBB1600EDFA2E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -107,11 +99,8 @@
 		069A8EF62131031500CB6004 /* NanumBrush.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumBrush.ttf; sourceTree = "<group>"; };
 		069A8EF72131031500CB6004 /* NanumPen.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumPen.ttf; sourceTree = "<group>"; };
 		069A8EF82131031500CB6004 /* NanumMyeongjo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjo.ttf; sourceTree = "<group>"; };
-		069A8F032131608C00CB6004 /* StreamReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamReader.swift; sourceTree = "<group>"; };
 		069A8F05213161DF00CB6004 /* text.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = text.txt; sourceTree = "<group>"; };
-		069A8F072131ACFD00CB6004 /* StringReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringReader.swift; sourceTree = "<group>"; };
 		06B8AFEB214D26970068A5E9 /* DocumentFileMoveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentFileMoveViewController.swift; sourceTree = "<group>"; };
-		06C9B30A21344A290080360C /* AnotherTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnotherTextViewController.swift; sourceTree = "<group>"; };
 		06C9B30C213583170080360C /* TextViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewerViewController.swift; sourceTree = "<group>"; };
 		06C9B30E2136DF600080360C /* iOS-txtreader.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "iOS-txtreader.entitlements"; sourceTree = "<group>"; };
 		06C9B3132136DFE10080360C /* Share To App.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Share To App.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,7 +119,6 @@
 		06CF1F55214E16BB007E8F8D /* ProgramInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramInfoViewController.swift; sourceTree = "<group>"; };
 		06CF1F57214E72E1007E8F8D /* BookMarkProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkProgressView.swift; sourceTree = "<group>"; };
 		06D00F072132AE09000D1935 /* DocumentBrowerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentBrowerCell.swift; sourceTree = "<group>"; };
-		06D00F0921341F4C000D1935 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		06DF1AC5214E8AED00D7FE22 /* TextLoadingProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextLoadingProgressView.swift; sourceTree = "<group>"; };
 		06F3155E21457F550021A188 /* iOS-txtreader-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOS-txtreader-Bridging-Header.h"; sourceTree = "<group>"; };
 		06F3155F21457F560021A188 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
@@ -159,19 +147,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0613577D213ED3B4000E3AEE /* Unused */ = {
-			isa = PBXGroup;
-			children = (
-				06D00F0921341F4C000D1935 /* TestViewController.swift */,
-				069A8F032131608C00CB6004 /* StreamReader.swift */,
-				064344C0212DBB1600EDFA2E /* TextViewController.swift */,
-				06C9B30A21344A290080360C /* AnotherTextViewController.swift */,
-				069A8F072131ACFD00CB6004 /* StringReader.swift */,
-				063536862146C6A200263D62 /* ThirdTextViewController.swift */,
-			);
-			name = Unused;
-			sourceTree = "<group>";
-		};
 		064344B2212DBB1600EDFA2E = {
 			isa = PBXGroup;
 			children = (
@@ -199,7 +174,6 @@
 				06B8AFF0214D27EA0068A5E9 /* CoreData */,
 				06B8AFEE214D27960068A5E9 /* SWRevealViewController */,
 				06B8AFED214D273A0068A5E9 /* Settings */,
-				0613577D213ED3B4000E3AEE /* Unused */,
 				06CDFCCC213AB3F900E4B910 /* Localizable.strings */,
 				06C9B30E2136DF600080360C /* iOS-txtreader.entitlements */,
 				06D00F062132AD8B000D1935 /* DocumentBrowserViewController */,
@@ -531,30 +505,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				06225AAC214ABE060051C6B4 /* UserInfoManager.swift in Sources */,
-				069A8F082131ACFD00CB6004 /* StringReader.swift in Sources */,
 				06B8AFEC214D26970068A5E9 /* DocumentFileMoveViewController.swift in Sources */,
 				065180CA215A20D700B842E9 /* SampleTextViewerViewController.swift in Sources */,
 				06F3156121457F560021A188 /* SWRevealViewController.m in Sources */,
 				06CF1F56214E16BB007E8F8D /* ProgramInfoViewController.swift in Sources */,
-				069A8F042131608C00CB6004 /* StreamReader.swift in Sources */,
 				06CD079B21327C65009757BC /* DocumentBrowserViewController.swift in Sources */,
 				069A8EEA2130FAE300CB6004 /* Extensions.swift in Sources */,
-				06C9B30B21344A290080360C /* AnotherTextViewController.swift in Sources */,
 				06135787213ED9D4000E3AEE /* TextFileDAO.swift in Sources */,
 				06225AAE214AC1430051C6B4 /* TextViewerSettingsViewController.swift in Sources */,
 				06F3155D214558A20021A188 /* DocumentOptionsViewController.swift in Sources */,
-				064344C1212DBB1600EDFA2E /* TextViewController.swift in Sources */,
 				063536852146B46100263D62 /* OptionsViewController.swift in Sources */,
 				06C9B30D213583170080360C /* TextViewerViewController.swift in Sources */,
 				061888C22144C98200A1B2E7 /* DocumentEncodingPreviewViewController.swift in Sources */,
-				063536872146C6A200263D62 /* ThirdTextViewController.swift in Sources */,
 				06CD079921327C24009757BC /* TextDocument.swift in Sources */,
 				069A8EE82130F9FB00CB6004 /* TextViewerCell.swift in Sources */,
 				06D00F082132AE09000D1935 /* DocumentBrowerCell.swift in Sources */,
 				06DF1AC6214E8AED00D7FE22 /* TextLoadingProgressView.swift in Sources */,
 				064344C7212DBB1600EDFA2E /* iOS_txtreader.xcdatamodeld in Sources */,
 				06CD0771213252D6009757BC /* BookMarkView.swift in Sources */,
-				06D00F0A21341F4C000D1935 /* TestViewController.swift in Sources */,
 				064344BF212DBB1600EDFA2E /* AppDelegate.swift in Sources */,
 				06CF1F54214E0AB5007E8F8D /* DeveloperInfoViewController.swift in Sources */,
 				06CF1F58214E72E1007E8F8D /* BookMarkProgressView.swift in Sources */,

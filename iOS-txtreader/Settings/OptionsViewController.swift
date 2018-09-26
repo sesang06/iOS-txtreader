@@ -68,7 +68,7 @@ class OptionsViewController : UITableViewController , MFMailComposeViewControlle
         let mailComposeViewController = configuredMailComposeViewController()
         if MFMailComposeViewController.canSendMail() {
             self.present(mailComposeViewController, animated: true, completion: nil)
-            print("can send mail")
+//            print("can send mail")
         } else {
        //     self.showSendMailErrorAlert()
         }
@@ -86,8 +86,9 @@ class OptionsViewController : UITableViewController , MFMailComposeViewControlle
     
     
     func showSendMailErrorAlert() {
-        let sendMailErrorAlert = UIAlertView(title: "메일을 전송 실패", message: "아이폰 이메일 설정을 확인하고 다시 시도해주세요.", delegate: self, cancelButtonTitle: "확인")
-        sendMailErrorAlert.show()
+        self.showAlert(title: "메일 전송 실패", message: "이메일 설정을 확인하고 다시 시도해주세요.") {
+            
+        }
     }
     
     // MARK: MFMailComposeViewControllerDelegate Method

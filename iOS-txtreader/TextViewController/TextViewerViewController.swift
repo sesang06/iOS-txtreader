@@ -25,7 +25,7 @@ class TextViewerViewController: UIViewController, UITextViewDelegate{
         cv.backgroundColor = UIColor.gray
         cv.dataSource = self
         cv.delegate = self
-        cv.isPagingEnabled = true
+//        cv.isPagingEnabled = true
         cv.showsVerticalScrollIndicator = false
         return cv
     }()
@@ -88,7 +88,8 @@ class TextViewerViewController: UIViewController, UITextViewDelegate{
     
     lazy var defaultToolBarItems : [UIBarButtonItem] = {
         let searchBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.search, target: self, action: #selector(searchText))
-        let exportBarButton = UIBarButtonItem(title: "내보내기", style: .plain, target: self, action: #selector(exportText))
+        let exportBarButton = UIBarButtonItem(image : UIImage(named: "outline_import_export_black_24pt"), style: .plain, target: self, action: #selector(exportText))
+        
         let readModeBarButton = UIBarButtonItem(title: "보기 모드", style: UIBarButtonItemStyle.plain, target: self, action: #selector(viewerMode))
         return [
             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
@@ -101,8 +102,8 @@ class TextViewerViewController: UIViewController, UITextViewDelegate{
         ]
     }()
     lazy var searchToolBarItems : [UIBarButtonItem] = {
-        let searchPreviousBarButton = UIBarButtonItem(title: "이전 탐색", style: UIBarButtonItemStyle.plain, target: self, action: #selector(searchPrevious))
-        let searchNextBarButton = UIBarButtonItem(title: "다음 탐색", style: UIBarButtonItemStyle.plain, target: self, action: #selector(searchNext))
+        let searchPreviousBarButton = UIBarButtonItem(image : UIImage(named: "outline_keyboard_arrow_up_black_24pt"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(searchPrevious))
+        let searchNextBarButton = UIBarButtonItem(image : UIImage(named: "outline_keyboard_arrow_down_black_24pt"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(searchNext))
         return [
              UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
              searchPreviousBarButton,
@@ -144,7 +145,7 @@ class TextViewerViewController: UIViewController, UITextViewDelegate{
         
     }
     deinit{
-        print("deinit")
+//        print("deinit")
         content?.close(completionHandler: { (sucess) in
         })
     }
@@ -205,6 +206,8 @@ extension TextViewerViewController {
         let data = TextFileData()
         data.bookmark = 0
         data.pages = 0
+        data.pagesString = 0
+        data.bookmarkString = 0
         data.fileURL = content.fileURL.path
         data.openDate = Date()
         TextFileDAO.default.insert(data)
@@ -224,24 +227,59 @@ extension TextViewerViewController {
         data.encoding = content?.encoding
         data.bookmark = Int64(indexPath.item)
         data.pages = Int64(ranges.count)
+        data.pagesString = Int64(string?.length ?? 0)
+        data.bookmarkString = Int64(ranges[indexPath.item].location)
         TextFileDAO.default.update(data)
         
     }
     func loadBookmarkInfo(){
-        if let item = self.content?.textFileData?.bookmark{
-            let indexPath = IndexPath(item: Int(item), section: 0)
-            
-            if indexPath.item < self.ranges.count && indexPath.item >= 0{
-                self.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.top, animated: false)
+        if (isHitLoadBookMarkInfo()){
+            if let item = self.content?.textFileData?.bookmark{
+                let indexPath = IndexPath(item: Int(item), section: 0)
+                
+                if indexPath.item < self.ranges.count && indexPath.item >= 0{
+                    self.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.top, animated: false)
+                }
             }
+        }else {
+            if let bookmarkString = self.content?.textFileData?.bookmarkString {
+                let bookmark = Int(bookmarkString)
+                for (index, range) in ranges.enumerated() {
+                    if (NSLocationInRange(bookmark, range)){
+                        let indexPath = IndexPath(item: Int(index), section: 0)
+                         self.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.top, animated: false)
+                        
+                        break
+                    }
+                }
+            }
+            
         }
+    }
+    /**
+     cach Hit 확인..
+    **/
+    func isHitLoadBookMarkInfo()-> Bool{
+        if self.content?.textFileData?.pagesString != Int64(string?.length ?? 0) {
+            return false
+        }
+        if self.content?.textFileData?.pages != Int64(ranges.count) {
+            return false
+        }
+        if !ranges.indices.contains(Int(self.content?.textFileData?.bookmark ?? 0)) {
+            return false
+        }
+        if self.content?.textFileData?.bookmarkString != Int64(ranges[Int(self.content?.textFileData?.bookmark ?? 0)].location) {
+            return false
+        }
+        return true
     }
     func setUpText(){
         let scrollSize = self.textViewSize
         //        shapeLayer.strokeEnd = 0
         
         if (content == nil){
-            print("error")
+//            print("error")
         }
         content?.open(completionHandler: { (success) in
             guard success else {

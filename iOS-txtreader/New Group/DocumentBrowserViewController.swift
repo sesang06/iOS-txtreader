@@ -44,15 +44,15 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         return button
     }()
     lazy var createBrowserBarButtonItem : UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(self.createBrowser))
+        let button = UIBarButtonItem(image : UIImage(named: "outline_create_new_folder_black_24pt"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.createBrowser))
         return button
     }()
     lazy var deleteRecentDocumentsBarButtonItem : UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "최신 도큐먼트 제거", style: UIBarButtonItemStyle.plain, target: self, action: #selector(deleteRecentDocuments))
+        let button = UIBarButtonItem(image : UIImage(named: "outline_delete_sweep_black_24pt"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(deleteRecentDocuments))
         return button
     }()
     lazy var exportBarButton : UIBarButtonItem = {
-      return UIBarButtonItem(image : UIImage(named: "export_file"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(exportDocument))
+      return UIBarButtonItem(image : UIImage(named: "outline_import_export_black_24pt"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(exportDocument))
     }()
     let cellId = "cellId"
     lazy var searchController : UISearchController = {
@@ -142,7 +142,7 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
                 }
                 let fileURL =  URL(fileURLWithPath: urlString)
                     
-                print(fileURL)
+//                print(fileURL)
                 guard FileManager.default.fileExists(atPath: fileURL.path) == true else {
                     TextFileDAO.default.delete(textData.objectID!)
                     return nil
@@ -401,6 +401,9 @@ extension DocumentBrowserViewController {
                         }
                         return indexPath
                     } catch let error as NSError {
+                        self.showAlert(title: "오류", message: error.localizedDescription, completion: {
+                            
+                        })
                         print(error.localizedDescription)
                         return nil
                     }
@@ -534,7 +537,7 @@ extension DocumentBrowserViewController {
     }
     
     @objc func exportDocument(){
-        print("import")
+//        print("import")
         guard let indexPath = tableView.indexPathForSelectedRow else {
             return
         }
