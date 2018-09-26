@@ -61,11 +61,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         if (shouldOpenInPlace){
-            if let root = self.window?.rootViewController as? UINavigationController{
+            if let root = self.window?.rootViewController as? SWRevealViewController, let nc = root.frontViewController as? UINavigationController{
+                nc.popToRootViewController(animated: false)
+                
                 let vc = TextViewerViewController()
                 let document = TextDocument(fileURL: url)
                 vc.content = document
-                root.pushViewController(vc, animated:true )
+                nc.pushViewController(vc, animated: true )
                 
             }
         }else {
@@ -78,11 +80,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let fileURL = documentDirectory.appendingPathComponent(url.lastPathComponent).newFileURL{
                     try data.write(to: fileURL)
                     //                window = UIWindow(frame : UIScreen.main.bounds)
-                    
-                    let fileManager = FileManager.default
-                    let dirPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-                    
-                    if let root = self.window?.rootViewController as? UINavigationController{
+                   
+                   if let root = self.window?.rootViewController as? SWRevealViewController, let nc = root.frontViewController as? UINavigationController {
+                        nc.popToRootViewController(animated: false)
                         let vc = TextViewerViewController()
                         let document = TextDocument(fileURL: fileURL)
                         vc.content = document
@@ -90,7 +90,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         //                    let dirPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
                         //                    let vc = DocumentBrowserViewController()
                         //                    vc.dirPath = dirPath
-                        root.pushViewController(vc, animated:true )
+                        nc.pushViewController(vc, animated:true )
                         
                     }
                 }

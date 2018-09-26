@@ -14,7 +14,6 @@ class TextDocument: UIDocument {
     convenience init(fileURL url: URL, encoding: UInt?) {
         self.init(fileURL: url)
         self.encoding = encoding
-        print(self.encoding)
     }
     
     var textFileData : TextFileData? {

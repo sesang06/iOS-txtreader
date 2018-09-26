@@ -21,7 +21,7 @@ class DocumentOptionsViewController : UITableViewController {
     let cellId = "cellId"
     weak var delegate : DocumentOptionsViewControllerDelegate?
     override func viewDidLoad() {
-        self.preferredContentSize = CGSize(width: 500, height: 44 * 4)
+        self.preferredContentSize = CGSize(width: 500, height: 44 * 2)
 
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
         self.tableView.isScrollEnabled = false
@@ -44,7 +44,7 @@ class DocumentOptionsViewController : UITableViewController {
         return 1
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 2
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let type : DocumentBrowserViewType

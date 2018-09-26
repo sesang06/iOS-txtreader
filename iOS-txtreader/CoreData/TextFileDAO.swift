@@ -139,6 +139,7 @@ class TextFileDAO{
         object.setValue(data.bookmark, forKey: "bookmark")
         object.setValue(data.pages, forKey: "pages")
         object.setValue(data.encoding, forKey: "encoding")
+        object.setValue(data.fileURL, forKey: "fileURL")
         do {
             try self.context.save()
         } catch let e as NSError {

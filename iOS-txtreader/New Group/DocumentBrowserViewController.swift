@@ -51,6 +51,9 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         let button = UIBarButtonItem(title: "최신 도큐먼트 제거", style: UIBarButtonItemStyle.plain, target: self, action: #selector(deleteRecentDocuments))
         return button
     }()
+    lazy var exportBarButton : UIBarButtonItem = {
+      return UIBarButtonItem(image : UIImage(named: "export_file"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(exportDocument))
+    }()
     let cellId = "cellId"
     lazy var searchController : UISearchController = {
         let sc = UISearchController(searchResultsController: nil)
@@ -71,7 +74,7 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
             }
         }
     }
-    let exportBarButton =  UIBarButtonItem(image : UIImage(named: "export_file"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(importDocument))
+  
     
     
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
@@ -96,6 +99,7 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
             label.font = UIFont.systemFont(ofSize: 20)
             label.sizeToFit()
             self.navigationItem.titleView = label
+            self.navigationItem.setRightBarButtonItems([createBrowserBarButtonItem,editBrowserBarButtonItem], animated: true)
             break
         case .Recent:
             let label = UILabel()
@@ -103,6 +107,7 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
             label.font = UIFont.systemFont(ofSize: 20)
             label.sizeToFit()
             self.navigationItem.titleView = label
+            self.navigationItem.setRightBarButtonItems([deleteRecentDocumentsBarButtonItem], animated: true)
             break
         default:
             break
@@ -129,8 +134,9 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
            
             break
         case .Recent:
-            let textDatas = TextFileDAO.default.fetchRecent()
+             let textDatas = TextFileDAO.default.fetchRecent()
             contents = textDatas?.compactMap { (textData) -> TextDocument? in
+               
                 guard let urlString = textData.fileURL else {
                     return nil
                 }
@@ -138,6 +144,7 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
                     
                 print(fileURL)
                 guard FileManager.default.fileExists(atPath: fileURL.path) == true else {
+                    TextFileDAO.default.delete(textData.objectID!)
                     return nil
                 }
                 let document = TextDocument(fileURL: fileURL, encoding: textData.encoding)
@@ -309,6 +316,10 @@ extension DocumentBrowserViewController {
             }
             do {
                 try FileManager.default.moveItem(at: selectedContent.fileURL, to: newURL)
+                if let data = selectedContent.textFileData {
+                    data.fileURL = newURL.path
+                    TextFileDAO.default.update(data)
+               }
                 let document = TextDocument(fileURL: newURL)
                 contents[indexPath.item] = document
                 self.contents = contents
@@ -381,9 +392,13 @@ extension DocumentBrowserViewController {
                 }
                 
                 let deletedIndexPaths = indexPaths.compactMap { (indexPath) -> IndexPath? in
-                    let url = contents[indexPath.item].fileURL
+                    let content = contents[indexPath.item]
+                    let url = content.fileURL
                     do {
                         try FileManager.default.removeItem(at: url)
+                        if let data = content.textFileData {
+                            TextFileDAO.default.delete(data.objectID!)
+                        }
                         return indexPath
                     } catch let error as NSError {
                         print(error.localizedDescription)
@@ -411,9 +426,16 @@ extension DocumentBrowserViewController {
             return
         }
         let movedIndexPaths = indexPaths.compactMap { (indexPath) -> IndexPath? in
-            let at = contents[indexPath.item].fileURL
+            let content = contents[indexPath.item]
+            let at = content.fileURL
             do {
-                try FileManager.default.moveItem(at: at, to: url.appendingPathComponent(at.lastPathComponent))
+                let to =  url.appendingPathComponent(at.lastPathComponent)
+                try FileManager.default.moveItem(at: at, to: to)
+                
+                if let data = content.textFileData {
+                    data.fileURL = to.path
+                    TextFileDAO.default.update(data)
+                }
                 return indexPath
             } catch let error as NSError {
                 self.showAlert(title: "오류", message: error.localizedDescription, completion: {
@@ -441,6 +463,10 @@ extension DocumentBrowserViewController {
             guard success == true else {
                 return
             }
+            guard TextFileDAO.default.deleteAll() == true else {
+                return
+            }
+            self.setUpDocuments()
         }
     }
 }
@@ -507,7 +533,8 @@ extension DocumentBrowserViewController {
         }
     }
     
-    @objc func importDocument(){
+    @objc func exportDocument(){
+        print("import")
         guard let indexPath = tableView.indexPathForSelectedRow else {
             return
         }
@@ -516,8 +543,11 @@ extension DocumentBrowserViewController {
         }
         DispatchQueue.main.async {
             self.documentInteractionController.url = selectedContent.fileURL
+            
             self.documentInteractionController.delegate = self
-            self.documentInteractionController.presentOpenInMenu(from: self.exportBarButton, animated: true)
+//        self.documentInteractionController.presentPreview(animated: true)
+            self.documentInteractionController.presentOptionsMenu(from: self.exportBarButton, animated: true)
+//            self.documentInteractionController.presentOpenInMenu(from: self.exportBarButton, animated: true)
         }
         
     }

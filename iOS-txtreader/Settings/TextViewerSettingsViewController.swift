@@ -10,8 +10,28 @@ import Foundation
 import UIKit
 import SnapKit
 import TGPControls
-class TextViewerSettingsViewController : SampleTextViewerViewController {
+class TextViewerSettingsViewController : SampleTextViewerViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
     
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return textFontPickerData.count
+    }
+    
+//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+//        return textFontPickerData[row].displayFontName
+//    }
+//
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        let attributedString = NSAttributedString(string: textFontPickerData[row].displayFontName, attributes: [NSAttributedStringKey.font : textFontPickerData[row].font])
+        return attributedString
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let textFont = textFontPickerData[row]
+        UserDefaultsManager.default.textFont = textFont
+        setUpTextView(true)
+    }
     
     let textFontSettingLabel : UILabel = {
         let label = UILabel()
@@ -19,12 +39,47 @@ class TextViewerSettingsViewController : SampleTextViewerViewController {
         label.font = UIFont.systemFont(ofSize: 20)
         return label
     }()
-    let textFontLabel : UILabel = {
+    lazy var textFontPickerView : UIPickerView = {
+        let pv = UIPickerView()
+        pv.delegate = self
+        pv.dataSource = self
+        pv.backgroundColor = UIColor.white
+        
+        return pv
+    }()
+    let textFontPickerData = [TextFont(fontName: "NanumGothic", displayFontName: "나눔 고딕"), TextFont(fontName: "NanumMyeongjo", displayFontName: "나눔 명조")]
+    lazy var textFontLabel : UILabel = {
         let label = UILabel()
         label.text = "나눔 고딕"
+        label.isUserInteractionEnabled = true
+        let tg = UITapGestureRecognizer(target: self, action: #selector(textFontChange))
+        label.addGestureRecognizer(tg)
         return label
     }()
     
+    lazy var textFontTextField : UITextField = {
+       let tf = UITextField(frame: CGRect.zero)
+        tf.inputView = textFontPickerView
+        let toolBar = UIToolbar()
+        toolBar.isTranslucent = false
+        toolBar.barStyle = .default
+        toolBar.items = [
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: #selector(textFontDone))
+            ,UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(textFontCancel))
+        ]
+        toolBar.sizeToFit()
+        tf.inputAccessoryView = toolBar
+        self.view.addSubview(tf)
+        return tf
+    }()
+    @objc func textFontDone(){
+        textFontTextField.resignFirstResponder()
+    }
+    @objc func textFontCancel(){
+        
+        textFontTextField.resignFirstResponder()
+    }
     let textColorSettingLabel : UILabel = {
         let label = UILabel()
         label.text = "색상"
@@ -50,15 +105,11 @@ class TextViewerSettingsViewController : SampleTextViewerViewController {
     }()
     let textSizeSettingLabel : UILabel = {
         let label = UILabel()
-        label.text = "크기"
+        label.text = "글씨 크기"
         label.font = UIFont.systemFont(ofSize: 20)
         return label
     }()
 
-    let textSizeSilder : UISlider = {
-        let us = UISlider()
-        return us
-    }()
     
     lazy var textSizeDiscreteSlider : TGPDiscreteSlider = {
         let slider = TGPDiscreteSlider()
@@ -102,7 +153,7 @@ class TextViewerSettingsViewController : SampleTextViewerViewController {
                 attributedString.setAttributes(UserDefaultsManager.default.attributes, range: range)
             }
            self.collectionView.reloadData()
-            switch (UserDefaultsManager.default.viewType ?? .normal){
+            switch (UserDefaultsManager.default.viewType){
             case .darcula:
                 darcularCircle.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
                 normalCircle.transform = CGAffineTransform.identity
@@ -113,6 +164,7 @@ class TextViewerSettingsViewController : SampleTextViewerViewController {
                 break
                 
             }
+            self.textFontLabel.text = UserDefaultsManager.default.textFont.displayFontName
         }
         if (animated){
             UIView.animate(withDuration: 0.5) {
@@ -126,6 +178,7 @@ class TextViewerSettingsViewController : SampleTextViewerViewController {
     }
     let horizontalMargin = 20
     let verticalMargin = 20
+
     func setUpViews(){
         view.backgroundColor = .white
         view.addSubview(textFontSettingLabel)
@@ -204,6 +257,15 @@ class TextViewerSettingsViewController : SampleTextViewerViewController {
         setUpTextSize()
         
         setUpTextView(false)
+//        view.addSubview(textFontPickerView)
+//        textFontPickerView.snp.makeConstraints { (make) in
+//            make.bottom.leading.trailing.equalTo(view)
+//            make.height.equalTo(view).dividedBy(3)
+//        }
+        let selectedRow = textFontPickerData.firstIndex(where: { (textFont) -> Bool in
+            return textFont == UserDefaultsManager.default.textFont
+        })
+        textFontPickerView.selectRow(selectedRow ?? 0, inComponent: 0, animated: false)
     }
     @objc func textColorChange(_ sender : UIButton){
         if (sender == darcularButton){
@@ -231,8 +293,11 @@ class TextViewerSettingsViewController : SampleTextViewerViewController {
         UserDefaultsManager.default.textSize = textSize
         setUpTextView(true)
     }
+    @objc func textFontChange(){
+        textFontTextField.becomeFirstResponder()
+    }
     func setUpTextSize(){
-        switch (UserDefaultsManager.default.textSize ?? .middle){
+        switch (UserDefaultsManager.default.textSize){
         case .small:
             textSizeDiscreteSlider.value = 0
             textSizeLabels.value = 0

@@ -21,24 +21,16 @@ class MyViewController : UIViewController {
         style.lineSpacing = 5
     
         switch (UserDefaultsManager.default.viewType){
-        case .darcula?:
+        case .darcula:
             let attributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.paragraphStyle : style, NSAttributedStringKey.font : UIFont(name: "NanumGothic", size: 20)!, NSAttributedStringKey.foregroundColor : UIColor.white
             ]
             return attributes
-            break
-        case .normal?:
+        case .normal:
             let attributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.paragraphStyle : style, NSAttributedStringKey.font : UIFont(name: "NanumGothic", size: 20)!, NSAttributedStringKey.foregroundColor : UIColor.black
             ]
             return attributes
-            break
-        default:
-            break
             
         }
-        let attributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.paragraphStyle : style, NSAttributedStringKey.font : UIFont(name: "NanumGothic", size: 20)!, NSAttributedStringKey.foregroundColor : UIColor.black
-        ]
-        return attributes
-        
         
     }()
     

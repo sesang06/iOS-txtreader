@@ -149,7 +149,7 @@ class TextViewerViewController: UIViewController, UITextViewDelegate{
 
 extension TextViewerViewController {
     @objc func viewerMode(){
-        switch (UserDefaultsManager.default.viewType ?? .normal){
+        switch (UserDefaultsManager.default.viewType){
         case .darcula:
             UserDefaultsManager.default.viewType = .normal
         case .normal:
@@ -269,9 +269,6 @@ extension TextViewerViewController {
                  
                     
                     let rangeThatFits = textLayout.glyphRange(for: textContainer)
-                    print(rangeThatFits.upperBound)
-                    print(self?.string?.length)
-                    //                    print(rangeThatFits.location)
                     if (rangeThatFits.upperBound >= attributedString.length){
                         let finalRange = NSMakeRange(rangeThatFits.location, attributedString.length - rangeThatFits.location)
                         self?.ranges.append(finalRange)
@@ -418,7 +415,7 @@ extension TextViewerViewController : UICollectionViewDataSource{
             let substring = string.attributedSubstring(from: NSRange)
             cell.textView.attributedText = substring
         }
-        switch (UserDefaultsManager.default.viewType ?? .normal){
+        switch (UserDefaultsManager.default.viewType){
         case .darcula:
             cell.pageView.backgroundColor = UIColor.black
             cell.pageLabel.textColor = UIColor.white

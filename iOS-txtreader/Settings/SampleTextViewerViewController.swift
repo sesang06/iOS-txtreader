@@ -142,7 +142,7 @@ extension SampleTextViewerViewController : UICollectionViewDataSource{
             let substring = string.attributedSubstring(from: NSRange)
             cell.textView.attributedText = substring
         }
-        switch (UserDefaultsManager.default.viewType ?? .normal){
+        switch (UserDefaultsManager.default.viewType){
         case .darcula:
             cell.pageView.backgroundColor = UIColor.black
             cell.pageLabel.textColor = UIColor.white

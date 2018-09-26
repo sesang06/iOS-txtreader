@@ -155,7 +155,7 @@ class ThirdTextViewController: UICollectionViewController, UITextViewDelegate {
         let currentIndex = ((collectionView!.contentOffset.y) / collectionView!.frame.height)
         //            print(currentIndex)
         let indexPath = IndexPath(item: Int(currentIndex), section: 0)
-        print(content?.encoding)
+//        print(content?.encoding)
         self.textFileData?.encoding = content?.encoding
         self.textFileData?.bookmark = Int64(indexPath.item)
         if let data = self.textFileData {
@@ -266,8 +266,8 @@ class ThirdTextViewController: UICollectionViewController, UITextViewDelegate {
                     //                    let rangeThatFits = textLayout.glyphRange(forBoundingRect: .infinite, in: textContainer)
                     
                     let rangeThatFits = textLayout.glyphRange(for: textContainer)
-                    print(rangeThatFits.upperBound)
-                    print(self.string?.length)
+//                    print(rangeThatFits.upperBound)
+//                    print(self.string?.length)
                     //                    print(rangeThatFits.location)
                     if (rangeThatFits.upperBound >= attributedString.length){
                         let finalRange = NSMakeRange(rangeThatFits.location, attributedString.length - rangeThatFits.location)
