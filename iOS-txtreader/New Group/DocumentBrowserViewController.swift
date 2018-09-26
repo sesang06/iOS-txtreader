@@ -210,7 +210,7 @@ extension DocumentBrowserViewController {
             UIBarButtonItem(image : UIImage(named: "rename_file"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(changeDocumentName)),
             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
             ,
-            UIBarButtonItem(image : UIImage(named: "copy_file"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(copyDocument)),
+            UIBarButtonItem(image : UIImage(named: "outline_file_copy_black_24pt"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(copyDocument)),
             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
             ,
             UIBarButtonItem(title: "파일 이동", style: UIBarButtonItemStyle.plain, target: self, action: #selector(moveDocument)),

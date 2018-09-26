@@ -11,15 +11,15 @@ import UIKit
 
 
 class TextFileData{
-    init(){
-        return
-    }
     var pages : Int64?
     var bookmark : Int64?
+    var pageString : Int64?
+    var bookmarkString : Int64?
     var objectID : NSManagedObjectID?
     var fileURL : String?
     var openDate : Date?
     var encoding : UInt?
+    
 }
 
 class TextFileDAO{
@@ -67,11 +67,13 @@ class TextFileDAO{
             for record in resultset {
                 let data = TextFileData()
                 data.bookmark = record.bookmark
+                data.bookmarkString = record.bookmarkString
                 data.fileURL = record.fileURL
                 data.openDate = record.openDate
-                data.objectID = record.objectID
                 data.encoding = UInt(record.encoding)
                 data.pages = record.pages
+                data.objectID = record.objectID
+                data.pageString = record.pagesString
                 textFileList.append(data)
             }
         } catch let e as NSError {
@@ -86,6 +88,8 @@ class TextFileDAO{
         let object = NSEntityDescription.insertNewObject(forEntityName: "TextFile", into: self.context) as! TextFileMO
         object.pages = data.pages ?? 0
         object.bookmark = data.bookmark ?? 0
+        object.bookmarkString = data.bookmarkString ?? 0
+        object.pagesString = data.pageString ?? 0
         object.fileURL = data.fileURL
         object.openDate = data.openDate
         
@@ -140,6 +144,8 @@ class TextFileDAO{
         object.setValue(data.pages, forKey: "pages")
         object.setValue(data.encoding, forKey: "encoding")
         object.setValue(data.fileURL, forKey: "fileURL")
+        object.setValue(data.pageString, forKey: "pagesString")
+        object.setValue(data.bookmarkString, forKey: "bookmarkString")
         do {
             try self.context.save()
         } catch let e as NSError {

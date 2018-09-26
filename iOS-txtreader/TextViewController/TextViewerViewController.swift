@@ -45,7 +45,11 @@ class TextViewerViewController: UIViewController, UITextViewDelegate{
    
     
     // MARK: 북마크
-    let bookMarkView = BookMarkView()
+    lazy var bookMarkView : BookMarkView = {
+       let bnv = BookMarkView()
+        bnv.isHidden = true
+        return bnv
+    }()
     var bookMarkViewOriginY : CGFloat?
     var bookMarkTopConstraint : Constraint?
     let bookMarkMargin : CGFloat = 64
@@ -244,6 +248,12 @@ extension TextViewerViewController {
                 return
             }
             guard  let text = self.content?.text  else {
+                DispatchQueue.main.async {
+                    self.textLoadingProgressView.isHidden = true
+                }
+                self.showAlert(title: "오류", message: "파일을 읽는 데 실패했습니다. 텍스트 파일이 아닌 것 같습니다.", completion: {
+                    
+                })
                 return
             }
             
@@ -251,6 +261,7 @@ extension TextViewerViewController {
                 [weak self] in
                 
                 let attributedString = NSMutableAttributedString(string: text , attributes: UserDefaultsManager.default.attributes)
+                
                 self?.string = attributedString
                 let textStorage = NSTextStorage(attributedString: attributedString)
                 let textLayout = NSLayoutManager()
@@ -344,6 +355,7 @@ extension TextViewerViewController : UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let count = ranges.count
         if (count != 0 && count != 1){
+            bookMarkView.isHidden = false
             let offset = view.frame.height - bookMarkView.frame.height - bookMarkMargin * 2
             let currentIndex = (collectionView.contentOffset.y / view.frame.height)
             
@@ -517,16 +529,27 @@ extension TextViewerViewController : UISearchBarDelegate {
         guard let index = finalIndex else {
             return
         }
+        let scrollPosition : UICollectionViewScrollPosition
+        
+        let subString = attributedString.attributedSubstring(from: NSRange(location: ranges[index].location, length: range.location - ranges[index].location))
+        let boundingBox = subString.boundingRect(with: textViewSize, options: .usesLineFragmentOrigin, context: nil)
+        if (boundingBox.height > textViewSize.height / 2){
+            scrollPosition = .bottom
+        }else {
+            scrollPosition = .top
+        }
+
         
         searchRange = range
         attributedString.removeAttribute(NSAttributedStringKey.backgroundColor, range: previousRange)
         attributedString.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.red, range: range)
         //        string?.addAttribute(NSAttributedStringKey.backgroundColor : UIColor.red, range: range)
         let indexPath = IndexPath(item: index, section: 0)
+        
         DispatchQueue.main.async {
             //            self.collectionView.reloadItems(at: [indexPath])
             self.collectionView.reloadData()
-            self.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.top, animated: true)
+            self.collectionView.scrollToItem(at: indexPath, at: scrollPosition, animated: true)
             
         }
         

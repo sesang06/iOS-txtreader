@@ -145,8 +145,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
         let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let url = self.applicationDocumentsDirectory.appendingPathComponent("iOS_txtreader").appendingPathExtension("sqlite")
-        
+        let url = self.applicationDocumentsDirectory.appendingPathComponent(".iOS_txtreader").appendingPathExtension("sqlite")
+      
+        if (FileManager.default.fileExists(atPath: url.path) && !isStoreCompatible(storeURL: url, withModel: self.managedObjectModel)) {
+            NSLog("Core data store is incompatible with model. Deleting store.")
+            do {
+                try FileManager.default.removeItem(at: url)
+            } catch {
+                NSLog("Failed to delete incompatible store, carrying on anyway.")
+            }
+        }
+
         do {
             try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: nil)
         } catch {
@@ -207,6 +216,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-
+    private func isStoreCompatible(storeURL: URL, withModel model: NSManagedObjectModel) -> Bool {
+        var isCompatible = false
+        do {
+            let storeMetadata = try NSPersistentStoreCoordinator.metadataForPersistentStore(ofType: NSSQLiteStoreType, at: storeURL, options: nil)
+            isCompatible = model.isConfiguration(withName: nil, compatibleWithStoreMetadata: storeMetadata)
+        } catch {
+            NSLog("Failed to check if core data store is compatible, assuming incompatible")
+        }
+        
+        return isCompatible
+    }
     
 }

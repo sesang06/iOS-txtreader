@@ -85,15 +85,15 @@ class TextLoadingProgressView : UIView {
 //        percentageLabel.center = self.center
     }
     private func animatePulsatingLayer() {
-        let animation = CABasicAnimation(keyPath: "transform.scale")
-        
-        animation.toValue = 1.5
-        animation.duration = 0.8
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
-        animation.autoreverses = true
-        animation.repeatCount = Float.infinity
-        
-        pulsatingLayer.add(animation, forKey: "pulsing")
+//        let animation = CABasicAnimation(keyPath: "transform.scale")
+//        
+//        animation.toValue = 1.5
+//        animation.duration = 0.8
+//        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+//        animation.autoreverses = true
+//        animation.repeatCount = Float.infinity
+//        
+//        pulsatingLayer.add(animation, forKey: "pulsing")
     }
     private func createCircleShapeLayer(strokeColor: UIColor, fillColor: UIColor) -> CAShapeLayer {
         let layer = CAShapeLayer()

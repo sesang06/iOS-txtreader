@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iOS-txtreader/TextViewController/TextViewerViewController.swift"
-            timestampString = "559634164.641711"
+            timestampString = "559660843.0689549"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "274"
-            endingLineNumber = "274"
+            startingLineNumber = "285"
+            endingLineNumber = "285"
             landmarkName = "setUpText()"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,13 +26,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iOS-txtreader/Settings/TextViewerSettingsViewController.swift"
-            timestampString = "559634164.641804"
+            timestampString = "559660843.06905"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "284"
             endingLineNumber = "284"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "textSizeChange(_:event:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -42,13 +42,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iOS-txtreader/Settings/TextViewerSettingsViewController.swift"
-            timestampString = "559634164.641842"
+            timestampString = "559660843.069123"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "287"
             endingLineNumber = "287"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "textSizeChange(_:event:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -58,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iOS-txtreader/New Group/DocumentBrowserViewController.swift"
-            timestampString = "559576568.37687"
+            timestampString = "559660843.069193"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "321"
@@ -74,7 +74,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iOS-txtreader/New Group/DocumentBrowserViewController.swift"
-            timestampString = "559576568.377026"
+            timestampString = "559660843.069261"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "545"
@@ -90,7 +90,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iOS-txtreader/New Group/DocumentBrowserViewController.swift"
-            timestampString = "559576568.377067"
+            timestampString = "559660843.069309"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "539"
@@ -106,7 +106,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iOS-txtreader/New Group/DocumentBrowserViewController.swift"
-            timestampString = "559576568.377108"
+            timestampString = "559660843.069392"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "538"
@@ -122,13 +122,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "iOS-txtreader/Settings/TextViewerSettingsViewController.swift"
-            timestampString = "559634164.641973"
+            timestampString = "559660843.0694259"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "32"
             endingLineNumber = "32"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "pickerView(_:didSelectRow:inComponent:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

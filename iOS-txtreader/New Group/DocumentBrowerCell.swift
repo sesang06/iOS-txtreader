@@ -55,7 +55,7 @@ class DocumentBrowerCell: BaseTableCell {
             if content?.isFolder == true{
                 thumbnailImageView.image = UIImage(named: "outline_folder_black_48pt")
             }else {
-                thumbnailImageView.image = nil
+                thumbnailImageView.image = UIImage(named: "outline_insert_drive_file_black_48pt")
             }
             if let bookmark = content?.textFileData?.bookmark, let pages = content?.textFileData?.pages  {
                 bookmarkLabel.text = "\(Int(bookmark)) \(Int(pages))"
