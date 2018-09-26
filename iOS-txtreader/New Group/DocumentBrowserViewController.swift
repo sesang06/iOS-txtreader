@@ -94,17 +94,28 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
     func setUpTitle(){
         switch documentType {
         case .Local:
-            let label = UILabel()
-            label.text = dirPath?.lastPathComponent
-            label.font = UIFont.systemFont(ofSize: 20)
+            let label = UIButton(type: UIButtonType.custom)
+            label.setTitle(dirPath?.lastPathComponent, for: .normal)
             label.sizeToFit()
+            label.setTitleColor(UIColor.black, for: .normal)
+            if (isMain == true){
+                label.setImage(UIImage(named: "outline_keyboard_arrow_down_black_18pt"), for: .normal)
+                label.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -10)
+                label.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
+            }
             self.navigationItem.titleView = label
             self.navigationItem.setRightBarButtonItems([createBrowserBarButtonItem,editBrowserBarButtonItem], animated: true)
             break
         case .Recent:
-            let label = UILabel()
-            label.text = "recent".localized
-            label.font = UIFont.systemFont(ofSize: 20)
+            let label = UIButton(type: UIButtonType.custom)
+            label.setTitle("recent".localized, for: .normal)
+            label.sizeToFit()
+            label.setTitleColor(UIColor.black, for: .normal)
+            if (isMain == true){
+                label.setImage(UIImage(named: "outline_keyboard_arrow_down_black_18pt"), for: .normal)
+                label.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -10)
+                label.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
+            }
             label.sizeToFit()
             self.navigationItem.titleView = label
             self.navigationItem.setRightBarButtonItems([deleteRecentDocumentsBarButtonItem], animated: true)
@@ -112,9 +123,11 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
         default:
             break
         }
-        self.navigationItem.titleView?.isUserInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target:self, action: #selector(navBarTapped))
-        self.navigationItem.titleView?.addGestureRecognizer(tap)
+        if (isMain == true){
+            self.navigationItem.titleView?.isUserInteractionEnabled = true
+            let tap = UITapGestureRecognizer(target:self, action: #selector(navBarTapped))
+            self.navigationItem.titleView?.addGestureRecognizer(tap)
+        }
     }
     func setUpDocuments(){
         switch documentType {
@@ -161,6 +174,9 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
             self.tableView.reloadData()
         }
     }
+    deinit {
+        self.searchController.view.removeFromSuperview()
+    }
     
 }
 extension DocumentBrowserViewController {
@@ -189,11 +205,31 @@ extension DocumentBrowserViewController {
         popOver?.permittedArrowDirections = [.up]
         popOver?.delegate = self
         vc.delegate = self
+       
         DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.5, animations: {
+                if let button = self.navigationItem.titleView as? UIButton, let imageView = button.imageView {
+                    let angle =  CGFloat(Double.pi)
+                    let tr = CGAffineTransform.identity.rotated(by: angle)
+                    imageView.transform = tr
+                }
+            })
             self.present(vc, animated: true) {
                 
             }
         }
+    }
+    func popoverPresentationControllerShouldDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) -> Bool {
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.5, animations: {
+                if let button = self.navigationItem.titleView as? UIButton, let imageView = button.imageView {
+                    let angle =  CGFloat(Double.pi * 2)
+                    let tr = CGAffineTransform.identity.rotated(by: angle)
+                    imageView.transform = tr
+                }
+            })
+        }
+        return true
     }
 }
 extension DocumentBrowserViewController {
