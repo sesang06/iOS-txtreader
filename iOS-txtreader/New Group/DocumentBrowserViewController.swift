@@ -196,26 +196,28 @@ extension DocumentBrowserViewController {
 extension DocumentBrowserViewController {
     // MARK: 네비게이션 타이틀바 설정
     @objc func navBarTapped(){
-        let vc = DocumentOptionsViewController()
-        vc.modalPresentationStyle = .popover
-        let popOver = vc.popoverPresentationController
-        popOver?.sourceView = self.navigationItem.titleView
-        popOver?.sourceRect = self.navigationItem.titleView!.bounds
-        
-        popOver?.permittedArrowDirections = [.up]
-        popOver?.delegate = self
-        vc.delegate = self
-       
-        DispatchQueue.main.async {
-            UIView.animate(withDuration: 0.5, animations: {
-                if let button = self.navigationItem.titleView as? UIButton, let imageView = button.imageView {
-                    let angle =  CGFloat(Double.pi)
-                    let tr = CGAffineTransform.identity.rotated(by: angle)
-                    imageView.transform = tr
+        if (!isFiltering() && !tableView.isEditing){
+            let vc = DocumentOptionsViewController()
+            vc.modalPresentationStyle = .popover
+            let popOver = vc.popoverPresentationController
+            popOver?.sourceView = self.navigationItem.titleView
+            popOver?.sourceRect = self.navigationItem.titleView!.bounds
+            
+            popOver?.permittedArrowDirections = [.up]
+            popOver?.delegate = self
+            vc.delegate = self
+           
+            DispatchQueue.main.async {
+                UIView.animate(withDuration: 0.5, animations: {
+                    if let button = self.navigationItem.titleView as? UIButton, let imageView = button.imageView {
+                        let angle =  CGFloat(Double.pi)
+                        let tr = CGAffineTransform.identity.rotated(by: angle)
+                        imageView.transform = tr
+                    }
+                })
+                self.present(vc, animated: true) {
+                    
                 }
-            })
-            self.present(vc, animated: true) {
-                
             }
         }
     }
@@ -572,7 +574,7 @@ extension DocumentBrowserViewController {
         }
     }
     
-    @objc func exportDocument(){
+    @objc func exportDocument(_ sender : UIBarButtonItem){
 //        print("import")
         guard let indexPath = tableView.indexPathForSelectedRow else {
             return
@@ -585,8 +587,9 @@ extension DocumentBrowserViewController {
             
             self.documentInteractionController.delegate = self
 //        self.documentInteractionController.presentPreview(animated: true)
-            self.documentInteractionController.presentOptionsMenu(from: self.exportBarButton, animated: true)
-//            self.documentInteractionController.presentOpenInMenu(from: self.exportBarButton, animated: true)
+//            self.documentInteractionController.presentOptionsMenu(from: self.exportBarButton, animated: true)
+            self.documentInteractionController.presentOpenInMenu(from: sender, animated: true)
+//            self.documentInteractionController.presentOpenInMenu(from: self.view.frame, in: self.view, animated: true)
         }
         
     }
@@ -606,6 +609,7 @@ extension DocumentBrowserViewController : UITableViewDelegate {
     func setUpTableView(){
         self.extendedLayoutIncludesOpaqueBars = true
         view.addSubview(tableView)
+        tableView.cellLayoutMarginsFollowReadableWidth = false
         tableView.snp.makeConstraints { (make) in
 //            make.top.equalTo(topLayoutGuide.snp.bottom)
 //            make.bottom.equalTo(bottomLayoutGuide.snp.top)

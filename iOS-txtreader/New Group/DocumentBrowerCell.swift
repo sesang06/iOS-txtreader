@@ -71,21 +71,21 @@ class DocumentBrowerCell: BaseTableCell {
         contentView.addSubview(thumbnailImageView)
         contentView.addSubview(bookmarkLabel)
         thumbnailImageView.snp.makeConstraints { (make) in
-            make.top.equalTo(self.contentView).offset(5)
-            make.leading.equalTo(self.contentView).offset(20)
-            make.bottom.equalTo(self.contentView).offset(-5)
+            make.topMargin.equalTo(self.contentView)
+            make.leadingMargin.equalTo(self.contentView).offset(5)
+            make.bottomMargin.equalTo(self.contentView)
             make.width.equalTo(thumbnailImageView.snp.height)
         }
         fileNameLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.contentView).offset(5)
+            make.topMargin.equalTo(self.contentView)
             make.leading.equalTo(self.thumbnailImageView.snp.trailing).offset(5)
-            make.trailing.equalTo(self.contentView).offset(-5)
+            make.trailingMargin.equalTo(self.contentView).offset(-5)
         }
         fileInfoLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(fileNameLabel.snp.bottom).offset(5)
+            make.topMargin.equalTo(fileNameLabel.snp.bottom).offset(5)
             make.leading.equalTo(self.thumbnailImageView.snp.trailing).offset(5)
-            make.trailing.equalTo(self.contentView).offset(-5)
-            make.bottom.equalTo(self.contentView).offset(-5)
+            make.trailingMargin.equalTo(self.contentView).offset(-5)
+            make.bottomMargin.equalTo(self.contentView)
         }
         bookmarkLabel.snp.makeConstraints { (make) in
             make.top.equalTo(self.contentView).offset(5)

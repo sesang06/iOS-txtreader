@@ -20,7 +20,7 @@ class TextViewerViewController: UIViewController, UITextViewDelegate{
     
     lazy var collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-//        layout.scrollDirection = .horizontal
+        layout.scrollDirection = .vertical
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = UIColor.gray
         cv.dataSource = self
@@ -77,7 +77,7 @@ class TextViewerViewController: UIViewController, UITextViewDelegate{
     lazy var searchBar : UISearchBar = {
         var searchBar = UISearchBar()
         searchBar.delegate = self
-        searchBar.barStyle = .blackTranslucent
+        searchBar.searchBarStyle = .minimal
         return searchBar
     }()
     
@@ -167,11 +167,12 @@ extension TextViewerViewController {
         
         self.collectionView.reloadData()
     }
-    @objc func exportText(){
+    @objc func exportText(_ sender : UIBarButtonItem){
         DispatchQueue.main.async {
             self.documentInteractionController.url = self.content?.fileURL
+//            self.documentInteractionController.uti = self.content?.fileURL.uti
             self.documentInteractionController.delegate = self
-            self.documentInteractionController.presentOptionsMenu(from: self.view.frame, in: self.view, animated: true)
+           self.documentInteractionController.presentOpenInMenu(from: sender, animated: true)
         }
     }
     

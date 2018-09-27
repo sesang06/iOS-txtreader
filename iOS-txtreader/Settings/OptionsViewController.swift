@@ -66,11 +66,11 @@ class OptionsViewController : UITableViewController , MFMailComposeViewControlle
     }
     func sendMail(){
         let mailComposeViewController = configuredMailComposeViewController()
+//        mailComposeViewController.preferredContentSize = CGSize(width: 300, height: 300)
         if MFMailComposeViewController.canSendMail() {
             self.present(mailComposeViewController, animated: true, completion: nil)
-//            print("can send mail")
         } else {
-       //     self.showSendMailErrorAlert()
+            self.showSendMailErrorAlert()
         }
         
     }
