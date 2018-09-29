@@ -32,7 +32,7 @@ class TextLoadingProgressView : UIView {
     }
     let disposeBag = DisposeBag()
     func percentageCheck(){
-        let percentageCheck =
+//        let percentageCheck =
         percentage
             .asObservable()
             .throttle(0.1, scheduler: MainScheduler.instance)
@@ -46,7 +46,7 @@ class TextLoadingProgressView : UIView {
                 self?.percentageLabel.text = "\(Int(percentage * 100))%"
                 self?.shapeLayer.strokeEnd = percentage
             })
-        .addDisposableTo(disposeBag)
+            .disposed(by: disposeBag)
         
     }
     required init?(coder aDecoder: NSCoder) {
