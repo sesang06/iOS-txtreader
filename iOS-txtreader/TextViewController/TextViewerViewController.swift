@@ -16,8 +16,8 @@ import SnapKit
 class TextViewerViewController: UIViewController, UITextViewDelegate{
   
     // MARK: 콜렉션 뷰
-    let cellId = "cellId"
-    
+    let darcularCellId = "darcularCellId"
+    let normalCellId = "normalCellId"
     lazy var collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -30,7 +30,7 @@ class TextViewerViewController: UIViewController, UITextViewDelegate{
         return cv
     }()
     
-    
+    lazy var viewType = UserDefaultsManager.default.viewType
     // MARK: 텍스트뷰의 사이즈를 미리 계산함
     lazy var textViewSize : CGSize = {
        let size = CGSize(width: view.frame.width - 60, height: view.frame.height - 40 - 30)
@@ -81,16 +81,22 @@ class TextViewerViewController: UIViewController, UITextViewDelegate{
         return searchBar
     }()
     
-    
-    
+    lazy var readModeBarButton : UIBarButtonItem = {
+        let image : UIImage?
+        switch UserDefaultsManager.default.viewType{
+        case .darcula:
+            image = UIImage(named: "outline_brightness_5_black_24pt")
+        case .normal:
+            image = UIImage(named: "outline_brightness_2_black_24pt")
+        }
+        return UIBarButtonItem(image: image, style: UIBarButtonItemStyle.plain, target: self, action: #selector(viewerMode))
+    }()
     let documentInteractionController = UIDocumentInteractionController()
-    
     
     lazy var defaultToolBarItems : [UIBarButtonItem] = {
         let searchBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.search, target: self, action: #selector(searchText))
         let exportBarButton = UIBarButtonItem(image : UIImage(named: "outline_import_export_black_24pt"), style: .plain, target: self, action: #selector(exportText))
         
-        let readModeBarButton = UIBarButtonItem(title: "보기 모드", style: UIBarButtonItemStyle.plain, target: self, action: #selector(viewerMode))
         return [
             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
             searchBarButton,
@@ -153,12 +159,17 @@ class TextViewerViewController: UIViewController, UITextViewDelegate{
 }
 
 extension TextViewerViewController {
-    @objc func viewerMode(){
+    @objc func viewerMode(_ sender : UIBarButtonItem){
+       
         switch (UserDefaultsManager.default.viewType){
         case .darcula:
             UserDefaultsManager.default.viewType = .normal
+            viewType = .normal
+            sender.image = UIImage(named: "outline_brightness_2_black_24pt")
         case .normal:
             UserDefaultsManager.default.viewType = .darcula
+            viewType = .darcula
+            sender.image = UIImage(named: "outline_brightness_5_black_24pt")
         }
         if let attributedString = string {
             let range = NSRange.init(location: 0, length: attributedString.length)
@@ -414,7 +425,8 @@ extension TextViewerViewController : UICollectionViewDelegate, UICollectionViewD
             self.automaticallyAdjustsScrollViewInsets = false
         }
         view.addSubview(collectionView)
-        collectionView.register(TextViewerCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView.register(NormalTextViewerCell.self, forCellWithReuseIdentifier: normalCellId)
+        collectionView.register(DarcularTextViewerCell.self, forCellWithReuseIdentifier: darcularCellId)
         collectionView.snp.makeConstraints { (make) in
                         make.top.equalTo(topLayoutGuide.snp.bottom)
                         make.bottom.equalTo(bottomLayoutGuide.snp.top)
@@ -454,27 +466,11 @@ extension TextViewerViewController {
 }
 extension TextViewerViewController : UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! TextViewerCell
-//        let textView = UITextView(frame: CGRect.zero, textContainer: textContainers[indexPath.item])
-//        textView.isScrollEnabled = false
-//        cell.addSubview(textViews[indexPath.item])
-//        textViews[indexPath.item].snp.makeConstraints { (make) in
-//            make.top.bottom.leading.trailing.equalTo(cell)
-//        }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ((self.viewType == .darcula) ? darcularCellId : normalCellId), for: indexPath) as! TextViewerCell
         if let string = string {
             let NSRange = ranges[indexPath.item]
             let substring = string.attributedSubstring(from: NSRange)
             cell.textView.attributedText = substring
-        }
-        switch (UserDefaultsManager.default.viewType){
-        case .darcula:
-            cell.pageView.backgroundColor = UIColor.black
-            cell.pageLabel.textColor = UIColor.white
-            break
-        case .normal:
-            cell.pageView.backgroundColor = UIColor.white
-            cell.pageLabel.textColor = UIColor.black
-            break
         }
         cell.index = indexPath
         return cell
@@ -660,3 +656,4 @@ extension StringProtocol where Index == String.Index {
         return result
     }
 }
+

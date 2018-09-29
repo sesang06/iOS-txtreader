@@ -8,6 +8,22 @@
 
 import UIKit
 import SnapKit
+class DarcularTextViewerCell : TextViewerCell{
+    override func setupViews() {
+        super.setupViews()
+        pageView.backgroundColor = UIColor.black
+        pageLabel.textColor = UIColor.white
+        
+    }
+}
+class NormalTextViewerCell : TextViewerCell {
+    override func setupViews() {
+        super.setupViews()
+        pageView.backgroundColor = UIColor.white
+        pageLabel.textColor = UIColor.black
+        
+    }
+}
 class TextViewerCell: BaseCell {
    
     var index : IndexPath? {
@@ -29,7 +45,7 @@ class TextViewerCell: BaseCell {
     }()
     let pageLabel : UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "NanumGothic", size: 17)
+        label.font = UIFont.systemFont(ofSize: 20)
         label.textAlignment = NSTextAlignment.center
         return label
     }()

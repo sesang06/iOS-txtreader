@@ -57,11 +57,11 @@ class DocumentBrowerCell: BaseTableCell {
             }else {
                 thumbnailImageView.image = UIImage(named: "outline_insert_drive_file_black_48pt")
             }
-            if let bookmark = content?.textFileData?.bookmark, let pages = content?.textFileData?.pages  {
-                bookmarkLabel.text = "\(Int(bookmark)) \(Int(pages))"
-            }else {
-                bookmarkLabel.text = ""
-            }
+//            if let bookmark = content?.textFileData?.bookmark, let pages = content?.textFileData?.pages  {
+//                bookmarkLabel.text = "\(Int(bookmark)) \(Int(pages))"
+//            }else {
+//                bookmarkLabel.text = ""
+//            }
         }
     }
     override func setupViews() {
@@ -69,7 +69,7 @@ class DocumentBrowerCell: BaseTableCell {
         contentView.addSubview(fileNameLabel)
         contentView.addSubview(fileInfoLabel)
         contentView.addSubview(thumbnailImageView)
-        contentView.addSubview(bookmarkLabel)
+//        contentView.addSubview(bookmarkLabel)
         thumbnailImageView.snp.makeConstraints { (make) in
             make.topMargin.equalTo(self.contentView)
             make.leadingMargin.equalTo(self.contentView).offset(5)
@@ -87,11 +87,11 @@ class DocumentBrowerCell: BaseTableCell {
             make.trailingMargin.equalTo(self.contentView).offset(-5)
             make.bottomMargin.equalTo(self.contentView)
         }
-        bookmarkLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.contentView).offset(5)
-            make.bottom.equalTo(self.contentView).offset(-5)
-            make.trailing.equalTo(self.contentView).offset(-5)
-            make.width.equalTo(100)
-        }
+//        bookmarkLabel.snp.makeConstraints { (make) in
+//            make.top.equalTo(self.contentView).offset(5)
+//            make.bottom.equalTo(self.contentView).offset(-5)
+//            make.trailing.equalTo(self.contentView).offset(-5)
+//            make.width.equalTo(100)
+//        }
     }
 }
