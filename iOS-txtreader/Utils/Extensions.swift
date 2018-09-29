@@ -126,7 +126,7 @@ extension UIViewController {
     func showAlert(title: String? = nil, message: String? = nil, completion : (()->Void)? = nil ){
         let alertController = UIAlertController(title:title , message: message, preferredStyle: .alert)
         //the confirm action taking the inputs
-        let confirmAction = UIAlertAction(title: "confirm".localized, style: .default) { (_) in
+        let confirmAction = UIAlertAction(title: LocalizedString.confirm, style: .default) { (_) in
             
             //getting the input values from user
             completion?()
@@ -141,18 +141,18 @@ extension UIViewController {
             self.present(alertController, animated: true, completion: nil)
         }
     }
-    func showAlert(title: String? = nil, message: String? = nil, completion : ((Bool)->Void)? = nil ){
+    func showAlert(title: String? = nil, message: String? = nil, isDestructive : Bool = false, completion : ((Bool)->Void)? = nil ){
         let alertController = UIAlertController(title:title , message: message, preferredStyle: .alert)
         
         //the confirm action taking the inputs
-        let confirmAction = UIAlertAction(title: "confirm".localized, style: .default) { (_) in
+        let confirmAction = UIAlertAction(title: LocalizedString.confirm, style: .default) { (_) in
             
             //getting the input values from user
             completion?(true)
         }
         
         //the cancel action doing nothing
-        let cancelAction = UIAlertAction(title: "cancel".localized, style: .cancel) { (_) in
+        let cancelAction = UIAlertAction(title: isDestructive ? LocalizedString.delete : LocalizedString.cancel, style: isDestructive ? .destructive : .cancel) { (_) in
             completion?(false)
         }
         
@@ -173,7 +173,7 @@ extension UIViewController {
         let alertController = UIAlertController(title:title , message: message, preferredStyle: .alert)
     
         //the confirm action taking the inputs
-        let confirmAction = UIAlertAction(title: "confirm".localized, style: .default) { (_) in
+        let confirmAction = UIAlertAction(title: LocalizedString.confirm, style: .default) { (_) in
             
             //getting the input values from user
             let input = alertController.textFields?[0].text
@@ -181,7 +181,7 @@ extension UIViewController {
         }
         
         //the cancel action doing nothing
-        let cancelAction = UIAlertAction(title: "cancel".localized, style: .cancel) { (_) in
+        let cancelAction = UIAlertAction(title: LocalizedString.cancel, style: .cancel) { (_) in
             
         }
 
@@ -193,12 +193,14 @@ extension UIViewController {
             textField.text = defaultText
             textField.clearButtonMode = UITextFieldViewMode.whileEditing
             textField.addTarget(alertController, action: #selector(alertController.didTextChangeInputDialog), for: UIControlEvents.editingChanged)
+            alertController.didTextChangeInputDialog(textField)
         }
         //finally presenting the dialog box
         DispatchQueue.main.async {
             self.present(alertController, animated: true, completion: nil)
         }
     }
+
 
 }
 extension UIAlertController {

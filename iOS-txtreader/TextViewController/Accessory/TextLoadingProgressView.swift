@@ -9,22 +9,13 @@
 import Foundation
 import UIKit
 import SnapKit
-
+import RxCocoa
+import RxSwift
 class TextLoadingProgressView : UIView {
     var shapeLayer: CAShapeLayer!
     var pulsatingLayer: CAShapeLayer!
     var trackLayer : CAShapeLayer!
-    var percentage : CGFloat? {
-        didSet{
-            guard let percentage = percentage else {
-                return
-            }
-            DispatchQueue.main.async {
-                self.percentageLabel.text = "\(Int(percentage * 100))%"
-                self.shapeLayer.strokeEnd = percentage
-            }
-        }
-    }
+    var percentage : Variable<CGFloat?> = Variable(0)
     let percentageLabel: UILabel = {
         let label = UILabel()
         label.text = "Start"
@@ -37,8 +28,27 @@ class TextLoadingProgressView : UIView {
         super.init(frame: frame)
 //        print(frame)
         setUpViews()
+        percentageCheck()
     }
-    
+    let disposeBag = DisposeBag()
+    func percentageCheck(){
+        let percentageCheck =
+        percentage
+            .asObservable()
+            .throttle(0.1, scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .observeOn(MainScheduler.instance)
+
+            .subscribe(onNext: { [weak self] (percentage) in
+                guard let percentage = percentage else {
+                    return
+                }
+                self?.percentageLabel.text = "\(Int(percentage * 100))%"
+                self?.shapeLayer.strokeEnd = percentage
+            })
+        .addDisposableTo(disposeBag)
+        
+    }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

@@ -28,7 +28,7 @@ class DocumentFileMoveViewController : UITableViewController {
         tableFooterView.backgroundColor = .clear
         tableView.tableFooterView = tableFooterView
         self.tableView.cellLayoutMarginsFollowReadableWidth = false
-        self.navigationItem.title = "파일 이동"
+        self.navigationItem.title = LocalizedString.moveFile
         setUpFolders()
     }
     func setUpFolders(){

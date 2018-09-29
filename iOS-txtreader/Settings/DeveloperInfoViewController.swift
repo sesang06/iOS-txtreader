@@ -38,8 +38,8 @@ class DeveloperInfoViewController : UIViewController {
         setUpViews()
     }
     func setUpNavigaionBar(){
-        self.navigationItem.title = "제작자 정보"
-        let backButton = UIBarButtonItem(title: "닫기", style: UIBarButtonItemStyle.plain, target: self, action: #selector(close))
+        self.navigationItem.title = LocalizedString.developerInfomation
+        let backButton = UIBarButtonItem(title: LocalizedString.close, style: UIBarButtonItemStyle.plain, target: self, action: #selector(close))
         self.navigationItem.leftBarButtonItem = backButton
     }
     func setUpViews(){

@@ -328,7 +328,7 @@ extension TextViewerViewController {
                     self?.ranges.append(rangeThatFits)
                     
                     let percentage = CGFloat(rangeThatFits.upperBound) / CGFloat(attributedString.length)
-                    self?.textLoadingProgressView.percentage = percentage
+                    self?.textLoadingProgressView.percentage.value = percentage
                   }
                 DispatchQueue.main.async {
                     self?.textLoadingProgressView.isHidden = true

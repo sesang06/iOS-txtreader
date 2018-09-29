@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E03AFFBFB2095474C11557E6772E9623"
+               BlueprintIdentifier = "C9B5F143625FD3A110DABF7ED3C92A4D"
                BlueprintName = "TGPControls"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "TGPControls.framework">

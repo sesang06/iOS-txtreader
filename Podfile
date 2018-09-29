@@ -10,5 +10,7 @@ target 'iOS-txtreader' do
     pod 'Fabric', '~> 1.7.11'
     pod 'Crashlytics', '~> 3.10.7'
     pod 'TGPControls'
+    pod 'RxSwift', '~> 4.0'
+    pod 'RxCocoa', '~>4.0'
 end
 

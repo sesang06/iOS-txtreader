@@ -49,6 +49,9 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - RxCocoa (4.3.1):
+    - RxSwift (~> 4.0)
+  - RxSwift (4.3.1)
   - SDWebImage (4.4.2):
     - SDWebImage/Core (= 4.4.2)
   - SDWebImage/Core (4.4.2)
@@ -60,6 +63,8 @@ DEPENDENCIES:
   - Crashlytics (~> 3.10.7)
   - Fabric (~> 1.7.11)
   - Firebase/Core
+  - RxCocoa (~> 4.0)
+  - RxSwift (~> 4.0)
   - SDWebImage (~> 4.0)
   - SnapKit (~> 4.0.0)
   - TGPControls
@@ -76,6 +81,8 @@ SPEC REPOS:
     - GoogleAppMeasurement
     - GoogleUtilities
     - nanopb
+    - RxCocoa
+    - RxSwift
     - SDWebImage
     - SnapKit
     - TGPControls
@@ -91,10 +98,12 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 7d2552cea4e12d09ce737ef0441887a746585ff3
   GoogleUtilities: 760ccb53b7c7f40f9c02d8c241f76f841a7a6162
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  RxCocoa: 78763c7b07d02455598d9fc3c1ad091a28b73635
+  RxSwift: fe0fd770a43acdb7d0a53da411c9b892e69bb6e4
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
   TGPControls: 52c0770bee9c9aee364f1559cc627fc01ea5e8b2
 
-PODFILE CHECKSUM: e805ee12f521759c83b962df44241b4324ba705b
+PODFILE CHECKSUM: a8177edd8ed676790f12c58359a5be838b9d4c06
 
 COCOAPODS: 1.5.3

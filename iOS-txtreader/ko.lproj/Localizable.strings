@@ -1,14 +1,45 @@
-/* 
-  string.strings
-  iOS-txtreader
+/*
+ string.strings
+ iOS-txtreader
+ 
+ Created by 조세상 on 2018. 9. 1..
+ Copyright © 2018년 조세상. All rights reserved.
+ */
 
-  Created by 조세상 on 2018. 9. 1..
-  Copyright © 2018년 조세상. All rights reserved.
-*/
-cancel = "취소";
 confirm = "확인";
-createBroswerMessage = "폴더 생성!!";
-local = "로컬";
-recent = "최근";
+cancel = "취소";
+delete = "삭제";
+createBroswerTitle = "폴더 생성";
+createBroswerMessage = "새로 만들 폴더 이름을 입력해 주십시오.";
+renameFileTitle = "파일 이름 변경";
+renameFileMessage = "변경할 이름을 입력해 주십시오.";
+
+local = "로컬 도큐먼트";
+recent = "최근 열어본 도큐먼트";
 iCloud = "iCloud";
 bookmark = "북마크";
+textFont = "글꼴";
+textSize = "글자 크기";
+textColor = "글자 색상";
+textSample = "A";
+textViewMode = "보기 모드";
+setting = "설정";
+close = "닫기";
+textViewerSetting = "글자 크기 및 글꼴 설정";
+help = "도움말";
+inquiry = "문의하기";
+developerInfomation = "가발자 정보";
+emailSendFailMessage = "이메일 전송애 실패했습니다.";
+moveFile = "파일 이동";
+error = "오류";
+folderExistsErrorMessage = "이륾이 같은 폴더가 있습니다. 다른 이름을 입력해 주십시오.";
+fileExistsErrorMessage = "이름이 같은 파일이 있습니다. 다른 이름을 입력해 주십시오.";
+deleteFileConfirmTitle = "파일 삭제";
+deleteFileConfirmMessage = "정말 선택하신 파일을 삭제하시겠습니까?";
+deleteRecentOpenedFile = "최근 기록 삭제";
+deleteRecentOpenedFileMessage = "정말 최근 기록을 삭제하시겠습니까?";
+noSearchFileMessage = "검색 결과가 없습니다.";
+noFileMessage = "빈 폴더입니다.";
+loadingStart = "Loading...";
+fileReadErrorMessage = "파일 읽기에 실패했습니다.";
+keywordSearchErrorMessage = "검색 결과가 없습니다.";

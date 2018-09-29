@@ -1,14 +1,44 @@
-/* 
-  string.strings
-  iOS-txtreader
+/*
+ string.strings
+ iOS-txtreader
+ 
+ Created by 조세상 on 2018. 9. 1..
+ Copyright © 2018년 조세상. All rights reserved.
+ */
 
-  Created by 조세상 on 2018. 9. 1..
-  Copyright © 2018년 조세상. All rights reserved.
-*/
-cancel = "cancel";
-confirm = "confirm";
-createBroswerMessage = "Type !!";
-local = "local";
-recent = "recent";
+confirm = "Confirm";
+cancel = "Cancel";
+delete = "Delete";
+createBroswerTitle = "Create a new folder";
+createBroswerMessage = "Please enter a new foler name.";
+renameFileTitle = "Rename";
+renameFileMessage = "Please enter a new name.";
+local = "Local Documents";
+recent = "Recent Documents";
 iCloud = "iCloud";
-bookmark = "bookmark";
+bookmark = "Bookmarks";
+textFont = "Text Font";
+textSize = "Text Size";
+textColor = "Text Color";
+textSample = "A";
+textViewMode = "Text View Mode";
+setting = "Settings";
+close = "Close";
+textViewerSetting = "Visual text settings";
+help = "User manual";
+inquiry = "Contact Us";
+developerInfomation = "About Developer";
+emailSendFailMessage = "Sending of email failed.";
+moveFile = "Move files";
+error = "Error";
+folderExistsErrorMessage = "A folder with that name already exists. Please enter a different name.";
+fileExistsErrorMessage = "A file with that name already exists. Please enter a different name.";
+deleteFileConfirmTitle = "Delete files";
+deleteFileConfirmMessage = "Are you sure you want to delete the selected items?";
+deleteRecentOpenedFile = "Clear recent history";
+deleteRecentOpenedFileMessage = "Are you sure you want to clear the recent history?";
+noSearchFileMessage = "No Results Found.";
+noFileMessage = "This folder is empty.";
+loadingStart = "Loading...";
+fileReadErrorMessage = "Failed to read the file.";
+keywordSearchErrorMessage = "No Results Found.";

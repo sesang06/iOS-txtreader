@@ -251,7 +251,7 @@ extension DocumentBrowserViewController {
             UIBarButtonItem(image : UIImage(named: "outline_file_copy_black_24pt"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(copyDocument)),
             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
             ,
-            UIBarButtonItem(title: "파일 이동", style: UIBarButtonItemStyle.plain, target: self, action: #selector(moveDocument)),
+            UIBarButtonItem(title: LocalizedString.moveFile, style: UIBarButtonItemStyle.plain, target: self, action: #selector(moveDocument)),
             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
             ,
             
@@ -295,7 +295,7 @@ extension DocumentBrowserViewController {
             return
         }
         
-        self.showInputDialog(title: "createBroswerMessage".localized) { (input) in
+        self.showInputDialog(title: LocalizedString.createBroswerTitle, message: LocalizedString.createBroswerMessage) { (input) in
            
             guard let input = input else {
                 return
@@ -305,7 +305,7 @@ extension DocumentBrowserViewController {
             }
             let newURL = dirPath.appendingPathComponent(input)
             guard !FileManager.default.fileExists(atPath: newURL.path) else {
-                self.showAlert(title: "오류", message: "\(input) 폴더가 이미 있습니다.", completion: {
+                self.showAlert(title: LocalizedString.error, message: LocalizedString.folderExistsErrorMessage, completion: {
                     
                 })
                 return
@@ -324,7 +324,7 @@ extension DocumentBrowserViewController {
                 
             } catch let error as NSError {
                 print(error.localizedDescription)
-                self.showAlert(title: "오류", message: error.localizedDescription, completion: {
+                self.showAlert(title: LocalizedString.error, message: error.localizedDescription, completion: {
                 })
             }
         }
@@ -337,7 +337,7 @@ extension DocumentBrowserViewController {
         
         
         let selectedContent = contents[indexPath.item]
-        self.showInputDialog(title: "changeDocumentNameMessage".localized,  defaultText: selectedContent.fileName , confirm : { (input) in
+        self.showInputDialog(title: LocalizedString.renameFileTitle, message: LocalizedString.renameFileMessage,  defaultText: selectedContent.fileName , confirm : { (input) in
             guard let input = input else {
                 return
             }
@@ -347,7 +347,7 @@ extension DocumentBrowserViewController {
             let newURL = dirPath.appendingPathComponent(input)
             
             guard !FileManager.default.fileExists(atPath: newURL.path) else {
-                self.showAlert(title: "오류", message: "\(input) 파일이 이미 있습니다.", completion: {
+                self.showAlert(title: LocalizedString.error, message: LocalizedString.fileExistsErrorMessage, completion: {
                     
                 })
                 return
@@ -369,7 +369,7 @@ extension DocumentBrowserViewController {
                 }
             } catch let error as NSError {
                 print(error.localizedDescription)
-                self.showAlert(title: "오류", message: error.localizedDescription, completion: {
+                self.showAlert(title: LocalizedString.error, message: error.localizedDescription, completion: {
                 })
             }
         })
@@ -393,7 +393,7 @@ extension DocumentBrowserViewController {
                 return newContent
             }catch let error as NSError {
                 print(error.localizedDescription)
-                self.showAlert(title: "오류", message: error.localizedDescription, completion: {
+                self.showAlert(title: LocalizedString.error, message: error.localizedDescription, completion: {
                 })
                 return nil
             }
@@ -423,7 +423,7 @@ extension DocumentBrowserViewController {
     }
     // MARK: 제거
     @objc func deleteDocument(){
-        self.showAlert(title: "삭제", message: "정말 선택하신 파일들을 삭제하시겠습니까?") { (success) in
+        self.showAlert(title: LocalizedString.deleteFileConfirmTitle, message: LocalizedString.deleteFileConfirmMessage, isDestructive: true) { (success) in
             if success {
                 guard let indexPaths = self.tableView.indexPathsForSelectedRows, var contents = self.contents else {
                     return
@@ -439,7 +439,7 @@ extension DocumentBrowserViewController {
                         }
                         return indexPath
                     } catch let error as NSError {
-                        self.showAlert(title: "오류", message: error.localizedDescription, completion: {
+                        self.showAlert(title: LocalizedString.error, message: error.localizedDescription, completion: {
                             
                         })
                         print(error.localizedDescription)
@@ -479,7 +479,7 @@ extension DocumentBrowserViewController {
                 }
                 return indexPath
             } catch let error as NSError {
-                self.showAlert(title: "오류", message: error.localizedDescription, completion: {
+                self.showAlert(title: LocalizedString.error, message: error.localizedDescription, completion: {
                     
                 })
 //                print(error.localizedDescription)
@@ -500,7 +500,7 @@ extension DocumentBrowserViewController {
     }
     // MARK: 최근 도큐먼트 제거
     @objc func deleteRecentDocuments(){
-        self.showAlert(title: "최신 도큐먼트 삭제", message: "최신 도큐먼트를 삭제하시겠습니까?") { (success) in
+        self.showAlert(title: LocalizedString.deleteRecentOpenedFile, message: LocalizedString.deleteRecentOpenedFileMessage, isDestructive : true) { (success) in
             guard success == true else {
                 return
             }
@@ -655,7 +655,7 @@ extension DocumentBrowserViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isFiltering(){
             if filteredContents?.count == 0 {
-                self.tableView.setEmptyMessage("검색 결과 없음")
+                self.tableView.setEmptyMessage(LocalizedString.noSearchFileMessage)
             } else {
                 self.tableView.restore()
             }
@@ -664,7 +664,7 @@ extension DocumentBrowserViewController : UITableViewDataSource {
         }
         
         if contents?.count == 0 {
-            self.tableView.setEmptyMessage("파일 없음")
+            self.tableView.setEmptyMessage(LocalizedString.noFileMessage)
         } else {
             self.tableView.restore()
         }
@@ -764,7 +764,7 @@ extension UITableView {
         messageLabel.textColor = .black
         messageLabel.numberOfLines = 0;
         messageLabel.textAlignment = .center;
-        messageLabel.font = UIFont(name: "TrebuchetMS", size: 15)
+        messageLabel.font = UIFont.systemFont(ofSize: 20)
         messageLabel.sizeToFit()
         
         self.backgroundView = messageLabel;

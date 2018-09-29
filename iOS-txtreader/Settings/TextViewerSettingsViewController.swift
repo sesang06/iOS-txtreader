@@ -35,7 +35,7 @@ class TextViewerSettingsViewController : SampleTextViewerViewController, UIPicke
     
     let textFontSettingLabel : UILabel = {
         let label = UILabel()
-        label.text = "글씨체"
+        label.text = LocalizedString.textFont
         label.font = UIFont.systemFont(ofSize: 20)
         return label
     }()
@@ -55,7 +55,6 @@ class TextViewerSettingsViewController : SampleTextViewerViewController, UIPicke
     ]
     lazy var textFontLabel : UILabel = {
         let label = UILabel()
-        label.text = "나눔 고딕"
         label.isUserInteractionEnabled = true
         let tg = UITapGestureRecognizer(target: self, action: #selector(textFontChange))
         label.addGestureRecognizer(tg)
@@ -87,7 +86,7 @@ class TextViewerSettingsViewController : SampleTextViewerViewController, UIPicke
     }
     let textColorSettingLabel : UILabel = {
         let label = UILabel()
-        label.text = "색상"
+        label.text = LocalizedString.textColor
         label.font = UIFont.systemFont(ofSize: 20)
         return label
     }()
@@ -95,7 +94,7 @@ class TextViewerSettingsViewController : SampleTextViewerViewController, UIPicke
     let darcularCircle = UIView()
     let darcularButton : UIButton = {
         let label = UIButton(type: UIButtonType.custom)
-        label.setTitle("가", for: UIControlState.normal)
+        label.setTitle(LocalizedString.textSample, for: UIControlState.normal)
         label.setTitleColor(UIColor.white, for: UIControlState.normal)
         label.backgroundColor = .black
         return label
@@ -103,14 +102,14 @@ class TextViewerSettingsViewController : SampleTextViewerViewController, UIPicke
     let normalCircle = UIView()
     let normalButton : UIButton = {
         let label = UIButton(type: UIButtonType.custom)
-        label.setTitle("가", for: UIControlState.normal)
+        label.setTitle(LocalizedString.textSample, for: UIControlState.normal)
         label.setTitleColor(UIColor.black, for: UIControlState.normal)
         label.backgroundColor = .white
         return label
     }()
     let textSizeSettingLabel : UILabel = {
         let label = UILabel()
-        label.text = "글씨 크기"
+        label.text = LocalizedString.textSize
         label.font = UIFont.systemFont(ofSize: 20)
         return label
     }()
@@ -132,7 +131,7 @@ class TextViewerSettingsViewController : SampleTextViewerViewController, UIPicke
     }()
     let textSettingLabel : UILabel = {
         let label = UILabel()
-        label.text = "보기 모드"
+        label.text = LocalizedString.textViewMode
         label.font = UIFont.systemFont(ofSize: 20)
         return label
     }()
@@ -144,8 +143,8 @@ class TextViewerSettingsViewController : SampleTextViewerViewController, UIPicke
         setUpViews()
     }
     func setUpNavigaionBar(){
-        self.navigationItem.title = "설정"
-        let backButton = UIBarButtonItem(title: "닫기", style: UIBarButtonItemStyle.plain, target: self, action: #selector(close))
+        self.navigationItem.title = LocalizedString.setting
+        let backButton = UIBarButtonItem(title: LocalizedString.close, style: UIBarButtonItemStyle.plain, target: self, action: #selector(close))
         self.navigationItem.leftBarButtonItem = backButton
        
         
