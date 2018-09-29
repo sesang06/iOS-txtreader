@@ -41,6 +41,11 @@ class OptionsViewController : UITableViewController , MFMailComposeViewControlle
             }
             break
         case 1: //도움말
+            let vc = UserManualController()
+            let uv = UINavigationController(rootViewController: vc)
+            self.present(uv, animated: true) {
+                self.revealViewController().revealToggle(self)
+            }
             break
         case 2: //문의하기
             sendMail()

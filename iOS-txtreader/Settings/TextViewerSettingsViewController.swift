@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 import SnapKit
 import TGPControls
+import RxSwift
+import RxCocoa
 class TextViewerSettingsViewController : SampleTextViewerViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -143,7 +145,7 @@ class TextViewerSettingsViewController : SampleTextViewerViewController, UIPicke
         setUpViews()
     }
     func setUpNavigaionBar(){
-        self.navigationItem.title = LocalizedString.setting
+        self.navigationItem.title = LocalizedString.textViewerSetting
         let backButton = UIBarButtonItem(title: LocalizedString.close, style: UIBarButtonItemStyle.plain, target: self, action: #selector(close))
         self.navigationItem.leftBarButtonItem = backButton
        
@@ -216,13 +218,13 @@ class TextViewerSettingsViewController : SampleTextViewerViewController, UIPicke
         darcularCircle.snp.makeConstraints { (make) in
             make.width.height.equalTo(50)
             make.top.equalTo(textColorSettingLabel.snp.bottom).offset(verticalMargin)
-            make.leading.equalTo(view).offset(horizontalMargin)
+            make.leading.equalTo(view).offset(horizontalMargin + 20)
             
         }
         normalCircle.snp.makeConstraints { (make) in
             make.width.height.equalTo(50)
             make.top.equalTo(textColorSettingLabel.snp.bottom).offset(verticalMargin)
-            make.trailing.equalTo(view).offset(-horizontalMargin)
+            make.trailing.equalTo(view).offset(-horizontalMargin - 20)
         }
         darcularCircle.addSubview(darcularButton)
         normalCircle.addSubview(normalButton)
@@ -271,7 +273,18 @@ class TextViewerSettingsViewController : SampleTextViewerViewController, UIPicke
             return textFont == UserDefaultsManager.default.textFont
         })
         textFontPickerView.selectRow(selectedRow ?? 0, inComponent: 0, animated: false)
+        textSize.asObservable()
+            .throttle(0.1, scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [weak self] (textSize) in
+                UserDefaultsManager.default.textSize = textSize
+                self?.setUpTextView(true)
+            })
+            .disposed(by: disposeBag)
+        
     }
+    let disposeBag = DisposeBag()
     @objc func textColorChange(_ sender : UIButton){
         if (sender == darcularButton){
             UserDefaultsManager.default.viewType = ViewType.darcula
@@ -295,9 +308,13 @@ class TextViewerSettingsViewController : SampleTextViewerViewController, UIPicke
             default:
             textSize = TextSize.middle
         }
-        UserDefaultsManager.default.textSize = textSize
-        setUpTextView(true)
+        self.textSize.value = textSize
+//        UserDefaultsManager.default.textSize = textSize
+//        setUpTextView(true)
     }
+    var textSize : Variable<TextSize> = Variable(UserDefaultsManager.default.textSize)
+    
+    
     @objc func textFontChange(){
         textFontTextField.becomeFirstResponder()
     }

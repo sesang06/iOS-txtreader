@@ -35,7 +35,7 @@ class TextLoadingProgressView : UIView {
 //        let percentageCheck =
         percentage
             .asObservable()
-            .throttle(0.1, scheduler: MainScheduler.instance)
+            .throttle(0.3, scheduler: MainScheduler.instance)
             .distinctUntilChanged()
             .observeOn(MainScheduler.instance)
 

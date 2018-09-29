@@ -11,6 +11,7 @@ struct UserInfoKey {
     static let viewType = "VIEWTYPE"
     static let textSize = "TEXTSIZE"
     static let textFont = "TEXTFONT"
+    static let firstRun = "FIRSTRUN"
 }
 enum ViewType : String {
     case darcula
@@ -47,6 +48,15 @@ extension TextFont {
 
 class UserDefaultsManager {
     static let `default` : UserDefaultsManager =  UserDefaultsManager()
+    
+    var firstRun : Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: UserInfoKey.firstRun)
+        }
+        set(v){
+            UserDefaults.standard.set(v, forKey: UserInfoKey.firstRun)
+        }
+    }
     
     var viewType : ViewType {
         get {

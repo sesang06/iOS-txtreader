@@ -241,17 +241,17 @@ extension DocumentBrowserViewController {
         toolbarItems = [
             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
             ,
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.trash, target: self, action: #selector(deleteDocument))
+            UIBarButtonItem(image : UIImage(named: "outline_delete_forever_black_24pt"), style : UIBarButtonItemStyle.plain, target: self, action: #selector(deleteDocument))
             ,
             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
             ,
-            UIBarButtonItem(image : UIImage(named: "rename_file"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(changeDocumentName)),
+            UIBarButtonItem(image : UIImage(named: "outline_text_format_black_24pt"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(changeDocumentName)),
             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
             ,
             UIBarButtonItem(image : UIImage(named: "outline_file_copy_black_24pt"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(copyDocument)),
             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
             ,
-            UIBarButtonItem(title: LocalizedString.moveFile, style: UIBarButtonItemStyle.plain, target: self, action: #selector(moveDocument)),
+            UIBarButtonItem(image : UIImage(named: "outline_move_to_inbox_black_24pt"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(moveDocument)),
             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
             ,
             
@@ -515,6 +515,8 @@ extension DocumentBrowserViewController {
     // MARK: 새로고침을 할 필요가 있을 때..
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.setToolbarHidden(true, animated: false)
+        
         setUpDocuments()
         
         //        reloadDocument()
@@ -774,5 +776,22 @@ extension UITableView {
     func restore() {
         self.backgroundView = nil
         self.separatorStyle = .singleLine
+    }
+}
+extension DocumentBrowserViewController {
+    // MARK: 튜토리얼을 보여줌
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        showTutorial()
+    }
+
+    func showTutorial(){
+        if (UserDefaultsManager.default.firstRun == false){
+            let vc = TextViewerSettingsViewController()
+            let uv = UINavigationController(rootViewController: vc)
+            self.present(uv, animated: true) {
+                UserDefaultsManager.default.firstRun = true
+            }
+        }
     }
 }

@@ -24,8 +24,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         window = UIWindow(frame : UIScreen.main.bounds)
       
+        
         let fileManager = FileManager.default
         let dirPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+        if (UserDefaultsManager.default.firstRun == false){ // 첫번째일 때..
+            if let fileURL = Bundle.main.url(forResource:"sample", withExtension: "txt") ,
+                let sampleFileURL = dirPath?.appendingPathComponent("동백꽃").appendingPathExtension("txt") {
+                do {
+                   try FileManager.default.copyItem(at: fileURL, to: sampleFileURL)
+                }catch let error as NSError {
+                    print(error.localizedDescription)
+                }
+            }
+        }
         let vc = DocumentBrowserViewController()
         vc.dirPath = dirPath
        let nav = UINavigationController(rootViewController: vc)
@@ -59,47 +70,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard let shouldOpenInPlace = options[UIApplicationOpenURLOptionsKey.openInPlace] as? Bool else {
             return false
         }
-        
-        if (shouldOpenInPlace){
-            if let root = self.window?.rootViewController as? SWRevealViewController, let nc = root.frontViewController as? UINavigationController{
-                nc.popToRootViewController(animated: false)
-                
-                let vc = TextViewerViewController()
-                let document = TextDocument(fileURL: url)
-                vc.content = document
-                nc.pushViewController(vc, animated: true )
-                
-            }
-        }else {
-            do {
-                
-                let data = try Data(contentsOf: url)
-                let fileManager = FileManager.default
-                let documentDirectory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
-                
-                if let fileURL = documentDirectory.appendingPathComponent(url.lastPathComponent).newFileURL{
-                    try data.write(to: fileURL)
-                    //                window = UIWindow(frame : UIScreen.main.bounds)
-                   
-                   if let root = self.window?.rootViewController as? SWRevealViewController, let nc = root.frontViewController as? UINavigationController {
-                        nc.popToRootViewController(animated: false)
-                        let vc = TextViewerViewController()
-                        let document = TextDocument(fileURL: fileURL)
-                        vc.content = document
-                        //                    let fileManager = FileManager.default
-                        //                    let dirPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-                        //                    let vc = DocumentBrowserViewController()
-                        //                    vc.dirPath = dirPath
-                        nc.pushViewController(vc, animated:true )
-                        
-                    }
-                }
-                
-                // Do something with the file
-            } catch {
-                print("Unable to load data: \(error)")
-            }
+        if let root = self.window?.rootViewController as? SWRevealViewController, let nc = root.frontViewController as? UINavigationController{
+            nc.popToRootViewController(animated: false)
+            
+            let vc = TextViewerViewController()
+            let document = TextDocument(fileURL: url)
+            vc.content = document
+            nc.pushViewController(vc, animated: true )
+            
         }
+//
+//        if (shouldOpenInPlace){
+//            if let root = self.window?.rootViewController as? SWRevealViewController, let nc = root.frontViewController as? UINavigationController{
+//                nc.popToRootViewController(animated: false)
+//
+//                let vc = TextViewerViewController()
+//                let document = TextDocument(fileURL: url)
+//                vc.content = document
+//                nc.pushViewController(vc, animated: true )
+//
+//            }
+//        }else {
+//            do {
+//
+//                let data = try Data(contentsOf: url)
+//                let fileManager = FileManager.default
+//                let documentDirectory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor:nil, create:false)
+//
+//                if let fileURL = documentDirectory.appendingPathComponent(url.lastPathComponent).newFileURL{
+//                    try data.write(to: fileURL)
+//                    //                window = UIWindow(frame : UIScreen.main.bounds)
+//
+//                   if let root = self.window?.rootViewController as? SWRevealViewController, let nc = root.frontViewController as? UINavigationController {
+//                        nc.popToRootViewController(animated: false)
+//                        let vc = TextViewerViewController()
+//                        let document = TextDocument(fileURL: fileURL)
+//                        vc.content = document
+//                        //                    let fileManager = FileManager.default
+//                        //                    let dirPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+//                        //                    let vc = DocumentBrowserViewController()
+//                        //                    vc.dirPath = dirPath
+//                        nc.pushViewController(vc, animated:true )
+//
+//                    }
+//                }
+//
+//                // Do something with the file
+//            } catch {
+//                print("Unable to load data: \(error)")
+//            }
+//        }
       
         return true
     }

@@ -49,7 +49,7 @@ class DeveloperInfoViewController : UIViewController {
         view.addSubview(avatarImageView)
         emailLabel.snp.makeConstraints { (make) in
             make.trailing.leading.equalTo(view)
-            make.bottom.equalTo(view.snp.centerY).offset(-10)
+            make.bottom.equalTo(view.snp.centerY).offset(0)
         }
         copyrightLabel.snp.makeConstraints { (make) in
             make.trailing.leading.equalTo(view)
@@ -57,7 +57,7 @@ class DeveloperInfoViewController : UIViewController {
         }
         avatarImageView.snp.makeConstraints { (make) in
             make.width.height.equalTo(100)
-            make.bottom.equalTo(emailLabel.snp.top).offset(-10)
+            make.bottom.equalTo(emailLabel.snp.top).offset(-20)
             make.centerX.equalTo(view)
         }
         let tapGestureRecognizer = UITapGestureRecognizer(target:self, action: #selector(github))
