@@ -27,7 +27,7 @@ class DocumentOptionsViewController : UITableViewController {
         self.tableView.isScrollEnabled = false
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for : indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for : indexPath) 
      
         let text : String
         switch (indexPath.item){

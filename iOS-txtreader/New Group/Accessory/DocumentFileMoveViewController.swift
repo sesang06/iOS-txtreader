@@ -78,6 +78,6 @@ class DocumentFileMoveViewController : UITableViewController {
         return contents?.count ?? 0
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
  }

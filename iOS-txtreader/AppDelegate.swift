@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
        
         FirebaseApp.configure()
@@ -65,9 +65,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
           window?.makeKeyAndVisible()
         return true
     }
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
        
-        guard let shouldOpenInPlace = options[UIApplicationOpenURLOptionsKey.openInPlace] as? Bool else {
+        guard let shouldOpenInPlace = options[UIApplication.OpenURLOptionsKey.openInPlace] as? Bool else {
             return false
         }
         if let root = self.window?.rootViewController as? SWRevealViewController, let nc = root.frontViewController as? UINavigationController{

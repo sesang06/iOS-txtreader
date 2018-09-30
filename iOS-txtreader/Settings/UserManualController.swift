@@ -12,7 +12,7 @@ import SnapKit
 class UserManualController : UIViewController {
     lazy var textView : UITextView = {
         let tv = UITextView()
-        tv.textContainerInset = UIEdgeInsetsMake(50, 10, 10, 10)
+        tv.textContainerInset = UIEdgeInsets.init(top: 50, left: 10, bottom: 10, right: 10)
 //        tv.textContainer.lineFragmentPadding = 0
 //        tv.isUserInteractionEnabled = false
 //        tv.isScrollEnabled = false
@@ -50,7 +50,7 @@ class UserManualController : UIViewController {
     }
     func setUpNavigaionBar(){
         self.navigationItem.title = LocalizedString.help
-        let backButton = UIBarButtonItem(title: LocalizedString.close, style: UIBarButtonItemStyle.plain, target: self, action: #selector(close))
+        let backButton = UIBarButtonItem(title: LocalizedString.close, style: UIBarButtonItem.Style.plain, target: self, action: #selector(close))
         self.navigationItem.leftBarButtonItem = backButton
     }
 }

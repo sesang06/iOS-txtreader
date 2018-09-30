@@ -26,7 +26,7 @@ class TextViewerSettingsViewController : SampleTextViewerViewController, UIPicke
 //    }
 //
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        let attributedString = NSAttributedString(string: textFontPickerData[row].displayFontName, attributes: [NSAttributedStringKey.font : textFontPickerData[row].font])
+        let attributedString = NSAttributedString(string: textFontPickerData[row].displayFontName, attributes: [NSAttributedString.Key.font : textFontPickerData[row].font])
         return attributedString
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -70,9 +70,9 @@ class TextViewerSettingsViewController : SampleTextViewerViewController, UIPicke
         toolBar.isTranslucent = false
         toolBar.barStyle = .default
         toolBar.items = [
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: #selector(textFontDone))
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(textFontDone))
             ,UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(textFontCancel))
+             UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.cancel, target: self, action: #selector(textFontCancel))
         ]
         toolBar.sizeToFit()
         tf.inputAccessoryView = toolBar
@@ -95,17 +95,17 @@ class TextViewerSettingsViewController : SampleTextViewerViewController, UIPicke
     
     let darcularCircle = UIView()
     let darcularButton : UIButton = {
-        let label = UIButton(type: UIButtonType.custom)
-        label.setTitle(LocalizedString.textSample, for: UIControlState.normal)
-        label.setTitleColor(UIColor.white, for: UIControlState.normal)
+        let label = UIButton(type: UIButton.ButtonType.custom)
+        label.setTitle(LocalizedString.textSample, for: UIControl.State.normal)
+        label.setTitleColor(UIColor.white, for: UIControl.State.normal)
         label.backgroundColor = .black
         return label
     }()
     let normalCircle = UIView()
     let normalButton : UIButton = {
-        let label = UIButton(type: UIButtonType.custom)
-        label.setTitle(LocalizedString.textSample, for: UIControlState.normal)
-        label.setTitleColor(UIColor.black, for: UIControlState.normal)
+        let label = UIButton(type: UIButton.ButtonType.custom)
+        label.setTitle(LocalizedString.textSample, for: UIControl.State.normal)
+        label.setTitleColor(UIColor.black, for: UIControl.State.normal)
         label.backgroundColor = .white
         return label
     }()
@@ -122,7 +122,7 @@ class TextViewerSettingsViewController : SampleTextViewerViewController, UIPicke
         slider.tickCount = 3
         slider.backgroundColor = UIColor.clear
         slider.minimumValue = 0
-        slider.addTarget(self, action: #selector(textSizeChange), for: UIControlEvents.valueChanged)
+        slider.addTarget(self, action: #selector(textSizeChange), for: UIControl.Event.valueChanged)
         slider.ticksListener = textSizeLabels
         return slider
     }()
@@ -146,7 +146,7 @@ class TextViewerSettingsViewController : SampleTextViewerViewController, UIPicke
     }
     func setUpNavigaionBar(){
         self.navigationItem.title = LocalizedString.textViewerSetting
-        let backButton = UIBarButtonItem(title: LocalizedString.close, style: UIBarButtonItemStyle.plain, target: self, action: #selector(close))
+        let backButton = UIBarButtonItem(title: LocalizedString.close, style: UIBarButtonItem.Style.plain, target: self, action: #selector(close))
         self.navigationItem.leftBarButtonItem = backButton
        
         
@@ -238,7 +238,7 @@ class TextViewerSettingsViewController : SampleTextViewerViewController, UIPicke
         for button in [darcularButton, normalButton] {
             button.clipsToBounds = true
             button.layer.cornerRadius = 25
-            button.addTarget(self, action: #selector(textColorChange), for: UIControlEvents.touchUpInside)
+            button.addTarget(self, action: #selector(textColorChange), for: UIControl.Event.touchUpInside)
         }
         for circle in [normalCircle, darcularCircle] {
             circle.layer.shadowColor = UIColor.black.cgColor

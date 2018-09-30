@@ -36,23 +36,23 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
     }()
     // MARK: 우상단에 있는 버튼들..
     lazy var editBrowserBarButtonItem : UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: #selector(editBrowser))
+        let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.edit, target: self, action: #selector(editBrowser))
         return button
     }()
     lazy var cancelEditBrowserBarButtonItem : UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(self.cancelEditBrowser))
+        let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.cancel, target: self, action: #selector(self.cancelEditBrowser))
         return button
     }()
     lazy var createBrowserBarButtonItem : UIBarButtonItem = {
-        let button = UIBarButtonItem(image : UIImage(named: "outline_create_new_folder_black_24pt"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(self.createBrowser))
+        let button = UIBarButtonItem(image : UIImage(named: "outline_create_new_folder_black_24pt"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.createBrowser))
         return button
     }()
     lazy var deleteRecentDocumentsBarButtonItem : UIBarButtonItem = {
-        let button = UIBarButtonItem(image : UIImage(named: "outline_delete_sweep_black_24pt"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(deleteRecentDocuments))
+        let button = UIBarButtonItem(image : UIImage(named: "outline_delete_sweep_black_24pt"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(deleteRecentDocuments))
         return button
     }()
     lazy var exportBarButton : UIBarButtonItem = {
-      return UIBarButtonItem(image : UIImage(named: "outline_import_export_black_24pt"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(exportDocument))
+      return UIBarButtonItem(image : UIImage(named: "outline_import_export_black_24pt"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(exportDocument))
     }()
     let cellId = "cellId"
     lazy var searchController : UISearchController = {
@@ -94,26 +94,26 @@ class DocumentBrowserViewController: UIViewController , UIPopoverPresentationCon
     func setUpTitle(){
         switch documentType {
         case .Local:
-            let label = UIButton(type: UIButtonType.custom)
+            let label = UIButton(type: UIButton.ButtonType.custom)
             label.setTitle(dirPath?.lastPathComponent, for: .normal)
             label.sizeToFit()
             label.setTitleColor(UIColor.black, for: .normal)
             if (isMain == true){
                 label.setImage(UIImage(named: "outline_keyboard_arrow_down_black_18pt"), for: .normal)
-                label.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -10)
+                label.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: -10)
                 label.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
             }
             self.navigationItem.titleView = label
             self.navigationItem.setRightBarButtonItems([createBrowserBarButtonItem,editBrowserBarButtonItem], animated: true)
             break
         case .Recent:
-            let label = UIButton(type: UIButtonType.custom)
+            let label = UIButton(type: UIButton.ButtonType.custom)
             label.setTitle("recent".localized, for: .normal)
             label.sizeToFit()
             label.setTitleColor(UIColor.black, for: .normal)
             if (isMain == true){
                 label.setImage(UIImage(named: "outline_keyboard_arrow_down_black_18pt"), for: .normal)
-                label.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -10)
+                label.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: -10)
                 label.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
             }
             label.sizeToFit()
@@ -239,24 +239,24 @@ extension DocumentBrowserViewController {
     func setUpEditToolbar(){
         
         toolbarItems = [
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
             ,
-            UIBarButtonItem(image : UIImage(named: "outline_delete_forever_black_24pt"), style : UIBarButtonItemStyle.plain, target: self, action: #selector(deleteDocument))
+            UIBarButtonItem(image : UIImage(named: "outline_delete_forever_black_24pt"), style : UIBarButtonItem.Style.plain, target: self, action: #selector(deleteDocument))
             ,
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
             ,
-            UIBarButtonItem(image : UIImage(named: "outline_text_format_black_24pt"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(changeDocumentName)),
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+            UIBarButtonItem(image : UIImage(named: "outline_text_format_black_24pt"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(changeDocumentName)),
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
             ,
-            UIBarButtonItem(image : UIImage(named: "outline_file_copy_black_24pt"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(copyDocument)),
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+            UIBarButtonItem(image : UIImage(named: "outline_file_copy_black_24pt"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(copyDocument)),
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
             ,
-            UIBarButtonItem(image : UIImage(named: "outline_move_to_inbox_black_24pt"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(moveDocument)),
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+            UIBarButtonItem(image : UIImage(named: "outline_move_to_inbox_black_24pt"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(moveDocument)),
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
             ,
             
             exportBarButton
-            , UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+            , UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
             
         ]
         enableToolbarButtons()
@@ -317,7 +317,7 @@ extension DocumentBrowserViewController {
                 let indexPath = IndexPath(item: 0, section: 0)
                 DispatchQueue.main.async {
                     self.tableView.beginUpdates()
-                    self.tableView.insertRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+                    self.tableView.insertRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
                     self.tableView.endUpdates()
                 }
                 
@@ -364,7 +364,7 @@ extension DocumentBrowserViewController {
                 DispatchQueue.main.async {
                     self.cancelEditBrowser()
                     self.tableView.beginUpdates()
-                    self.tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+                    self.tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
                     self.tableView.endUpdates()
                 }
             } catch let error as NSError {
@@ -417,7 +417,7 @@ extension DocumentBrowserViewController {
         DispatchQueue.main.async {
             self.cancelEditBrowser()
             self.tableView.beginUpdates()
-            self.tableView.insertRows(at: items, with: UITableViewRowAnimation.automatic)
+            self.tableView.insertRows(at: items, with: UITableView.RowAnimation.automatic)
             self.tableView.endUpdates()
         }
     }
@@ -453,7 +453,7 @@ extension DocumentBrowserViewController {
                 DispatchQueue.main.async {
                     self.cancelEditBrowser()
                     self.tableView.beginUpdates()
-                    self.tableView.deleteRows(at: deletedIndexPaths, with: UITableViewRowAnimation.automatic)
+                    self.tableView.deleteRows(at: deletedIndexPaths, with: UITableView.RowAnimation.automatic)
                     self.tableView.endUpdates()
                 }
             }
@@ -695,7 +695,7 @@ extension DocumentBrowserViewController {
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = true
         searchController.hidesNavigationBarDuringPresentation = false
-        searchController.searchBar.searchBarStyle = UISearchBarStyle.minimal
+        searchController.searchBar.searchBarStyle = UISearchBar.Style.minimal
         definesPresentationContext = true
         
         if #available(iOS 9.1, *) {

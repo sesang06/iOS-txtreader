@@ -97,23 +97,23 @@ class UserDefaultsManager {
         }
     }
     
-    var attributes :  [NSAttributedStringKey : Any] {
+    var attributes :  [NSAttributedString.Key : Any] {
         get {
             let style = NSMutableParagraphStyle()
             style.lineSpacing = 5
-            var attributes : [NSAttributedStringKey : Any] = [NSAttributedStringKey.paragraphStyle : style, NSAttributedStringKey.foregroundColor : UIColor.black
+            var attributes : [NSAttributedString.Key : Any] = [NSAttributedString.Key.paragraphStyle : style, NSAttributedString.Key.foregroundColor : UIColor.black
             ]
             
             switch (UserDefaultsManager.default.viewType){
             case .darcula:
-                attributes[NSAttributedStringKey.foregroundColor] = UIColor.white
+                attributes[NSAttributedString.Key.foregroundColor] = UIColor.white
             case .normal:
-                attributes[NSAttributedStringKey.foregroundColor] = UIColor.black
+                attributes[NSAttributedString.Key.foregroundColor] = UIColor.black
             }
             
             
             let font = UserDefaultsManager.default.textFont.font
-            attributes[NSAttributedStringKey.font] = font
+            attributes[NSAttributedString.Key.font] = font
             return attributes
         }
         

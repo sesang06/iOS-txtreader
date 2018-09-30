@@ -89,33 +89,33 @@ class TextViewerViewController: UIViewController, UITextViewDelegate{
         case .normal:
             image = UIImage(named: "outline_brightness_2_black_24pt")
         }
-        return UIBarButtonItem(image: image, style: UIBarButtonItemStyle.plain, target: self, action: #selector(viewerMode))
+        return UIBarButtonItem(image: image, style: UIBarButtonItem.Style.plain, target: self, action: #selector(viewerMode))
     }()
     let documentInteractionController = UIDocumentInteractionController()
     
     lazy var defaultToolBarItems : [UIBarButtonItem] = {
-        let searchBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.search, target: self, action: #selector(searchText))
+        let searchBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.search, target: self, action: #selector(searchText))
         let exportBarButton = UIBarButtonItem(image : UIImage(named: "outline_import_export_black_24pt"), style: .plain, target: self, action: #selector(exportText))
         
         return [
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil),
             searchBarButton,
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil),
             exportBarButton,
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil),
             readModeBarButton,
-            UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+            UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
         ]
     }()
     lazy var searchToolBarItems : [UIBarButtonItem] = {
-        let searchPreviousBarButton = UIBarButtonItem(image : UIImage(named: "outline_keyboard_arrow_up_black_24pt"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(searchPrevious))
-        let searchNextBarButton = UIBarButtonItem(image : UIImage(named: "outline_keyboard_arrow_down_black_24pt"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(searchNext))
+        let searchPreviousBarButton = UIBarButtonItem(image : UIImage(named: "outline_keyboard_arrow_up_black_24pt"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(searchPrevious))
+        let searchNextBarButton = UIBarButtonItem(image : UIImage(named: "outline_keyboard_arrow_down_black_24pt"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(searchNext))
         return [
-             UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+             UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil),
              searchPreviousBarButton,
-              UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil),
+              UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil),
               searchNextBarButton,
-               UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+               UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
         ]
     }()
     
@@ -250,7 +250,7 @@ extension TextViewerViewController {
                 let indexPath = IndexPath(item: Int(item), section: 0)
                 
                 if indexPath.item < self.ranges.count && indexPath.item >= 0{
-                    self.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.top, animated: false)
+                    self.collectionView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.top, animated: false)
                 }
             }
         }else {
@@ -259,7 +259,7 @@ extension TextViewerViewController {
                 for (index, range) in ranges.enumerated() {
                     if (NSLocationInRange(bookmark, range)){
                         let indexPath = IndexPath(item: Int(index), section: 0)
-                         self.collectionView.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.top, animated: false)
+                         self.collectionView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.top, animated: false)
                         
                         break
                     }
@@ -510,14 +510,14 @@ extension TextViewerViewController : UISearchBarDelegate {
             self.toolbarItems = defaultToolBarItems
             self.searchString = nil
             if let searchRange = self.searchRange {
-                string?.removeAttribute(NSAttributedStringKey.backgroundColor, range: searchRange)
+                string?.removeAttribute(NSAttributedString.Key.backgroundColor, range: searchRange)
                 collectionView.reloadData()
                 self.searchRange = nil
             }
             
         }else {
             self.navigationItem.titleView = searchBar
-            let hideSearchBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel, target: self, action: #selector(hideSearchBar))
+            let hideSearchBarButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.cancel, target: self, action: #selector(hideSearchBar))
             self.navigationItem.setRightBarButton(hideSearchBarButton, animated: animated)
             
         }
@@ -564,7 +564,7 @@ extension TextViewerViewController : UISearchBarDelegate {
         guard let index = finalIndex else {
             return
         }
-        let scrollPosition : UICollectionViewScrollPosition
+        let scrollPosition : UICollectionView.ScrollPosition
         
         let subString = attributedString.attributedSubstring(from: NSRange(location: ranges[index].location, length: range.location - ranges[index].location))
         let boundingBox = subString.boundingRect(with: textViewSize, options: .usesLineFragmentOrigin, context: nil)
@@ -576,8 +576,8 @@ extension TextViewerViewController : UISearchBarDelegate {
 
         
         searchRange = range
-        attributedString.removeAttribute(NSAttributedStringKey.backgroundColor, range: previousRange)
-        attributedString.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.red, range: range)
+        attributedString.removeAttribute(NSAttributedString.Key.backgroundColor, range: previousRange)
+        attributedString.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.red, range: range)
         //        string?.addAttribute(NSAttributedStringKey.backgroundColor : UIColor.red, range: range)
         let indexPath = IndexPath(item: index, section: 0)
         
@@ -599,7 +599,7 @@ extension TextViewerViewController : UISearchBarDelegate {
         searchBar.resignFirstResponder()
         let text = searchBar.text ?? ""
         if let searchRange = self.searchRange {
-            string?.removeAttribute(NSAttributedStringKey.backgroundColor, range: searchRange)
+            string?.removeAttribute(NSAttributedString.Key.backgroundColor, range: searchRange)
             collectionView.reloadData()
             self.searchRange = nil
         }

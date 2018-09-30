@@ -62,7 +62,7 @@ class TextLoadingProgressView : UIView {
         
     }
     private func setupNotificationObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleEnterForeground), name: .UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
     @objc private func handleEnterForeground() {
@@ -112,7 +112,7 @@ class TextLoadingProgressView : UIView {
         layer.strokeColor = strokeColor.cgColor
         layer.lineWidth = 20
         layer.fillColor = fillColor.cgColor
-        layer.lineCap = kCALineCapRound
+        layer.lineCap = CAShapeLayerLineCap.round
         layer.position = self.center
         return layer
     }

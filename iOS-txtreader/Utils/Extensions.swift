@@ -36,7 +36,7 @@ class BaseCell : UICollectionViewCell {
 }
 
 class BaseTableCell : UITableViewCell {
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
     }
@@ -191,8 +191,8 @@ extension UIViewController {
         alertController.addTextField { (textField) in
             textField.placeholder = placeholder
             textField.text = defaultText
-            textField.clearButtonMode = UITextFieldViewMode.whileEditing
-            textField.addTarget(alertController, action: #selector(alertController.didTextChangeInputDialog), for: UIControlEvents.editingChanged)
+            textField.clearButtonMode = UITextField.ViewMode.whileEditing
+            textField.addTarget(alertController, action: #selector(alertController.didTextChangeInputDialog), for: UIControl.Event.editingChanged)
             alertController.didTextChangeInputDialog(textField)
         }
         //finally presenting the dialog box

@@ -35,7 +35,7 @@ class TextViewerCell: BaseCell {
     }
     lazy var textView : UITextView = {
         let tv = UITextView()
-        tv.textContainerInset = UIEdgeInsetsMake(0, 0, 0, 0)
+        tv.textContainerInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
         tv.textContainer.lineFragmentPadding = 0
         tv.isUserInteractionEnabled = false
         tv.isScrollEnabled = false

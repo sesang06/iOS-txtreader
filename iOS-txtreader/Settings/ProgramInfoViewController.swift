@@ -36,7 +36,7 @@ class ProgramInfoViewController : UIViewController {
     }
     func setUpNavigaionBar(){
         self.navigationItem.title = "프로그램 정보"
-        let backButton = UIBarButtonItem(title: LocalizedString.close, style: UIBarButtonItemStyle.plain, target: self, action: #selector(close))
+        let backButton = UIBarButtonItem(title: LocalizedString.close, style: UIBarButtonItem.Style.plain, target: self, action: #selector(close))
         self.navigationItem.leftBarButtonItem = backButton
     }
 }

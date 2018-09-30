@@ -39,7 +39,7 @@ class DeveloperInfoViewController : UIViewController {
     }
     func setUpNavigaionBar(){
         self.navigationItem.title = LocalizedString.developerInfomation
-        let backButton = UIBarButtonItem(title: LocalizedString.close, style: UIBarButtonItemStyle.plain, target: self, action: #selector(close))
+        let backButton = UIBarButtonItem(title: LocalizedString.close, style: UIBarButtonItem.Style.plain, target: self, action: #selector(close))
         self.navigationItem.leftBarButtonItem = backButton
     }
     func setUpViews(){
@@ -68,7 +68,7 @@ class DeveloperInfoViewController : UIViewController {
     @objc func github(_ sender : Any){
         if let url = URL(string: githubURL), UIApplication.shared.canOpenURL(url) {
             if #available(iOS 10.0, *) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
             } else {
                 UIApplication.shared.openURL(url)
             }
@@ -77,4 +77,9 @@ class DeveloperInfoViewController : UIViewController {
     @objc func close(_ sender : Any){
         self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }
