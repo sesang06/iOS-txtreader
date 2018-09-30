@@ -18,14 +18,14 @@ class DocumentBrowerCell: BaseTableCell {
     }()
     let fileNameLabel : UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 17)
         label.textAlignment = NSTextAlignment.natural
         label.textColor = UIColor.black
         return label
     }()
     let fileInfoLabel : UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10)
+        label.font = UIFont.systemFont(ofSize: 12)
         label.textAlignment = NSTextAlignment.natural
         label.textColor = UIColor.gray
         return label
@@ -49,7 +49,7 @@ class DocumentBrowerCell: BaseTableCell {
             } else {
                 dateText = ""
             }
-            let fileSizeText = content?.fileSizeString ?? ""
+            let fileSizeText = (content?.isFolder == true) ? "" : content?.fileSizeString ?? ""
             fileInfoLabel.text = "\(dateText) \(fileSizeText)"
             
             if content?.isFolder == true{
@@ -71,13 +71,13 @@ class DocumentBrowerCell: BaseTableCell {
         contentView.addSubview(thumbnailImageView)
 //        contentView.addSubview(bookmarkLabel)
         thumbnailImageView.snp.makeConstraints { (make) in
-            make.topMargin.equalTo(self.contentView)
+            make.topMargin.equalTo(self.contentView).offset(10)
             make.leadingMargin.equalTo(self.contentView).offset(5)
-            make.bottomMargin.equalTo(self.contentView)
+            make.bottomMargin.equalTo(self.contentView).offset(-10)
             make.width.equalTo(thumbnailImageView.snp.height)
         }
         fileNameLabel.snp.makeConstraints { (make) in
-            make.topMargin.equalTo(self.contentView)
+            make.topMargin.equalTo(self.contentView).offset(12)
             make.leading.equalTo(self.thumbnailImageView.snp.trailing).offset(5)
             make.trailingMargin.equalTo(self.contentView).offset(-5)
         }
@@ -85,7 +85,8 @@ class DocumentBrowerCell: BaseTableCell {
             make.topMargin.equalTo(fileNameLabel.snp.bottom).offset(5)
             make.leading.equalTo(self.thumbnailImageView.snp.trailing).offset(5)
             make.trailingMargin.equalTo(self.contentView).offset(-5)
-            make.bottomMargin.equalTo(self.contentView)
+            make.bottomMargin.equalTo(self.contentView).offset(-12)
+            make.height.equalTo(17)
         }
 //        bookmarkLabel.snp.makeConstraints { (make) in
 //            make.top.equalTo(self.contentView).offset(5)

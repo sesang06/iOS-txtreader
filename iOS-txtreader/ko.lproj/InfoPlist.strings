@@ -1,0 +1,9 @@
+/*
+ InfoPlist.strings
+ iOS-txtreader
+ 
+ Created by 조세상 on 30/09/2018.
+ Copyright © 2018 조세상. All rights reserved.
+ */
+
+"CFBundleDisplayName" = "텍스트 리더";

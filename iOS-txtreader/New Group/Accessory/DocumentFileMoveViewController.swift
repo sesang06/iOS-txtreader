@@ -71,9 +71,13 @@ class DocumentFileMoveViewController : UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! DocumentFileMoveCell
 //        cell.imageView?.image = UIImage(named: "outline_folder_black_48pt")
         cell.fileNameLabel.text = contents?[indexPath.item].url.lastPathComponent
+//        print(cell.frame.height)
         return cell
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return contents?.count ?? 0
+    }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
     }
  }

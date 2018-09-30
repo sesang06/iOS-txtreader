@@ -29,11 +29,11 @@
 		069A8EFE2131031500CB6004 /* NanumBrush.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069A8EF62131031500CB6004 /* NanumBrush.ttf */; };
 		069A8EFF2131031500CB6004 /* NanumPen.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069A8EF72131031500CB6004 /* NanumPen.ttf */; };
 		069A8F002131031500CB6004 /* NanumMyeongjo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069A8EF82131031500CB6004 /* NanumMyeongjo.ttf */; };
-		069A8F06213161DF00CB6004 /* text.txt in Resources */ = {isa = PBXBuildFile; fileRef = 069A8F05213161DF00CB6004 /* text.txt */; };
 		06B8AFEC214D26970068A5E9 /* DocumentFileMoveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B8AFEB214D26970068A5E9 /* DocumentFileMoveViewController.swift */; };
 		06C81ECB215F9B3C004F6DF9 /* sample.txt in Resources */ = {isa = PBXBuildFile; fileRef = 06C81ECA215F9B3B004F6DF9 /* sample.txt */; };
 		06C81ECE215F9F85004F6DF9 /* manual.txt in Resources */ = {isa = PBXBuildFile; fileRef = 06C81ECD215F9F85004F6DF9 /* manual.txt */; };
 		06C81ED0215F9FC4004F6DF9 /* UserManualController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C81ECF215F9FC4004F6DF9 /* UserManualController.swift */; };
+		06C81ED3215FCF2F004F6DF9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 06C81ED5215FCF2F004F6DF9 /* InfoPlist.strings */; };
 		06C8CA00215D35B40039F054 /* LocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C8C9FF215D35B40039F054 /* LocalizedString.swift */; };
 		06C9B30D213583170080360C /* TextViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C9B30C213583170080360C /* TextViewerViewController.swift */; };
 		06CCFB11215BE5D600898CA8 /* DocumentFileMoveCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CCFB10215BE5D600898CA8 /* DocumentFileMoveCell.swift */; };
@@ -90,11 +90,12 @@
 		069A8EF62131031500CB6004 /* NanumBrush.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumBrush.ttf; sourceTree = "<group>"; };
 		069A8EF72131031500CB6004 /* NanumPen.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumPen.ttf; sourceTree = "<group>"; };
 		069A8EF82131031500CB6004 /* NanumMyeongjo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjo.ttf; sourceTree = "<group>"; };
-		069A8F05213161DF00CB6004 /* text.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = text.txt; sourceTree = "<group>"; };
 		06B8AFEB214D26970068A5E9 /* DocumentFileMoveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentFileMoveViewController.swift; sourceTree = "<group>"; };
 		06C81ECA215F9B3B004F6DF9 /* sample.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sample.txt; sourceTree = "<group>"; };
 		06C81ECD215F9F85004F6DF9 /* manual.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = manual.txt; sourceTree = "<group>"; };
 		06C81ECF215F9FC4004F6DF9 /* UserManualController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManualController.swift; sourceTree = "<group>"; };
+		06C81ED4215FCF2F004F6DF9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		06C81ED6215FCF34004F6DF9 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		06C8C9FF215D35B40039F054 /* LocalizedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedString.swift; sourceTree = "<group>"; };
 		06C9B30C213583170080360C /* TextViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewerViewController.swift; sourceTree = "<group>"; };
 		06C9B30E2136DF600080360C /* iOS-txtreader.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "iOS-txtreader.entitlements"; sourceTree = "<group>"; };
@@ -102,7 +103,6 @@
 		06CD0770213252D6009757BC /* BookMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkView.swift; sourceTree = "<group>"; };
 		06CD079821327C24009757BC /* TextDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDocument.swift; sourceTree = "<group>"; };
 		06CD079A21327C65009757BC /* DocumentBrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentBrowserViewController.swift; sourceTree = "<group>"; };
-		06CDFCC6213AB3C900E4B910 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		06CDFCCB213AB3F900E4B910 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		06CDFCCD213AB3FC00E4B910 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		06CDFCCE213AD17C00E4B910 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -161,7 +161,6 @@
 				06C9B30E2136DF600080360C /* iOS-txtreader.entitlements */,
 				06D00F062132AD8B000D1935 /* DocumentBrowserViewController */,
 				06CD077521327A75009757BC /* TextViewController */,
-				069A8F05213161DF00CB6004 /* text.txt */,
 				06C81ECD215F9F85004F6DF9 /* manual.txt */,
 				06C81ECA215F9B3B004F6DF9 /* sample.txt */,
 				065180CB215A255000B842E9 /* lolem.txt */,
@@ -172,6 +171,7 @@
 				064344CD212DBB1600EDFA2E /* Info.plist */,
 				06B8AFEF214D27C80068A5E9 /* Utils */,
 				06F3155E21457F550021A188 /* iOS-txtreader-Bridging-Header.h */,
+				06C81ED5215FCF2F004F6DF9 /* InfoPlist.strings */,
 			);
 			path = "iOS-txtreader";
 			sourceTree = "<group>";
@@ -369,9 +369,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				065180C72157612600B842E9 /* GoogleService-Info.plist in Resources */,
+				06C81ED3215FCF2F004F6DF9 /* InfoPlist.strings in Resources */,
 				069A8EFC2131031500CB6004 /* NanumGothic.ttf in Resources */,
 				069A8EF92131031500CB6004 /* NanumGothicBold.ttf in Resources */,
-				069A8F06213161DF00CB6004 /* text.txt in Resources */,
 				06C81ECB215F9B3C004F6DF9 /* sample.txt in Resources */,
 				069A8EFD2131031500CB6004 /* NanumMyeongjoBold.ttf in Resources */,
 				06C81ECE215F9F85004F6DF9 /* manual.txt in Resources */,
@@ -500,9 +500,17 @@
 			isa = PBXVariantGroup;
 			children = (
 				064344CB212DBB1600EDFA2E /* Base */,
-				06CDFCC6213AB3C900E4B910 /* ko */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		06C81ED5215FCF2F004F6DF9 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				06C81ED4215FCF2F004F6DF9 /* en */,
+				06C81ED6215FCF34004F6DF9 /* ko */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		06CDFCCC213AB3F900E4B910 /* Localizable.strings */ = {
@@ -640,6 +648,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7GDRWN9V7N;
 				INFOPLIST_FILE = "iOS-txtreader/Info.plist";
@@ -650,6 +659,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sesang06.iOS-txtreader";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "iOS-txtreader/iOS-txtreader-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -663,6 +673,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7GDRWN9V7N;
 				INFOPLIST_FILE = "iOS-txtreader/Info.plist";
@@ -673,6 +684,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.sesang06.iOS-txtreader";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "iOS-txtreader/iOS-txtreader-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

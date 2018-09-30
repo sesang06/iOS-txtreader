@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<string>ko_KR</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -77,33 +77,6 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
-				<string>pdf</string>
-				<string>PDF</string>
-			</array>
-			<key>CFBundleTypeMIMETypes</key>
-			<array>
-				<string>application/pdf</string>
-			</array>
-			<key>CFBundleTypeName</key>
-			<string>PDF file</string>
-			<key>CFBundleTypeOSTypes</key>
-			<array>
-				<string>PDF</string>
-			</array>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>com.adobe.pdf</string>
-			</array>
-			<key>LSTypeIsPackage</key>
-			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
 				<string>7z</string>
 				<string>7Z</string>
 			</array>
@@ -125,186 +98,6 @@
 			<false/>
 			<key>NSPersistentStoreTypeKey</key>
 			<string>Binary</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>lha</string>
-				<string>lzh</string>
-				<string>LHA</string>
-				<string>LZH</string>
-			</array>
-			<key>CFBundleTypeIconFile</key>
-			<string>lzh</string>
-			<key>CFBundleTypeMIMETypes</key>
-			<array>
-				<string>application/x-lzh-compressed</string>
-				<string>application/lha</string>
-				<string>application/x-lha</string>
-				<string>application/lzh</string>
-				<string>application/x-lzh</string>
-			</array>
-			<key>CFBundleTypeName</key>
-			<string>LhA Archive</string>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>cx.c3.lha-archive</string>
-			</array>
-			<key>LSTypeIsPackage</key>
-			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>cbz</string>
-				<string>CBZ</string>
-			</array>
-			<key>CFBundleTypeIconFile</key>
-			<string>cbz</string>
-			<key>CFBundleTypeName</key>
-			<string>Comic Zip</string>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>com.macitbetter.cbz-archive</string>
-				<string>public.cbz-archive</string>
-				<string>cx.c3.cbz-archive</string>
-				<string>com.milke.cbz-archive</string>
-				<string>com.bitcartel.comicbooklover.cbz</string>
-				<string>public.archive.cbz</string>
-			</array>
-			<key>LSTypeIsPackage</key>
-			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>cb7</string>
-				<string>CB7</string>
-			</array>
-			<key>CFBundleTypeIconFile</key>
-			<string>cb7</string>
-			<key>CFBundleTypeName</key>
-			<string>Comic 7-Zip</string>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>com.macitbetter.cb7-archive</string>
-				<string>public.cb7-archive</string>
-				<string>cx.c3.cb7-archive</string>
-			</array>
-			<key>LSTypeIsPackage</key>
-			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>cbr</string>
-				<string>CBR</string>
-			</array>
-			<key>CFBundleTypeIconFile</key>
-			<string>cbr</string>
-			<key>CFBundleTypeName</key>
-			<string>Comic Rar</string>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>com.macitbetter.cbr-archive</string>
-				<string>public.cbr-archive</string>
-				<string>cx.c3.cbr-archive</string>
-				<string>com.bitcartel.comicbooklover.cbr</string>
-				<string>com.milke.cbr-archive</string>
-				<string>public.archive.cbr</string>
-			</array>
-			<key>LSTypeIsPackage</key>
-			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>jpeg</string>
-				<string>jpg</string>
-			</array>
-			<key>CFBundleTypeMIMETypes</key>
-			<array>
-				<string>image/jpeg</string>
-			</array>
-			<key>CFBundleTypeName</key>
-			<string>JPEG Image</string>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>public.jpeg</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>png</string>
-			</array>
-			<key>CFBundleTypeMIMETypes</key>
-			<array>
-				<string>image/png</string>
-			</array>
-			<key>CFBundleTypeName</key>
-			<string>PNG Image</string>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>public.png</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>jpx</string>
-				<string>jp2</string>
-			</array>
-			<key>CFBundleTypeMIMETypes</key>
-			<array>
-				<string>image/jp2</string>
-			</array>
-			<key>CFBundleTypeName</key>
-			<string>JPEG200 Image</string>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>public.jpeg-2000</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>gif</string>
-			</array>
-			<key>CFBundleTypeMIMETypes</key>
-			<array>
-				<string>image/gif</string>
-			</array>
-			<key>CFBundleTypeName</key>
-			<string>GIF Image</string>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>com.compuserve.gif</string>
-			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -424,7 +217,9 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>3</string>
+	<key>LSHasLocalizedDisplayName</key>
+	<true/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
@@ -458,26 +253,6 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UTExportedTypeDeclarations</key>
-	<array>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.text</string>
-			</array>
-			<key>UTTypeDescription</key>
-			<string>Plain Text Document</string>
-			<key>UTTypeIdentifier</key>
-			<string>com.myapp.txt</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<string>txt</string>
-				<key>public.mime-type</key>
-				<string>text/plain</string>
-			</dict>
-		</dict>
 	</array>
 </dict>
 </plist>

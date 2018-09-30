@@ -301,7 +301,7 @@ extension TextViewerViewController {
                 DispatchQueue.main.async {
                     self.textLoadingProgressView.isHidden = true
                 }
-                self.showAlert(title: "오류", message: "파일을 읽는 데 실패했습니다. 텍스트 파일이 아닌 것 같습니다.", completion: {
+                self.showAlert(title: LocalizedString.error, message: LocalizedString.fileReadErrorMessage, completion: {
                     
                 })
                 return
@@ -548,8 +548,8 @@ extension TextViewerViewController : UISearchBarDelegate {
         }
        
         guard range != NSRange(location: NSNotFound, length: 0)  else {
-            print("TODO : NOT FOUND!!")
-            self.showAlert(title: "찾기", message: "\(text)는 찾을 수 없습니다.") {
+            
+            self.showAlert(title: LocalizedString.error, message: LocalizedString.keywordSearchErrorMessage) {
                 
             }
             return

@@ -145,14 +145,14 @@ extension UIViewController {
         let alertController = UIAlertController(title:title , message: message, preferredStyle: .alert)
         
         //the confirm action taking the inputs
-        let confirmAction = UIAlertAction(title: LocalizedString.confirm, style: .default) { (_) in
+        let confirmAction = UIAlertAction(title: isDestructive ? LocalizedString.delete : LocalizedString.confirm, style: isDestructive ? .destructive :  .default) { (_) in
             
             //getting the input values from user
             completion?(true)
         }
         
         //the cancel action doing nothing
-        let cancelAction = UIAlertAction(title: isDestructive ? LocalizedString.delete : LocalizedString.cancel, style: isDestructive ? .destructive : .cancel) { (_) in
+        let cancelAction = UIAlertAction(title: LocalizedString.cancel, style: .cancel) { (_) in
             completion?(false)
         }
         
@@ -242,12 +242,19 @@ extension URL {
         //var directory = self.pat
         
         let directoryURL = self.deletingLastPathComponent()
-        var fileURL = directoryURL.appendingPathComponent("\(self.deletingPathExtension().lastPathComponent) (\(index))").appendingPathExtension(self.pathExtension)
+        
+        var fileURL = self.pathExtension.isEmpty ?
+        directoryURL.appendingPathComponent("\(self.deletingPathExtension().lastPathComponent) (\(index))")
+        :
+        directoryURL.appendingPathComponent("\(self.deletingPathExtension().lastPathComponent) (\(index))").appendingPathExtension(self.pathExtension)
     
         while (FileManager.default.fileExists(atPath: fileURL.path)) {
             index = index + 1
             
-            fileURL = directoryURL.appendingPathComponent("\(self.deletingPathExtension().lastPathComponent) (\(index))").appendingPathExtension(self.pathExtension)
+            fileURL = self.pathExtension.isEmpty ?
+                directoryURL.appendingPathComponent("\(self.deletingPathExtension().lastPathComponent) (\(index))")
+                :
+                directoryURL.appendingPathComponent("\(self.deletingPathExtension().lastPathComponent) (\(index))").appendingPathExtension(self.pathExtension)
         }
         return fileURL
         

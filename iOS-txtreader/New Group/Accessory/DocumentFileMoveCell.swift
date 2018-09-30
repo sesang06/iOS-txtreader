@@ -26,7 +26,7 @@ class DocumentFileMoveCell: BaseTableCell {
     }()
     let fileNameLabel : UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 17)
         label.textAlignment = NSTextAlignment.natural
         label.textColor = UIColor.black
         return label

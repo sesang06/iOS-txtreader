@@ -424,7 +424,8 @@ extension DocumentBrowserViewController {
     // MARK: 제거
     @objc func deleteDocument(){
         self.showAlert(title: LocalizedString.deleteFileConfirmTitle, message: LocalizedString.deleteFileConfirmMessage, isDestructive: true) { (success) in
-            if success {
+
+            if success  {
                 guard let indexPaths = self.tableView.indexPathsForSelectedRows, var contents = self.contents else {
                     return
                 }
@@ -681,6 +682,9 @@ extension DocumentBrowserViewController : UITableViewDataSource {
         }
         return cell
     }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
 }
 
 
@@ -795,3 +799,4 @@ extension DocumentBrowserViewController {
         }
     }
 }
+
