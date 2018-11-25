@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let dirPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
         if (UserDefaultsManager.default.firstRun == false){ // 첫번째일 때..
             if let fileURL = Bundle.main.url(forResource:"sample", withExtension: "txt") ,
-                let sampleFileURL = dirPath?.appendingPathComponent("동백꽃").appendingPathExtension("txt") {
+                let sampleFileURL = dirPath?.appendingPathComponent(LocalizedString.sampleDocumentTitle).appendingPathExtension("txt") {
                 do {
                    try FileManager.default.copyItem(at: fileURL, to: sampleFileURL)
                 }catch let error as NSError {

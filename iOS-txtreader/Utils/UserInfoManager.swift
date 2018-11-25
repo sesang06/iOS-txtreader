@@ -33,7 +33,7 @@ struct TextFont : Codable, Equatable{
     
 }
 extension TextFont {
-    static let `default` = TextFont(fontName : "NanumGothic", displayFontName : "나눔 고딕")
+    static let `default` = TextFont(fontName : "NanumGothic", displayFontName : LocalizedString.nanumGothic)
     var font : UIFont {
         get {
             let size = UserDefaultsManager.default.textSize
@@ -42,7 +42,7 @@ extension TextFont {
         }
     }
     static func == (lhs: TextFont, rhs: TextFont) -> Bool {
-        return (lhs.fontName == rhs.fontName && lhs.displayFontName == rhs.displayFontName)
+        return (lhs.fontName == rhs.fontName)
     }
 }
 

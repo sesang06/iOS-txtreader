@@ -46,7 +46,7 @@ class TextDocument: UIDocument {
         // Load your document from content
         
         if let userContent = contents as? Data{
-            let encodings : [String.Encoding] = [String.Encoding.utf8, dosKorean]
+            let encodings : [String.Encoding] = [String.Encoding.utf8, dosKorean, dosJapanese]
             for encoding in encodings {
                 let string = guessString(userContent: userContent, encoding: encoding)
                 if (string != nil){
@@ -74,6 +74,7 @@ class TextDocument: UIDocument {
         }
     }
     let dosKorean = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.dosKorean.rawValue)))
+    let dosJapanese = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.dosJapanese.rawValue)))
     
     
     func guessString(userContent : Data, encoding : String.Encoding) -> String?{
@@ -82,7 +83,7 @@ class TextDocument: UIDocument {
     func parseUnknownString(userContent : Data){
         
         var convertedString: NSString?
-        let gussedEncoding = NSString.stringEncoding(for: userContent, encodingOptions: [.likelyLanguageKey:"ko", StringEncodingDetectionOptionsKey.suggestedEncodingsKey : [String.Encoding.utf8.rawValue, dosKorean.rawValue]], convertedString: &convertedString, usedLossyConversion: nil)
+        let gussedEncoding = NSString.stringEncoding(for: userContent, encodingOptions: [.likelyLanguageKey:"ko", StringEncodingDetectionOptionsKey.suggestedEncodingsKey : [String.Encoding.utf8.rawValue, dosKorean.rawValue, dosJapanese.rawValue]], convertedString: &convertedString, usedLossyConversion: nil)
 //        print(gussedEncoding)
         if let convertedString = convertedString {
             text = String(convertedString)

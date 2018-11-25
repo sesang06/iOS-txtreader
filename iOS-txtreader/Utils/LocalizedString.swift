@@ -48,5 +48,15 @@ struct LocalizedString {
     static let fileReadErrorMessage = "fileReadErrorMessage".localized
     
     static let keywordSearchErrorMessage = "keywordSearchErrorMessage".localized
+    static let sampleDocumentTitle = "sampleDocumentTitle".localized
     
+    static let nanumBrush = "nanumBrush".localized
+    static let nanumGothic = "nanumGothic".localized
+    static let nanumGothicBold = "nanumGothicBold".localized
+    static let nanumGothicExtraBold = "nanumGothicExtraBold".localized
+    static let nanumMyeongjo = "nanumMyeongjo".localized
+    static let nanumMyeongjoBold = "nanumMyeongjoBold".localized
+    static let nanumMyeongjoExtraBold = "nanumMyeongjoExtraBold".localized
+    static let nanumPen = "nanumPen".localized
+
 }

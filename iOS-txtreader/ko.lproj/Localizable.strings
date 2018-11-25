@@ -43,3 +43,14 @@ noFileMessage = "빈 폴더입니다.";
 loadingStart = "Loading...";
 fileReadErrorMessage = "파일 읽기에 실패했습니다.";
 keywordSearchErrorMessage = "검색 결과가 없습니다.";
+
+sampleDocumentTitle = "동백꽃";
+
+nanumBrush = "나눔 브러시";
+nanumGothic = "나눔 고딕";
+nanumGothicBold = "나눔 고딕 볼드";
+nanumGothicExtraBold = "나눔 고딕 엑스트라 볼드";
+nanumMyeongjo = "나눔 명조";
+nanumMyeongjoBold = "나눔 명조 볼드";
+nanumMyeongjoExtraBold = "나눔 명조 엑스트라 볼드";
+nanumPen = "나눔 펜글씨";

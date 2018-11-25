@@ -1,0 +1,55 @@
+/*
+ string.strings
+ iOS-txtreader
+ 
+ Created by 조세상 on 2018. 9. 1..
+ Copyright © 2018년 조세상. All rights reserved.
+ */
+
+confirm = "OK";
+cancel = "キャンセル";
+delete = "削除";
+createBroswerTitle = "フォルダーの作成";
+createBroswerMessage = "新しいフォルダーの名前をに入力して下さい。";
+renameFileTitle = "名前の変更";
+renameFileMessage = "新しい名前を入力して下さい。";
+local = "ローカル ドキュメント";
+recent = "最近使用したドキュメント";
+iCloud = "iCloud";
+bookmark = "ブックマーク";
+textFont = "フォント";
+textSize = "文字サイズ";
+textColor = "フォントの色";
+textSample = "あ";
+textViewMode = "スタイル";
+setting = "設定";
+close = "閉じる";
+textViewerSetting = "ディスプレイ";
+help = "ユーザーマニュアル";
+inquiry = "お問い合わせ";
+developerInfomation = "開発者の情報";
+emailSendFailMessage = "メールの発送が失敗しました。";
+moveFile = "ファイルの移動";
+error = "エラー";
+folderExistsErrorMessage = "同じ名前のフォルダーが既に存在しています。他の名前を付けて下さい。";
+fileExistsErrorMessage = "同じ名前のファイルが既に存在しています。他の名前を付けて下さい。";
+deleteFileConfirmTitle = "ファイルの削除";
+deleteFileConfirmMessage = "選択されている項目を削除しますか？";
+deleteRecentOpenedFile = "閲覧の履歴の削除";
+deleteRecentOpenedFileMessage = "閲覧の履歴を削除しますか？";
+noSearchFileMessage = "一致する項目がありません。";
+noFileMessage = "このフォルダーは空です。";
+loadingStart = "Loading...";
+fileReadErrorMessage = "ファイルの読み込みに失敗しました。";
+keywordSearchErrorMessage = "一致する項目がありません。";
+
+sampleDocumentTitle = "銀河鉄道の夜";
+
+nanumBrush = "Nanum Brush";
+nanumGothic = "Nanum Gothic";
+nanumGothicBold = "Nanum Gothic Bold";
+nanumGothicExtraBold = "Nanum Gothic Extra Bold";
+nanumMyeongjo = "Nanum Myeongjo";
+nanumMyeongjoBold = "Nanum Myeongjo Bold";
+nanumMyeongjoExtraBold = "Nanum Myeongjo Extra Bold";
+nanumPen = "Nanum Pen";

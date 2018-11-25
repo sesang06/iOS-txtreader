@@ -1,0 +1,8 @@
+User Manual
+
+- A textfile with a big amount consumes large times. Please avoid to open a file greater than 2MB.
+- This app supports to read dosKorean and utf8 format only.
+- If you fail to read any file, please email to sesang06@naver.com, attaching it.
+- You can change the visual text setting by tapping menu.
+
+- THANK YOU :)

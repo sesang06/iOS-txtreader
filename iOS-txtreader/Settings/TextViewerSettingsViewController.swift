@@ -50,10 +50,10 @@ class TextViewerSettingsViewController : SampleTextViewerViewController, UIPicke
         return pv
     }()
     let textFontPickerData = [
-        TextFont(fontName: "NanumGothic", displayFontName: "나눔 고딕"),
-        TextFont(fontName: "NanumMyeongjo", displayFontName: "나눔 명조"),
-        TextFont(fontName: "NanumBrush", displayFontName: "나눔 브러시"),
-        TextFont(fontName: "NanumPen", displayFontName: "나눔 펜글씨"),
+        TextFont(fontName: "NanumGothic", displayFontName: LocalizedString.nanumGothic),
+        TextFont(fontName: "NanumMyeongjo", displayFontName: LocalizedString.nanumMyeongjo),
+        TextFont(fontName: "NanumBrush", displayFontName: LocalizedString.nanumBrush),
+        TextFont(fontName: "NanumPen", displayFontName: LocalizedString.nanumPen),
     ]
     lazy var textFontLabel : UILabel = {
         let label = UILabel()

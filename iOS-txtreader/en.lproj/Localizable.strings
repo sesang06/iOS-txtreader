@@ -42,3 +42,14 @@ noFileMessage = "This folder is empty.";
 loadingStart = "Loading...";
 fileReadErrorMessage = "Failed to read the file.";
 keywordSearchErrorMessage = "No Results Found.";
+
+sampleDocumentTitle = "The Happy Prince and Other Tales";
+
+nanumBrush = "Nanum Brush";
+nanumGothic = "Nanum Gothic";
+nanumGothicBold = "Nanum Gothic Bold";
+nanumGothicExtraBold = "Nanum Gothic Extra Bold";
+nanumMyeongjo = "Nanum Myeongjo";
+nanumMyeongjoBold = "Nanum Myeongjo Bold";
+nanumMyeongjoExtraBold = "Nanum Myeongjo Extra Bold";
+nanumPen = "Nanum Pen";
